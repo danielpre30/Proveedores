@@ -1,19 +1,33 @@
 # Calificación de proveedores
-**1. Introducción**
+## 1. Introducción
 
-**2. Tema**
+## 2. Tema
 
 Clusters estratégicos para empresas/proveedores pequeños o nuevos, impulsando y fomentando el desarrollo económico y las alianzas estratégicas.
 
-**3. Planteamiento del problema**
+## 3. Planteamiento del problema
 
-Describir el problema que se trabaja en la aplicación y realizar el árbol del problema.
+Para una empresa, establecer relaciones con posibles socios estratégicos conlleva a que esta se encamine en un proceso de networking empresarial que incluye logística, recursos humanos y materiales.
 
-**4. Justificación**
+Las formas en que se realizan estos encuentros envuelven tanto eventos y congresos realizados específicamente con este propósito o de temas relacionados con la actividad económica en que se desempeña la empresa, como conversaciones por teléfono o videollamadas entre altos mandos ejecutivos sobre experiencias previas trabajando con una tercera empresa y sus opiniones y calificaciones sobre ellas. A continuación, ambos casos serán analizados.
 
+En el caso en el que el networking se realiza mediante eventos que incluyen a varias empresas con el fin de conectarse, se presentan limitaciones en cuestión con los recursos necesarios para la participación o realización de dichos eventos. Se precisa de:
+
+- **Un aporte para asistir al evento:** la planeación y realización del evento incluye la reserva del lugar donde se realiza el evento, personal de logística, servicios de catering, pago a los expositores del evento, etc. Los planificadores del evento costean estos recursos necesarios mediante el cobro de entradas al evento y a sus diferentes conferencias, representando un gasto para los asistentes.
+
+- **Transporte para los asistentes al evento:** regularmente los socios a los que una empresa apunta se encuentran en otras localizaciones geográfica debido a la especialidad de las regiones, su nivel de desarrollo o popularidad, lo que hace que estos eventos se realicen lejos de la ciudad en que la empresa está instaurada. Esto agrega un costo extra al tener que desplazar y alojar personas en los sitios en que se realiza la reunión.
+
+- **Oportunidad del evento:** estos encuentros se realizan en la medida en que las empresas tengan los recursos y el tiempo para realizarlos y participar en ellos, representando un problema en el caso de que una empresa necesite hacerlo, pero no cuente con los recursos para ello.
+
+En el segundo caso en que directivos refieran a una empresa y el trabajo realizado por ella la principal limitación es que se requieren relaciones previamente establecidas con empresas para que estas puedan dar su opinión de otras empresas. Esto hace que el proceso de hacer nuevas relaciones sea más lento, y que si se lograra pactar una reunión con un ejecutivo para que refiera a otra empresa solo se contaría con un punto de vista para tomar una decisión que impacta en gran medida a una empresa.
+
+En vista de esto, las empresas emergentes o startup tienen una desventaja competitiva con respecto a las ya posicionadas, puesto que carecen de dichos recursos, siendo difícil para éstas acceder a los clústeres establecidos. Esto incrementa aún más la brecha que hay entre ellas y hace más lento el crecimiento económico, punto incluido en los 17 objetivos de desarrollo sostenible de la ONU que apunta al aumento de los niveles de productividad y la innovación tecnológica fomentando políticas que estimulen el espíritu empresarial y la creación de empleo
+
+
+## 4. Justificación
 Describir por el qué y para qué se va a realizar el proyecto.
 
-**5. Estado del arte**
+## 5. Estado del arte
 
 Se encontraron muchos documentos relacionados con el tema de investigación, investigando a nivel global.
 
@@ -27,11 +41,11 @@ Promover la tecnología para la creación y el encuentro de nuevos clústeres es
 
 Todas las referencias anteriormente mencionadas, son fundamentales para evidenciar la importancia que tiene la creación y pertenencia a clústeres en cualquier industria en todo el mundo, a través de estas también se puede concluir que es necesario para los empresarios encontrarse en clústeres correctos, que permitan una toma de decisiones más ágil y acertada, debido a que aumentan el desarrollo y crecimiento económico. Siendo un tema tan importante, muchas empresas jóvenes no son conscientes de esto, teniendo así una competencia desigual en su industria y dejando su buen desempeño a un término de muy largo plazo (En lo que se consiguen los contactos adecuados y por tanto, se está en un clúster que cumpla sus necesidades), lo que impide que las necesidades que suplen sean llevadas a las empresas que lo requieran a tiempo y actualizadas con las demandas de la industria de ese momento y que por tanto, puedan llegar con fuerza a un mercado más amplio generando un mejor desarrollo económico en las regiones.
 
-**6. Objetivo general**
+## 6. Objetivo general
 
-**7. Objetivos específicos**
+## 7. Objetivos específicos
 
-**8. Modelo de negocio**
+## 8. Modelo de negocio
 
 ![](https://i.imgur.com/rPKe26R.png)
 
@@ -51,15 +65,15 @@ Todas las referencias anteriormente mencionadas, son fundamentales para evidenci
  - *Canales:* A través de una aplicación web, que puede funcionar en cualquier dispositivo con conexión a internet.
  - *Segmentos de clientes:* La solución va dirigida a empresas contratantes/proveedoras y proveedores independientes jóvenes, en busca de reconocimiento, oportunidades de contratación, retroalimentaciones u opiniones sobre otras empresas o proveedores independientes.
 
-**9. Mockups de la aplicación**
+## 9. Mockups de la aplicación
 
 Se deben entregar los mockups de la aplicación, usar el software Marvel app
 (https://marvelapp.com) y subir las imágenes al repositorio.
 Realizar una descripción de cada Mockup, Como mínimo la aplicación debe tener 3 vistas.
 
-**10. Descripción de la aplicación**
+## 10. Descripción de la aplicación
 
 Describir si la aplicación guarda información en una base de datos y si consume un servicio
 externo. Especificar qué información es necesario guardar en una base de datos.
 
-**11. Bibliografía**
+## 11. Bibliografía
