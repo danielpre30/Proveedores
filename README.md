@@ -3,7 +3,7 @@
 
 ## 2. Tema
 
-Clusters estratégicos para empresas/proveedores pequeños o nuevos, impulsando y fomentando el desarrollo económico y las alianzas estratégicas.
+Clústeres estratégicos para empresas y proveedores pequeños o nuevos, con el fin de impulsar y fomentar el desarrollo económico, la justa competencia y las alianzas estratégicas.
 
 ## 3. Planteamiento del problema
 
