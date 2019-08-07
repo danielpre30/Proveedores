@@ -101,3 +101,18 @@ La aplicación guarda información de los proveedores o empresas contratantes, t
 * logo
 
 ## 11. Bibliografía
+* Acs, Z. J., Braunerhjelm, P., Audretsch, D. B., & Carlsson, B. (2008). The knowledge spillover theory of entrepreneurship. Small Business Economics, 32. Obtenido de https://link.springer.com/article/10.1007/s11187-008-9157-3
+* Bichler, M., Schneider, S., Guler, K., & Sayal, M. (2011). Compact bidding languages and supplier selection for markets with economies of scale and scope. European Journal of Operational Research, 214. Obtenido de https://www.sciencedirect.com/science/article/abs/pii/S0377221711003109
+* Camara de comercio. (2019). camaramedellin. Obtenido de https://www.camaramedellin.com.co/comunidad-cluster/que-es-la-estrategia-cluster
+* Carter, C. R., & Rogers, D. S. (2008). A framework of sustainable supply chain management: moving toward new theory. International Journal of Physical Distribution & Logistics Management. Obtenido de https://www.emerald.com/insight/content/doi/10.1108/09600030810882816/full/html
+* Craig R. Carter Ph.D. Lisa M. Ellram Ph.D., C. (. (2011). THE USE OF SOCIAL NETWORK ANALYSIS IN LOGISTICS RESEARCH. Journal of Business Logistics, 28. Obtenido de https://onlinelibrary.wiley.com/doi/abs/10.1002/j.2158-1592.2007.tb00235.x
+* Engelberg, J., Ozoguz, A., & Wang, S. (2018). Know Thy Neighbor: Industry Clusters, Information Spillovers, and Market Efficiency. Journal of Financial and Quantitative Analysis, 53. Obtenido de https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/know-thy-neighbor-industry-clusters-information-spillovers-and-market-efficiency/9EF5A491599C1DAFA75B4AB78FFD25EA
+* Garcia-Vicente, F., Garcia-Swartz, D., & Campbell-Kelly, M. (2017). Information technology clusters and regional growth in America. Small Business Economics, 48. Obtenido de https://link.springer.com/article/10.1007/s11187-016-9808-8
+* Gilbert, B. A. (2017). Agglomeration, Industrial Districts and Industry Clusters: Trends of the 21st Century Literature. nowpublishers. Obtenido de https://www.nowpublishers.com/article/Details/ENT-069
+* Glenn, S. (2015). Technology Clusters and Neighborhood Demographic Change. LUP Student Papers. Obtenido de https://lup.lub.lu.se/student-papers/search/publication/8167813
+* Gomis, R., & Carrillo, J. (2016). The role of multinational enterprises in the aerospace industry clusters in Mexico: The case of Baja California. Sage Journals. Obtenido de https://journals.sagepub.com/doi/abs/10.1177/1024529416656511
+* Kim, D.-Y. (2014). Understanding supplier structural embeddedness: A social network perspective. Journal of Operations Management, 32. Obtenido de https://www.sciencedirect.com/science/article/abs/pii/S0272696314000217#!
+* MartinBell, & MichaelAlbu. (2000). Knowledge Systems and Technological Dynamism in Industrial Clusters in Developing Countries. World Development, 27. Obtenido de https://www.sciencedirect.com/science/article/abs/pii/S0305750X9900073X
+* Simpson, N., Tacheva, Z., & Kao, T.-W. (2017). Social Network Analysis in the Context of Humanitarian Logistics. En The Palgrave Handbook of Humanitarian Logistics and Supply Chain Management. Obtenido de https://books.google.com.co/books?hl=es&lr=&id=OeU5DwAAQBAJ&oi=fnd&pg=PR3&dq=The+Palgrave+Handbook+of+Humanitarian+Logistics+and+Supply+Chain+Management&ots=KZguzTGaZl&sig=KllpRv6NMoj7NRZ_Qz5nj5UdT4I#v=onepage&q=Social%20Network%20Analysis%20in%20the%20Co
+* ST., C. H., & POUDER, R. W. (2006). Technology Clusters versus Industry Clusters: Resources, Networks, and Regional Advantages. Growth and Change, 37. Obtenido de https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1468-2257.2006.00313.x
+
