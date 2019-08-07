@@ -66,10 +66,20 @@ Todas las referencias anteriormente mencionadas, son fundamentales para evidenci
  - *Segmentos de clientes:* La solución va dirigida a empresas contratantes/proveedoras y proveedores independientes jóvenes, en busca de reconocimiento, oportunidades de contratación, retroalimentaciones u opiniones sobre otras empresas o proveedores independientes.
 
 ## 9. Mockups de la aplicación
+![](https://imgur.com/5sQo4vO.png)
+Inicio sin haberse registrado en la plataforma, aquí se calcula el valor de la suscripción
 
-Se deben entregar los mockups de la aplicación, usar el software Marvel app
-(https://marvelapp.com) y subir las imágenes al repositorio.
-Realizar una descripción de cada Mockup, Como mínimo la aplicación debe tener 3 vistas.
+![](https://imgur.com/vV6FMt4.png)
+Inicio al haberse registrado
+
+![](https://imgur.com/kV6hPG6.png)
+Buscar el proveedor y organizar por mejor calificación
+
+![](https://imgur.com/Y4cQgEg.png)
+Perfil de proveedor, viendo las opiniones
+
+![](https://imgur.com/q50iz6u.png)
+Perfil de proveedor, viendo las proveedores
 
 ## 10. Descripción de la aplicación
 
