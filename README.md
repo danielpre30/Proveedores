@@ -42,8 +42,14 @@ Promover la tecnología para la creación y el encuentro de nuevos clústeres es
 Todas las referencias anteriormente mencionadas, son fundamentales para evidenciar la importancia que tiene la creación y pertenencia a clústeres en cualquier industria en todo el mundo, a través de estas también se puede concluir que es necesario para los empresarios encontrarse en clústeres correctos, que permitan una toma de decisiones más ágil y acertada, debido a que aumentan el desarrollo y crecimiento económico. Siendo un tema tan importante, muchas empresas jóvenes no son conscientes de esto, teniendo así una competencia desigual en su industria y dejando su buen desempeño a un término de muy largo plazo (En lo que se consiguen los contactos adecuados y por tanto, se está en un clúster que cumpla sus necesidades), lo que impide que las necesidades que suplen sean llevadas a las empresas que lo requieran a tiempo y actualizadas con las demandas de la industria de ese momento y que por tanto, puedan llegar con fuerza a un mercado más amplio generando un mejor desarrollo económico en las regiones.
 
 ## 6. Objetivo general
+Reconocer nuevas compañías o empresas contratantes/proveedores, ampliando su clúster a través de una apreciación rápida en el trabajo histórico de cada proveedor. Evaluándose a sí mismos y evaluando a otros con los que se ha tenido experiencia. 
 
 ## 7. Objetivos específicos
+1. Presentar diferentes proveedores u empresas contratantes por nombre o tipo de servicio, a través de una interfaz cómoda y útil para el usuario. 
+
+2. Comentar y opinar acerca de diferentes proveedores por medio de números de contrato válidos, publicando así su calificación (ponderada por su histórico). 
+
+3. Crear y conectar a bases de datos para el cruce de información, verificando la veracidad de las relaciones ya existentes entre las empresas, conservando la privacidad y libertad de los datos propios a través del inicio de sesión y la edición del perfil.
 
 ## 8. Modelo de negocio
 
