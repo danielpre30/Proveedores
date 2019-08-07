@@ -88,8 +88,16 @@ Perfil de proveedor, viendo las opiniones
 Perfil de proveedor, viendo las proveedores
 
 ## 10. Descripción de la aplicación
+La aplicación consume servicios como:
+* Base de datos Cámara de comercio de bogotá
+* PayU como pasarela de pago
 
-Describir si la aplicación guarda información en una base de datos y si consume un servicio
-externo. Especificar qué información es necesario guardar en una base de datos.
+La aplicación guarda información de los proveedores o empresas contratantes, tal como:
+* Nombre, razón social
+* Año de creación
+* NIT
+* Histórico de proveedores
+* Página web (opcional)
+* logo
 
 ## 11. Bibliografía
