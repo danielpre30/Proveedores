@@ -80,6 +80,9 @@ Reconocer nuevas compañías o empresas contratantes/proveedores, ampliando su c
  - *Segmentos de clientes:* La solución va dirigida a empresas contratantes/proveedoras y proveedores independientes jóvenes, en busca de reconocimiento, oportunidades de contratación, retroalimentaciones u opiniones sobre otras empresas o proveedores independientes.
 
 ## 9. Mockups de la aplicación
+
+No se muestran formularios en los mock-ups por su sencillez.
+
 ![](https://imgur.com/5sQo4vO.png)
 Inicio sin haberse registrado en la plataforma, aquí se calcula el valor de la suscripción
 
@@ -99,6 +102,7 @@ Perfil de proveedor, viendo las proveedores
 La aplicación consume servicios como:
 * Base de datos Cámara de comercio de bogotá
 * PayU como pasarela de pago
+
 
 La aplicación guarda información de los proveedores o empresas contratantes, tal como:
 * Nombre, razón social
