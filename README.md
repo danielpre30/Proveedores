@@ -1,6 +1,10 @@
 # Calificación de proveedores
 ## 1. Introducción
 
+En las relaciones empresariales participan principalmente dos actores: proveedores y clientes, donde el proveedor es aquella que provee o abastece de todo lo necesario para un fin a grandes grupos, asociaciones, comunidades; siendo estas últimas quienes conoceremos como clientes. Aunque se haga esta diferenciación una empresa no es completamente proveedora o completamente cliente de otra, es una mezcla de ambas, hay momentos en que necesita de un proveedor para fabricar su producto u ofrecer su servicio, y otras ocasiones en que vende este bien o servicio a otra empresa para que esta cumpla con su propio objetivo. 
+
+Es pues así que el crecimiento y el éxito que pueda tener una empresa, de cualquier tipo y tamaño, dependen de que estas relaciones sean favorables para ambos actores y, por consiguiente, es necesario para ellas planificar y prever que estas relaciones se realicen con éxito con base en información confiable 
+
 ## 2. Tema
 
 Clústeres estratégicos para empresas y proveedores pequeños o nuevos, con el fin de impulsar y fomentar el desarrollo económico, la justa competencia y las alianzas estratégicas.
@@ -25,7 +29,11 @@ En vista de esto, las empresas emergentes o startup tienen una desventaja compet
 
 
 ## 4. Justificación
-Describir por el qué y para qué se va a realizar el proyecto.
+Uno de los principales objetivos de toda organización es fidelizar a sus clientes y afianzar su relación con otras entidades, a partir de esto se garantizan ventas y/o uso del servicio que ofrecen y se producen alianzas para cubrir nuevas necesidades que plantea el mercado, teniendo en cuenta que todos los clientes son importantes y que estos son la carta de presentación de las empresas para atraer posibles nuevos clientes.
+
+De la misma forma, la relación entre empresas y proveedores es cada vez más importante en el mundo corporativo. De un contrato que refleje la capacidad y compromiso de una empresa, y del cumplimiento de este, depende que ésta refleje una buena imagen frente a sus clientes y se posicione fuertemente en el mercado.
+
+En este punto, las empresas deben aprovechar al máximo las herramientas que las tecnologías de la información y la telecomunicación les ofrece; éstas tienen el potencial de hacer más rápidos y efectivos todo tipo de procesos y pueden ayudarnos a construir una solución para lograr encontrar y afianzar estas relaciones empresa-proveedor basadas en opiniones y experiencias pasadas. 
 
 ## 5. Estado del arte
 
