@@ -1,33 +1,55 @@
-.App {
+*,
+*:before,
+*:after{
+  box-sizing:border-box;
+}
+h1 {
+  font-family: 'Open Sans';
+  font-weight: 800;
+  font-style: normal;
+}
+
+
+h2 {
+  font-family: 'Open Sans';
+  font-weight: 700;
+  font-style: normal;
+}
+
+body, html, button {
+  font-family: 'Open Sans';
+  
+}
+
+body, html {
+  font-weight: normal;
+  font-style: normal;
+}
+
+.page-title {
   text-align: center;
+  font-size: 2em;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.page-subtitle {
+  text-align: center;
+  font-size: 1.7em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+
+.footer {
+  display:flex;
+  position: absolute;;
+  right: 0;
+  bottom: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-image: linear-gradient(to bottom, rgba(56,97,140,0.2), rgba(56,97,140,0.8), rgba(56,97,140,1), rgba(56,97,140,1));
+  
+  width: 100%;
+  padding: 1em .5em 1em;
+  color: #fff;
+  font-size: 0.8em;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

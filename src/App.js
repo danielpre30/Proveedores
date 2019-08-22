@@ -1,25 +1,31 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './components/NavBar'
+
+
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import SinglePage from './pages/SinglePage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+      <NavBar />
+      <div className="main">
+      <Switch>
+          <Route exact path="/"
+            render={() => (
+              <Redirect to="/inicio" />
+            )}
+          />
+          <Route exact path="/inicio" component={SinglePage} />
+          
+        </Switch>
+        <div className="footer">
+          Copyright © 2019 UpCluster. All Rights Reserved.
+        </div>
+      </div>
+    </HashRouter>
   );
 }
 
