@@ -5,7 +5,10 @@ import LandingSection from '../sections/LandingSection';
 function SinglePage(){
    
     return(
-        <LandingSection/>
+        <>
+            <LandingSection/>
+        </>
+        
     );
     
 }
