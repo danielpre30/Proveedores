@@ -1,11 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import NavBar from './components/NavBar'
+import './resources/fonts/stylesheet.css';
+import NavBar from './components/NavBar';
 
 
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import SinglePage from './pages/SinglePage';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
               <Redirect to="/inicio" />
             )}
           />
-          <Route exact path="/inicio" component={SinglePage} />
+          <Route exact path="/inicio" component={LandingPage} />
           
         </Switch>
         <div className="footer">
