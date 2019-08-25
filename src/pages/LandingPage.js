@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../styles/SinglePage.css';
+import '../styles/LandingPage.css';
 import LandingSection from '../sections/LandingSection';
 
-function SinglePage(){
+function LandingPage(){
    
     return(
         <>
@@ -13,4 +13,4 @@ function SinglePage(){
     
 }
 
-export default SinglePage;
+export default LandingPage;
