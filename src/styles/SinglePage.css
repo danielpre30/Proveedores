@@ -1,0 +1,68 @@
+*,
+*:before,
+*:after{
+  box-sizing:border-box;
+}
+
+.landingSection__main
+{    
+  background-image: url("../resources/FondoNoRegistro.png");
+  background-position: center;
+  background-size: cover;  
+  background-color: #1F354D;
+  padding-top:80px;
+  width: 100%; 
+}
+@media only screen and (min-width: 992px){
+  .landingSection__main
+  {    
+    height:100vh;  
+  }
+}
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: .5rem;
+  justify-items: center;  
+  color: white;
+  width: 100%;
+}
+.DivPayment
+{
+  justify-items: center;  
+  color: #38618c;
+  width: 100%;
+  padding: 0.2em 1em 1em 1em;
+  text-align: center;
+  background-color: #ffe740;
+}
+.calcular__button
+{
+  height: 40px;
+  font-size:1.2em;
+  font-weight: 600;
+  color:white;
+  background-color: #38618c;
+  border-radius: 10px;
+  padding:10px;
+  border: none;
+  box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+}
+input{
+  font-size: 1.2em;
+  border-radius: 10px;
+  padding: 5px;
+}
+@media only screen and (max-width: 330px) {
+  /*shows elements in a column*/
+  input{
+    font-size: 1em;
+    border-radius: 8px;
+    padding: 3px;
+  }
+}
+.price
+{
+  display:inline;
+}
