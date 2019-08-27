@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
             )}
           />
           <Route exact path="/inicio" component={LandingPage} />
-          
+          <Route exact path="/payment" component={PaymentPage} />
         </Switch>
         <div className="footer">
           Copyright © 2019 UpCluster. All Rights Reserved.

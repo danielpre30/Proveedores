@@ -1,6 +1,6 @@
 
 import React from 'react';
-import '../styles/DescriptionContainer.css'
+import '../styles/descriptionContainer.css'
 
 const DescriptionContainer = ({ srcImage, title, description }) => {
 
