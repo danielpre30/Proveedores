@@ -1,0 +1,46 @@
+{
+    "business": [
+        {
+            "id": "1",
+            "yearOfCreation": 2019,
+            "name": "Matriculas Medellin",
+            "typeOfService": "Educación",
+            "webPage": "matriculasmedellin.com",
+            "logo": "https://www.ecestaticos.com/imagestatic/clipping/466/8d4/4668d42339915b4a514618035214287d/confian-en-sus-profesores-un-docente-revela-el-secreto-de-la-educacion-finlandesa.jpg?mtime=1502449939",
+            "score": {
+                "general": 8,
+                "puntuality": 5,
+                "communication": 10,
+                "afterSalesService": 4,
+                "priceQuality": 7
+            },
+            "providers": [
+                {
+                    "id": "2",
+                    "name": "Nestlé",
+                    "typeOfService": "Educación",
+                    "logo": "https://www.industriaalimenticia.com/ext/resources/IA/Images-6/Nestle-Logo-900.jpg?1512056254"
+                }
+            ],
+            "commentsId": [
+                "sdsaa"
+            ]
+        }
+    ],
+    "comments": [
+        {
+            "id": "sdsaa",
+            "title": "Excelente Servicio",
+            "description": "La empresa es un aliado de la marca por su compromiso con el cliente",
+            "businessId": "1",
+            "providerId": "2",
+            "givenScore": {
+                "general": 8,
+                "puntuality": 5,
+                "communication": 10,
+                "afterSalesService": 4,
+                "priceQuality": 7
+            }
+        }
+    ]
+}
