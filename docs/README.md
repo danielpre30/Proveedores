@@ -134,4 +134,208 @@ Hablemos de los beneficios de **JSON Web Tokens (JWT)** en comparación con **Si
 
 ## Auth0
 
- 
+### Login
+
+- Crear una aplicación
+- Crear API
+- Instalar Auth0
+
+```
+npm install --save @auth0/auth0-spa-js
+```
+- Referenciarlo usando un import
+
+```
+import createAuth0Client from '@auth0/auth0-spa-js';
+```
+- **Instalar el contenedor Auth0 React**: Cree un nuevo archivo en el directorio src llamado react-auth0-wrapper.js y complételo con el siguiente contenido:
+
+```javascript
+// src/react-auth0-wrapper.js
+import React, { useState, useEffect, useContext } from "react";
+import createAuth0Client from "@auth0/auth0-spa-js";
+
+const DEFAULT_REDIRECT_CALLBACK = () =>
+  window.history.replaceState({}, document.title, window.location.pathname);
+
+export const Auth0Context = React.createContext();
+export const useAuth0 = () => useContext(Auth0Context);
+export const Auth0Provider = ({
+  children,
+  onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
+  ...initOptions
+}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState();
+  const [user, setUser] = useState();
+  const [auth0Client, setAuth0] = useState();
+  const [loading, setLoading] = useState(true);
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  useEffect(() => {
+    const initAuth0 = async () => {
+      const auth0FromHook = await createAuth0Client(initOptions);
+      setAuth0(auth0FromHook);
+
+      if (window.location.search.includes("code=")) {
+        const { appState } = await auth0FromHook.handleRedirectCallback();
+        onRedirectCallback(appState);
+      }
+
+      const isAuthenticated = await auth0FromHook.isAuthenticated();
+
+      setIsAuthenticated(isAuthenticated);
+
+      if (isAuthenticated) {
+        const user = await auth0FromHook.getUser();
+        setUser(user);
+      }
+
+      setLoading(false);
+    };
+    initAuth0();
+    // eslint-disable-next-line
+  }, []);
+
+  const loginWithPopup = async (params = {}) => {
+    setPopupOpen(true);
+    try {
+      await auth0Client.loginWithPopup(params);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPopupOpen(false);
+    }
+    const user = await auth0Client.getUser();
+    setUser(user);
+    setIsAuthenticated(true);
+  };
+
+  const handleRedirectCallback = async () => {
+    setLoading(true);
+    await auth0Client.handleRedirectCallback();
+    const user = await auth0Client.getUser();
+    setLoading(false);
+    setIsAuthenticated(true);
+    setUser(user);
+  };
+  return (
+    <Auth0Context.Provider
+      value={{
+        isAuthenticated,
+        user,
+        loading,
+        popupOpen,
+        loginWithPopup,
+        handleRedirectCallback,
+        getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
+        loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
+        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+        getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
+        logout: (...p) => auth0Client.logout(...p)
+      }}
+    >
+      {children}
+    </Auth0Context.Provider>
+  );
+};
+```
+
+- Ejemplo de NavBar
+
+```javascript
+// src/components/NavBar.js
+
+import React from "react";
+import { useAuth0 } from "../react-auth0-wrapper";
+
+const NavBar = () => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  return (
+    <div>
+      {!isAuthenticated && (
+        <button
+          onClick={() =>
+            loginWithRedirect({})
+          }
+        >
+          Log in
+        </button>
+      )}
+
+      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
+    </div>
+  );
+};
+
+export default NavBar;
+```
+  Observe el uso de useAuth0, proporcionado por el contenedor que creó en la sección anterior, que proporciona las funciones necesarias para iniciar sesión, cerrar sesión y determinar si el usuario ha iniciado sesión a través de la propiedad isAuthenticated.
+
+- **Integrar el SDK**:  
+Para que el sistema de autenticación funcione correctamente, los componentes de la aplicación deben incluirse en el componente Auth0Provider que proporciona el contenedor SDK creado anteriormente en el tutorial. Esto significa que cualquier componente dentro de este contenedor podrá acceder al cliente Auth0 SDK.  
+Abra el archivo src / index.js y reemplace su contenido con lo siguiente:
+
+```javascript
+// src/index.js
+
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { Auth0Provider } from "./react-auth0-wrapper";
+import config from "./auth_config.json";
+
+// A function that routes the user to the right place
+// after login
+const onRedirectCallback = appState => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
+
+ReactDOM.render(
+  <Auth0Provider
+    domain={config.domain}
+    client_id={config.clientId}
+    redirect_uri={window.location.origin}
+    onRedirectCallback={onRedirectCallback}
+>
+    <App />
+  </Auth0Provider>,
+  document.getElementById("root")
+);
+
+serviceWorker.unregister();
+```
+
+Observe que el componente `App` ahora está envuelto en el componente `Auth0Provider`, donde se especifican los detalles sobre el dominio Auth0 y la identificación del cliente. El prop `redirect_uri` también se especifica aquí. Hacer esto aquí significa que no necesita pasar este URI a cada llamada a `loginWithRedirect`, y mantiene la configuración en un solo lugar. 
+
+Observe también la función `onRedirectCallback`, que intenta enrutar al usuario al lugar correcto una vez que ha iniciado sesión. Por ejemplo, si el usuario intenta acceder a una página que requiere que se autentiquen, se les pedirá que inicien sesión. Cuando regresen a la aplicación, serán reenviados a la página a la que intentaban acceder originalmente gracias a esta función.
+
+A continuación, cree un nuevo archivo auth_config.json en la carpeta src y complételo con lo siguiente:
+
+```json
+{
+  "domain": "domain",
+  "clientId": "clientId"
+}
+```
+
+Los valores `domain` y `clientId` deben reemplazarse por los de su propia aplicación Auth0.
+
+
+### API
+
+Ver:
+- [React: Calling an API](https://auth0.com/docs/quickstart/spa/react/02-calling-an-api)
+
+### Usar Base de Datos propia
+
+Ver:
+- [Database Connections](https://auth0.com/docs/connections/database#using-your-own-user-store)
+- [Custom Database Action Script Templates](https://auth0.com/docs/connections/database/custom-db/templates)
