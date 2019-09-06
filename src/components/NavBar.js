@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import '../styles/NavBar.css';
 import Logo from '../resources/LogoBA-xs.png';
-import '../resources/fontawesome-free-5.9.0-web/css/all.min.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import { Link as LinkSection } from "react-scroll";
 
 import { Link, Route, Switch, Redirect } from 'react-router-dom';

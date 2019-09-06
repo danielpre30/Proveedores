@@ -41,9 +41,9 @@
     display: flex;
     padding: 0;
 }
-.fa-bars, .fa-times {
+.logo-container .fa-bars, .logo-container .fa-times {
     color: #fff;
-    visibility: hidden; 
+    display: none; 
     right:0;
 }
 .logo{
@@ -65,8 +65,8 @@
         height: auto;
 
     }
-    .fa-bars, .fa-times {
-        visibility: inherit;
+    .logo-container .fa-bars, .logo-container .fa-times {
+        display: inherit;
         padding-top:2%;
         padding-bottom:2%;
         padding-right:5%;
