@@ -7,11 +7,11 @@ class PaymentSection extends Component {
     render() {
         return (
             <div className="landing-section">
-                <div className="payment-info">
-                    <h1>¡Información para el pago!</h1>
-                   <p className="payInfo">Descripción: Membresia Upcluster</p> 
-                   <p className="payInfo">Total de la compra: 5.00 USD</p> 
-                   <p className="payInfo">Ingresa tu correo electronico:</p>
+                <div className="landing__payment-info">
+                    <h1>¡Suscríbite Ahora!</h1>
+                   <p className="payInfo__text"><b>Descripción:</b> Membresia Upcluster</p> 
+                   <p className="payInfo__text"><b>Total de la compra:</b> USD$ 5.00 </p> 
+                   <p className="payInfo__text">Ingresa tu correo electronico:</p>
                     <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
                     <input name="merchantId"    type="hidden"  value="508029" />
                     <input name="accountId"     type="hidden"  value="512321" />

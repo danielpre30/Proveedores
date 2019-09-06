@@ -8,9 +8,9 @@
     padding: 10px;
     border: none;
     box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
-    margin-top: 10px;
+    margin-top: 20px;
 }
-.payment-info {
+.landing__payment-info {
     justify-items: center;
     color: #38618c;
     width: 100%;
@@ -19,16 +19,8 @@
     background-color: #ffe740;
 }
 
-.landing-section{
-    background-image: url("../resources/FondoNoRegistro.png");
-    background-position: center;
-    background-size: cover;
-    background-color: #1F354D;
-    padding-top: 80px;
-    width: 100%;
-}
-.payInfo{
-    font-size: 1.2em;
+.payInfo__text{
+    font-size: 1.5em;
     border-radius: 10px;
     padding: 5px;
     color: black;
@@ -38,4 +30,20 @@
     margin-top: 90px;
     height: 100px;
     
+}
+
+
+
+input {
+    font-size: 1.2em;
+    border-radius: 10px;
+    padding: 5px;
+}
+@media only screen and (max-width: 330px) {
+    /*shows elements in a column*/
+    input {
+        font-size: 1em;
+        border-radius: 8px;
+        padding: 3px;
+    }
 }
