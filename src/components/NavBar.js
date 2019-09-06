@@ -5,12 +5,10 @@ import Logo from '../resources/LogoBA-xs.png';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { Link as LinkSection } from "react-scroll";
 
-import { Link, Route, Switch, Redirect } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 class NavBar extends Component {
-    constructor(props) {
-        super(props);
-    }
+    
     componentDidMount() {
         const menuIcon = document.getElementById('menu-icon');
         const menuContent = document.getElementById('menu-content');
@@ -26,7 +24,7 @@ class NavBar extends Component {
         
         var menuLinks = [];
         
-        if (this.props.logIn=="true") {
+        if (this.props.logIn) {
             menuLinks.push(<MenuLink label="INICIO" to="/inicio" activeOnlyWhenExact={false}></MenuLink>);
             menuLinks.push(<LinkSection className="nav-item__Link linkSection" to="LandingSection" smooth={true} duration={250} >PROVEEDORES</LinkSection>);
             

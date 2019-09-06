@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/LandingPage.css';
 import LandingSection from '../sections/LandingSection';
 import NavBar from '../components/NavBar';
@@ -7,8 +7,8 @@ function LandingPage() {
 
     return (
         <>
-            <NavBar logIn="true" />
-            <LandingSection  logIn="true"/>
+            <NavBar logIn={true} />
+            <LandingSection  logIn={true}/>
             <ProvidersSection/>
         </>
 

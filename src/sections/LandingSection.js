@@ -8,12 +8,9 @@ import bienvenidos from'../resources/BienvenidosUpCluster.png';
 
 
 class LandingSection extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         var description;
-        if (this.props.logIn=="true"){
+        if (this.props.logIn){
             description=<> <img className="homeSection__bienvenidos-img" alt="Imagen de fondo" src={bienvenidos} /></>
         }
         else{
