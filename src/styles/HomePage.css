@@ -1,0 +1,17 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.scrollImage{
+    position: absolute;
+    width: 15%;
+    top:80%;
+    left:45%;
+}
+@media only screen and (min-width: 950px){
+    .scrollImage{
+        width: 10%;
+        top:75%;
+        left:45%;
+    }
+}

@@ -42,7 +42,9 @@
 }
 @media only screen and (min-width: 850px) {
     .homeSection__bienvenidos-img {
+        width:60%;
         top: 20%;
+        left: 20%;
     }
     
 }

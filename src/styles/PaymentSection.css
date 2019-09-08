@@ -1,3 +1,6 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 .button-pagar {
     height: 40px;
     font-size: 1.2em;
@@ -28,20 +31,21 @@
 }
 .payuMethods{
     margin-top: 90px;
-    height: 100px;
+    height: auto;
+    width:100%;
     
 }
 
 
 
-input {
+.payment__input {
     font-size: 1.2em;
     border-radius: 10px;
     padding: 5px;
 }
 @media only screen and (max-width: 330px) {
     /*shows elements in a column*/
-    input {
+    .payment__input {
         font-size: 1em;
         border-radius: 8px;
         padding: 3px;

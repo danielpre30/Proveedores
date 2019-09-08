@@ -1,0 +1,34 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+.providerCard{
+    color:black;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    padding:0;
+    width: 14em;
+    min-height: 22em;
+    max-height: 100%;
+    padding: 10px;
+}
+.img-points{
+    width:10%;
+    padding:0;
+    margin-bottom:-3px;
+}
+.providerCard__profile{
+    width:  70%;
+}
+.providerCard .providerCard__content .content__footer a {
+    display: block;
+    background: #35a7f0;
+    padding: 0.3em 0.3em;
+    border-radius: 5px;
+    color: #fff;
+    letter-spacing: 0.2px;
+    font-size: 1em;
+    font-weight: 600;
+    text-decoration: none;
+}
+.providerCard__description{
+    font-size:1.1em;
+}

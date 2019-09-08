@@ -26,7 +26,7 @@ class NavBar extends Component {
         
         if (this.props.logIn) {
             menuLinks.push(<MenuLink label="INICIO" to="/inicio" activeOnlyWhenExact={false}></MenuLink>);
-            menuLinks.push(<LinkSection className="nav-item__Link linkSection" to="LandingSection" smooth={true} duration={250} >PROVEEDORES</LinkSection>);
+            menuLinks.push(<LinkSection className="nav-item__Link linkSection" to="providersSection" smooth={true} duration={250} >PROVEEDORES</LinkSection>);
             
         }
         else {
