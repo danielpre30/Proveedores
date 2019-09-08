@@ -1,0 +1,41 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.providersSection {
+    text-align: center;
+    padding-bottom:50px;
+}
+
+.providers__title {
+    font-size: 2em;
+    color: #38618c;
+}
+
+
+
+@media only screen and (min-width:992px) {
+    .providers__title {
+        font-size: 3em;
+    }
+    .providers__description {
+        font-size: 1.5em;
+    }
+}
+
+.providers__card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 1rem;
+    justify-items: center;
+    color: white;
+    width: 100%;
+}
+.providers__input{
+    border-radius: 8px;
+    border-width: thin;
+    width: 80%;
+    margin-bottom:50px;
+    font-size: 1.1em;
+    padding:5px;
+}

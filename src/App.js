@@ -1,17 +1,19 @@
 import React from 'react';
 import './App.css';
 import './resources/fonts/stylesheet.css';
-import NavBar from './components/NavBar';
+import './resources/animate.css';
+
 
 
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import PaymentPage from './pages/PaymentPage';
+import HomePage from './pages/HomePage';
+
 
 function App() {
   return (
     <HashRouter>
-      <NavBar />
+      
       <div className="main">
       <Switch>
           <Route exact path="/"
@@ -20,7 +22,7 @@ function App() {
             )}
           />
           <Route exact path="/inicio" component={LandingPage} />
-          <Route exact path="/payment" component={PaymentPage} />
+          <Route exact path="/home" component={HomePage} />
         </Switch>
         <div className="footer">
           Copyright © 2019 UpCluster. All Rights Reserved.
