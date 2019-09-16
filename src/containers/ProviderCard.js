@@ -3,11 +3,11 @@ import '../styles/ProviderCard.css'
 import { Link } from 'react-router-dom';
 import ProviderSection from '../sections/ProvidersSection';
 import star from '../resources/star.png'
-const ProviderCard = ({ name, srcImage, points, id, category }) => {
+const ProviderCard = ({ id, name, logo, typeOfService,score  }) => {
     return (
         <div className="providerCard">
             <div className="providerCard__thumb">
-                <img src={srcImage} className="providerCard__profile" alt="Profile" />
+                <img src={logo} className="providerCard__profile" alt="Profile" />
             </div>
             <div className="providerCard__content">
                 <header className="content__header">
@@ -16,8 +16,8 @@ const ProviderCard = ({ name, srcImage, points, id, category }) => {
                     </div>
                 </header>
                 <span className="providerCard__description">
-                    <span><b>Puntuación: </b>{points} <img className="img-points" src={star} alt="Points" /></span>
-                    <p>Empresa {category}</p>
+                    <span><b>Puntuación: </b>{score} <img className="img-points" src={star} alt="Points" /></span>
+                    <p>Empresa <b>{typeOfService}</b></p>
                 </span>
                 <div></div>
                 <footer className="content__footer">
