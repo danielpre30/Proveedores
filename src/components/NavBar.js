@@ -7,16 +7,16 @@ import { Link as LinkSection } from "react-scroll";
 import { Link, Route } from "react-router-dom";
 
 class NavBar extends Component {
-  componentDidMount() {
-    const menuIcon = document.getElementById("menu-icon");
-    const menuContent = document.getElementById("menu-content");
-    menuIcon.addEventListener("click", () => {
+  toggleMenu(e) {
+    if (e.type === "click" || (e.type === "keydown" && e.key === "m")) {
+      const menuContent = document.getElementById("menu-content");
+      e.target.classList.toggle("animated");
+      e.target.classList.toggle("fadeInRight");
+      e.target.classList.toggle("fa-times");
       menuContent.classList.toggle("active");
-      menuIcon.classList.toggle("animated");
-      menuIcon.classList.toggle("fadeInRight");
-      menuIcon.classList.toggle("fa-times");
-    });
+    }
   }
+  componentDidMount() {}
   render() {
     var menuLinks = [];
 
@@ -57,7 +57,14 @@ class NavBar extends Component {
     return (
       <nav className="nav-bar">
         <div className="logo-container">
-          <i className="fas fa-bars fa-2x" id="menu-icon"></i>
+          <i
+            className="fas fa-bars fa-2x"
+            id="menu-icon"
+            onClick={e => this.toggleMenu(e)}
+            role="button"
+            tabIndex="-1"
+            onKeyDown={e => this.toggleMenu(e)}
+          ></i>
           <img src={Logo} alt="Logo" className="logo"></img>
         </div>
 
@@ -71,17 +78,15 @@ class NavBar extends Component {
 }
 function MenuLink({ label, to, activeOnlyWhenExact }) {
   return (
-    <Route
-      path={to}
-      exact={activeOnlyWhenExact}
-      children={({ match }) => (
+    <Route path={to} exact={activeOnlyWhenExact}>
+      {({ match }) => (
         <li className={`nav-item ${match ? "active" : ""}`}>
           <Link className="nav-item__Link" to={to}>
             {label}
           </Link>
         </li>
       )}
-    />
+    </Route>
   );
 }
 

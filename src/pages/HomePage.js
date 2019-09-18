@@ -10,7 +10,7 @@ function LandingPage() {
     <>
       <NavBar logIn={true} />
       <LandingSection logIn={true} />
-      <img className="scrollImage" src={Scroll} alt="scroll Image Gif" />
+      <img className="scrollImage" src={Scroll} alt="Scroll Gif" />
       <ProvidersSection />
     </>
   );
