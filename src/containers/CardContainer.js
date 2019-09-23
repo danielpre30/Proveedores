@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import "../styles/ProviderCard.css";
-import { Link } from "react-router-dom";
-import ProviderCard from "../containers/ProviderCard";
+import "../styles/Card.css";
+import ProviderCard from "../components/Card";
 import { BASE_LOCAL_ENDPOINT } from "../constants";
-import star from "../resources/star.png";
 import "../styles/ProvidersSection.css";
 import axios from "axios";
 
@@ -40,7 +38,7 @@ class CardContainer extends Component {
       });
   }
   render() {
-    const { list, name, logo, typeOfService, score } = this.state;
+    const { list } = this.state;
     let cards;
     cards = (
       <>

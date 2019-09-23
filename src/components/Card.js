@@ -1,7 +1,6 @@
 import React from "react";
-import "../styles/ProviderCard.css";
+import "../styles/Card.css";
 import { Link } from "react-router-dom";
-import ProviderSection from "../sections/ProvidersSection";
 import star from "../resources/star.png";
 const ProviderCard = ({ id, name, logo, typeOfService, score }) => {
   return (
@@ -26,7 +25,7 @@ const ProviderCard = ({ id, name, logo, typeOfService, score }) => {
         </span>
         <div></div>
         <footer className="content__footer">
-          <Link key={id} to={`/Detail/${id}`}>
+          <Link key={id} to={`/business/${id}`}>
             Ver a detalle
           </Link>
         </footer>

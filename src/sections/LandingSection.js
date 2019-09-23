@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import "../styles/LandingSection.css";
-import DescriptionContainer from "../containers/DescriptionContainer";
+import DescriptionContainer from "../components/Description";
 import agreement from "../resources/agreement.png";
 import exam from "../resources/exam.png";
 import feedback from "../resources/feedback.png";
 import bienvenidos from "../resources/BienvenidosUpCluster.png";
+import { Auth0Context } from "../Auth/react-auth0-wrapper";
 
 class LandingSection extends Component {
+  static contextType = Auth0Context;
+
   render() {
     var description;
-    if (this.props.logIn) {
+    if (this.context.isAuthenticated) {
       description = (
         <>
           {" "}
@@ -42,9 +45,15 @@ class LandingSection extends Component {
       );
     }
     return (
-      <div className={`landing-section-${this.props.logIn}`}>
-        <div className="card-container">{description}</div>
-      </div>
+      <Auth0Context.Consumer>
+        {({ isAuthenticated }) => {
+          return (
+            <div className={`landing-section-${isAuthenticated}`}>
+              <div className="card-container">{description}</div>
+            </div>
+          );
+        }}
+      </Auth0Context.Consumer>
     );
   }
 }

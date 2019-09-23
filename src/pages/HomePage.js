@@ -2,18 +2,29 @@ import React from "react";
 import "../styles/LandingPage.css";
 import "../styles/HomePage.css";
 import LandingSection from "../sections/LandingSection";
-import NavBar from "../components/NavBar";
 import ProvidersSection from "../sections/ProvidersSection";
+import PaymentSection from "../sections/PaymentSection";
 import Scroll from "../resources/scroll.gif";
-function LandingPage() {
+import { useAuth0 } from "../Auth/react-auth0-wrapper";
+
+function HomePage() {
+  const { isAuthenticated } = useAuth0();
   return (
     <>
-      <NavBar logIn={true} />
-      <LandingSection logIn={true} />
-      <img className="scrollImage" src={Scroll} alt="Scroll Gif" />
-      <ProvidersSection />
+      {isAuthenticated ? (
+        <>
+          <LandingSection />
+          <img className="scrollImage" src={Scroll} alt="Scroll Gif" />
+          <ProvidersSection />
+        </>
+      ) : (
+        <>
+          <LandingSection />
+          <PaymentSection />
+        </>
+      )}
     </>
   );
 }
 
-export default LandingPage;
+export default HomePage;
