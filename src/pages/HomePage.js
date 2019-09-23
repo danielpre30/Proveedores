@@ -1,23 +1,30 @@
-import React from 'react';
-import '../styles/LandingPage.css';
-import '../styles/HomePage.css';
-import LandingSection from '../sections/LandingSection';
-import NavBar from '../components/NavBar';
-import ProvidersSection from '../sections/ProvidersSection'
-import Scroll from '../resources/scroll.gif'
-function LandingPage() {
+import React from "react";
+import "../styles/LandingPage.css";
+import "../styles/HomePage.css";
+import LandingSection from "../sections/LandingSection";
+import ProvidersSection from "../sections/ProvidersSection";
+import PaymentSection from "../sections/PaymentSection";
+import Scroll from "../resources/scroll.gif";
+import { useAuth0 } from "../Auth/react-auth0-wrapper";
 
-    return (
+function HomePage() {
+  const { isAuthenticated } = useAuth0();
+  return (
+    <>
+      {isAuthenticated ? (
         <>
-            <NavBar logIn={true} />
-            <LandingSection  logIn={true}/>
-            <img className="scrollImage" src={Scroll} alt="scroll Image Gif" />
-            <ProvidersSection/>
-            
+          <LandingSection />
+          <img className="scrollImage" src={Scroll} alt="Scroll Gif" />
+          <ProvidersSection />
         </>
-
-    );
-
+      ) : (
+        <>
+          <LandingSection />
+          <PaymentSection />
+        </>
+      )}
+    </>
+  );
 }
 
-export default LandingPage;
+export default HomePage;
