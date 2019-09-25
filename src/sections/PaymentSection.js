@@ -8,7 +8,7 @@ class PaymentSection extends Component {
         return (
             <div className="landing-section">
                 <div className="landing__payment-info">
-                    <h1>¡Suscríbite Ahora!</h1>
+                    <h1>¡Suscríbete Ahora!</h1>
                    <p className="payInfo__text"><b>Descripción:</b> Membresia Upcluster</p> 
                    <p className="payInfo__text"><b>Total de la compra:</b> USD$ 5.00 </p> 
                    <p className="payInfo__text">Ingresa tu correo electronico:</p>
