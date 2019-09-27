@@ -13,6 +13,10 @@ class RegisterSection extends Component {
                     <form className= "">
                     <p className="regInfo__text">Nombre de la empresa:</p>
                     <input className="reg__input" name="companyName"  placeholder="Nombre de la empresa" />
+                    <p className="regInfo__text">Correo electrónico:</p>
+                    <input className="reg__input" name="companyEmail" type="email"  placeholder="Correo electrónico" />
+                    <p className="regInfo__text">Nit de la empresa:</p>
+                    <input className="reg__input" name="companyNit" type="number" placeholder="Nit de la empresa" />
                     <p className="regInfo__text">Tipo de servicio que ofrecen:</p>
                     <input className="reg__input" name="typeOfService"  placeholder="Tipo de servicio" />
                     <p className="regInfo__text">Año de fundación:</p>
