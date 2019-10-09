@@ -55,7 +55,7 @@ app.get(
       .then(db =>
         db
           .collection("business")
-          .find()
+          .find({ email: { $eq: req.query.email } })
           .toArray()
       )
       .then(collection => {

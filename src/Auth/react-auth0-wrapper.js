@@ -1,7 +1,8 @@
 // src/react-auth0-wrapper.js
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
-
+import Axios from "axios";
+import { BASE_LOCAL_ENDPOINT } from "../constants";
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -13,6 +14,7 @@ export const Auth0Provider = ({
   ...initOptions
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
+  const [hasAProfile, setHasAProfile] = useState(false);
   const [user, setUser] = useState();
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
@@ -63,12 +65,17 @@ export const Auth0Provider = ({
     const user = await auth0Client.getUser();
     setLoading(false);
     setIsAuthenticated(true);
+    const hasAProfile = await Axios.get(
+      `${BASE_LOCAL_ENDPOINT}/business?email=${user.email}`
+    );
+    setHasAProfile(hasAProfile);
     setUser(user);
   };
   return (
     <Auth0Context.Provider
       value={{
         isAuthenticated,
+        hasAProfile,
         user,
         loading,
         popupOpen,
