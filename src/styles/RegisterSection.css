@@ -1,0 +1,48 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+.button-register {
+    height: 40px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: white;
+    background-color: #38618c;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+}
+.landing__register-info {
+    justify-items: center;
+    color: white;
+    width: 100%;
+    padding: 0.2em 1em 1em 1em;
+    text-align: center;
+    background-color: #8D18FF;
+}
+
+.regInfo__text{
+    font-size: 1.5em;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    font-weight: 600;
+}
+
+
+
+
+.reg__input {
+    font-size: 1.2em;
+    border-radius: 10px;
+    padding: 5px;
+}
+@media only screen and (max-width: 330px) {
+    /*shows elements in a column*/
+    .reg__input {
+        font-size: 1em;
+        border-radius: 8px;
+        padding: 3px;
+    }
+}

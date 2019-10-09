@@ -23,19 +23,4 @@
     }
 }
 
-.providers__card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 1rem;
-    justify-items: center;
-    color: white;
-    width: 100%;
-}
-.providers__input{
-    border-radius: 8px;
-    border-width: thin;
-    width: 80%;
-    margin-bottom:50px;
-    font-size: 1.1em;
-    padding:5px;
-}
+
