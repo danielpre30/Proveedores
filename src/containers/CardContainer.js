@@ -13,9 +13,20 @@ class CardContainer extends Component {
       name: "",
       logo: "",
       typeOfService: "",
-      score: ""
+      score: "",
+      filterText: ""
     };
   }
+  sortList = (a, b) => {
+    return b.score.general - a.score.general;
+  };
+  handleChange = (e, field) => {
+    var value = (field === "filterText") ? e.target.value.toLowerCase() : e.target.value;
+
+    this.setState({
+      [field]: value //Los corchetes son para hacer referencia a la clave a partir de un string
+    });
+  };
   componentDidMount() {
     this.getObjects("business");
   }
@@ -23,6 +34,7 @@ class CardContainer extends Component {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
       .then(response => {
+        response.data.sort(this.sortList);
         this.setState({
           list: response.data.map(current => {
             return { ...current };
@@ -38,11 +50,15 @@ class CardContainer extends Component {
       });
   }
   render() {
-    const { list } = this.state;
+    const { list, filterText } = this.state;
     let cards;
+    const filteredList = list.sort(this.sortList).filter((val) =>
+      val.typeOfService.toLowerCase().includes(filterText) ||
+      val.name.toLowerCase().includes(filterText)
+    );
     cards = (
       <>
-        {list.map(({ _id, name, logo, typeOfService, score }) => (
+        {filteredList.map(({ _id, name, logo, typeOfService, score }) => (
           <ProviderCard
             name={name}
             logo={logo}
@@ -54,7 +70,22 @@ class CardContainer extends Component {
         ))}
       </>
     );
-    return <div className="providers__card-container">{cards}</div>;
+    return (
+      <div >
+        <div>
+          <input
+            placeholder="Nombre o tipo de servicio"
+            className="providers__input"
+            onChange={e => {
+              this.handleChange(e, "filterText");
+            }}
+          ></input>
+        </div>
+        <div className="providers__card-container">
+          {cards}
+        </div>
+      </div>
+    );
   }
 }
 

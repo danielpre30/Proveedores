@@ -8,12 +8,6 @@ class ProviderSection extends Component {
         <p className="providers__title">
           <b>Busca Proveedores Aquí</b>
         </p>
-        <div>
-          <input
-            placeholder="Nombre o tipo de servicio"
-            className="providers__input"
-          ></input>
-        </div>
         <CardContainer />
       </div>
     );
