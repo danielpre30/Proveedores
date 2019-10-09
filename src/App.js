@@ -6,6 +6,7 @@ import "./resources/animate.css";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/Navbar";
+import ProfilePage from "./pages/ProfilePage";
 import history from "./history";
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth0 } from "./Auth/react-auth0-wrapper";
