@@ -8,9 +8,14 @@ import LogOption from "./LogOption";
 import SectionLink from "./SectionLink";
 
 const NavBar = props => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    hasAProfile
+  } = useAuth0();
 
-  let links = [{ label: "INICIO", to: "/home" }];
+  let links = [];
   let logOption = {};
   let sectionOptions: [];
 
@@ -24,7 +29,10 @@ const NavBar = props => {
       label: "CERRAR SESIÓN",
       onClick: () => logout()
     };
-    sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
+    if (hasAProfile) {
+      sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
+      links = [{ label: "INICIO", to: "/home" }];
+    }
   }
   return (
     <nav className="nav">
