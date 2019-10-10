@@ -14,7 +14,7 @@ export const Auth0Provider = ({
   ...initOptions
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
-  const [hasAProfile, setHasAProfile] = useState(false);
+  const [hasAProfile, setHasAProfile] = useState(true);
   const [user, setUser] = useState();
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export const Auth0Provider = ({
     const hasAProfile = await Axios.get(
       `${BASE_LOCAL_ENDPOINT}/business?email=${user.email}`
     );
-    setHasAProfile(hasAProfile);
+    //setHasAProfile(true);
     setUser(user);
   };
   return (

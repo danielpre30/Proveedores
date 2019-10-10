@@ -5,14 +5,14 @@ import "./resources/animate.css";
 
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar";
 import history from "./history";
 import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <HashRouter history={history}>
       <div className="main">
-        <NavBar logIn={false} />
+        <NavBar />
         <Switch>
           <Route exact path="/" render={() => <Redirect to="/home" />} />
           <Route exact path="/home" component={HomePage} />
