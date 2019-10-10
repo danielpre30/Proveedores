@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import Mongo, { ObjectID, MongoClient } from "mongodb";
 import assert from "assert";
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 5001;
 
 // Database Name
 const dbName = "upcluster";
@@ -49,13 +49,17 @@ app.get(
   `/business`,
   /*jwtCheck, checkScopes,*/ (req, res) => {
     //Use connect method to connect to the Server
+    let query = {};
+    query = req.query.email
+      ? { ...query, email: { $eq: req.query.email } }
+      : query;
     client
       .connect()
       .then(serv => serv.db(dbName))
       .then(db =>
         db
           .collection("business")
-          .find()
+          .find(query)
           .toArray()
       )
       .then(collection => {
