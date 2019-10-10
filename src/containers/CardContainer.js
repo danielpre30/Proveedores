@@ -21,7 +21,8 @@ class CardContainer extends Component {
     return b.score.general - a.score.general;
   };
   handleChange = (e, field) => {
-    var value = (field === "filterText") ? e.target.value.toLowerCase() : e.target.value;
+    var value =
+      field === "filterText" ? e.target.value.toLowerCase() : e.target.value;
 
     this.setState({
       [field]: value //Los corchetes son para hacer referencia a la clave a partir de un string
@@ -34,11 +35,9 @@ class CardContainer extends Component {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
       .then(response => {
-        response.data.sort(this.sortList);
+        console.log(response.data.sort(this.sortList));
         this.setState({
-          list: response.data.map(current => {
-            return { ...current };
-          })
+          list: response.data.sort(this.sortList)
         });
       })
       .catch(error => {
@@ -52,10 +51,13 @@ class CardContainer extends Component {
   render() {
     const { list, filterText } = this.state;
     let cards;
-    const filteredList = list.sort(this.sortList).filter((val) =>
-      val.typeOfService.toLowerCase().includes(filterText) ||
-      val.name.toLowerCase().includes(filterText)
-    );
+    const filteredList = list
+      .sort(this.sortList)
+      .filter(
+        val =>
+          val.typeOfService.toLowerCase().includes(filterText) ||
+          val.name.toLowerCase().includes(filterText)
+      );
     cards = (
       <>
         {filteredList.map(({ _id, name, logo, typeOfService, score }) => (
@@ -71,7 +73,7 @@ class CardContainer extends Component {
       </>
     );
     return (
-      <div >
+      <div>
         <div>
           <input
             placeholder="Nombre o tipo de servicio"
@@ -81,9 +83,7 @@ class CardContainer extends Component {
             }}
           ></input>
         </div>
-        <div className="providers__card-container">
-          {cards}
-        </div>
+        <div className="providers__card-container">{cards}</div>
       </div>
     );
   }

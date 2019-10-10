@@ -49,13 +49,17 @@ app.get(
   `/business`,
   /*jwtCheck, checkScopes,*/ (req, res) => {
     //Use connect method to connect to the Server
+    let query = {};
+    query = req.query.email
+      ? { ...query, email: { $eq: req.query.email } }
+      : query;
     client
       .connect()
       .then(serv => serv.db(dbName))
       .then(db =>
         db
           .collection("business")
-          .find({ email: { $eq: req.query.email } })
+          .find(query)
           .toArray()
       )
       .then(collection => {

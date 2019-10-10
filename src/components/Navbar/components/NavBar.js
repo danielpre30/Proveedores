@@ -17,7 +17,7 @@ const NavBar = props => {
   if (!isAuthenticated) {
     logOption = {
       label: "INICIAR SESIÓN",
-      onClick: () => loginWithRedirect({})
+      onClick: () => loginWithRedirect()
     };
   } else {
     logOption = {
