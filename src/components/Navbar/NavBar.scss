@@ -9,6 +9,11 @@
   display: flex;
   justify-content: space-between;
 
+  &_container {
+    position: relative;
+    height: fit-content;
+  }
+
   .fas {
     color: #fff;
     display: none;

@@ -10,9 +10,10 @@ import { useAuth0 } from "../Auth/react-auth0-wrapper";
 
 function HomePage() {
   const { isAuthenticated, hasAProfile } = useAuth0();
+  let homePage;
   if (isAuthenticated) {
     if (hasAProfile) {
-      return (
+      homePage = (
         <>
           <LandingSection />
           <img className="scrollImage" src={Scroll} alt="Scroll Gif" />
@@ -20,10 +21,10 @@ function HomePage() {
         </>
       );
     } else {
-      return <RegisterSection />;
+      homePage = <RegisterSection />;
     }
   } else {
-    return (
+    homePage = (
       <>
         <LandingSection />
         <PaymentSection />
@@ -31,6 +32,7 @@ function HomePage() {
       </>
     );
   }
+  return <div className="home_page">{homePage}</div>;
 }
 
 export default HomePage;
