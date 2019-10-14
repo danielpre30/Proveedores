@@ -1,100 +1,127 @@
-*, *:before, *:after {
-    box-sizing: border-box;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
-
-
-
-
-.ProfileCanvas{
-    color: black;
-    justify-items: center;
-    align-items:center;
-    /* background-color: #D1DBBD; */
-    background-color: white;
-    height: 998px;
-    width: 1206px;
+.ProfileCanvas {
+  position: relative;
+  color: black;
+  justify-items: center;
+  align-items: center;
+  /* background-color: #D1DBBD; */
+  background-color: white;
+  height: 998px;
+  width: 1206px;
 }
 
-.OpinionsChart{
-    color: black;
-    background-color: white;
-    margin-bottom: 200px;
-    margin-left: 230px;
-    height: 200px;
-    width: 700px;
-
+.OpinionsChart {
+  position: absolute;
+  color: black;
+  background-color: white;
+  margin-top: 470px;
+  margin-left: 340px;
+  height: 200px;
+  width: 700px;
 }
 
-.ProfilePic{
-    justify-items: center;
-    align-items:center;
-    margin-top: -30px;
-    margin-left: 100px;
-    color: whitesmoke;
-    font-size: 1.2em;
-    background-color: #ffe740;
-    border-radius: 600px;
-    height: 200px;
-    width: 200px;
+.ProfilePic {
+  position: absolute;
+  justify-items: center;
+  align-items: center;
+  margin-top: 150px;
+  margin-left: 199px;
+  color: whitesmoke;
+  font-size: 1.2em;
+  background-color: #ffe740;
+  border-radius: 600px;
+  height: 200px;
+  width: 200px;
 }
-.TitleText{
-    padding-top: 100px;
-    padding-left: 400px;
-    font-size: 1.5em;
-    color: #38618c ;
-    
-}
-
-.SubtitleText{
-    color: #88E8F2;
-    margin-top: -52px;
-    margin-left: 470px;
-    font-size: 1.1em;
-    font-weight: 100;
-}
-.NavBarOptions{
-    color: white;
-    background-color: #38618c ;
-    height: 30px;
-    width: 700px;
-
+.TitleText {
+  position: absolute;
+  margin-top: 100px;
+  margin-left: 467px;
+  font-size: 1.5em;
+  color: #38618c;
 }
 
-  li {
-    display: inline;
-  }
-  .button-GoOpinions{
-    height: 16px;
-    font-size: 0.6em;
-    font-weight: 500;
-    color: white;
-    background-color: #38618c;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-    box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
-    margin-top: 4px;
-  }
-  .star{
-    height: 30px;
-    width: 30px;
-  }
-  .QualityStar{
-    margin-top: -98px;
-    margin-bottom: 40px;
-    margin-left: 770px;
-  }
-  .ServiceStar{
-    /* margin-bottom: 500px; */
-    margin-top: -100px;
-    margin-left: 570px;
-  }
-  .ComunicationStar{
-    margin-top: -100px;
-    margin-left: 370px;
-  }
-  .PuntualityStar{ 
-      margin-bottom: -100px;
-    margin-left: 170px;
-  }
+.SubtitleText {
+  position: absolute;
+  color: #88e8f2;
+  margin-top: 150px;
+  margin-left: 550px;
+  font-size: 1.1em;
+  font-weight: 100;
+}
+.NavBarOptions {
+  color: white;
+  background-color: #38618c;
+  height: 30px;
+  width: 700px;
+}
+
+li {
+  display: inline;
+}
+.button-GoOpinions {
+  position: absolute;
+  height: 16px;
+  font-size: 0.6em;
+  font-weight: 500;
+  color: white;
+  background-color: #38618c;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+}
+.star {
+  height: 30px;
+  width: 30px;
+}
+.QualityStar {
+  position: absolute;
+  margin-top: -98px;
+  margin-top: 360px;
+  margin-left: 840px;
+}
+.ServiceStar {
+  position: absolute;
+  margin-top: 360px;
+  margin-left: 630px;
+}
+.ComunicationStar {
+  position: absolute;
+  margin-top: 360px;
+  margin-left: 440px;
+}
+.PuntualityStar {
+  position: absolute;
+  margin-top: 360px;
+  margin-left: 260px;
+}
+.RateBox {
+  font-size: 1.2em;
+  position: absolute;
+  color: white;
+  background-color: #38618c;
+  height: 100px;
+  width: 200px;
+  margin-top: 200px;
+  margin-left: 990px;
+}
+.Ratestar {
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  margin-top: 17px;
+  margin-left: 100px;
+}
+.RateText {
+  position: absolute;
+  margin-top: 27px;
+  margin-left: 25px;
+  font-weight: 600;
+}
