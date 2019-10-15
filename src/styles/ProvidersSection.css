@@ -1,26 +1,27 @@
-*, *:before, *:after {
-    box-sizing: border-box;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 .providersSection {
-    text-align: center;
-    padding-bottom:50px;
+  padding-bottom: 50px;
+  padding: 20px;
 }
 
 .providers__title {
-    font-size: 2em;
-    color: #38618c;
+  text-align: center;
+  font-size: 2em;
+  color: #38618c;
 }
-
-
-
-@media only screen and (min-width:992px) {
-    .providers__title {
-        font-size: 3em;
-    }
-    .providers__description {
-        font-size: 1.5em;
-    }
+span {
+  font-size: 1.2em;
 }
-
-
+@media only screen and (min-width: 992px) {
+  .providers__title {
+    font-size: 3em;
+  }
+  .providers__description {
+    font-size: 1.5em;
+  }
+}

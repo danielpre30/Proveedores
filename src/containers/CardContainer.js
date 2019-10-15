@@ -6,6 +6,8 @@ import "../styles/ProvidersSection.css";
 import axios from "axios";
 import { Auth0Context } from "../Auth/react-auth0-wrapper";
 
+import Rater from "react-rater";
+import "../styles/react-rater.css";
 class CardContainer extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +90,41 @@ class CardContainer extends Component {
           ></input>
         </div>
         <div className="providers__card-container">{cards}</div>
+        <span>Calidad/Precio: </span>
+        <Rater
+          total={5}
+          rating={0}
+          onRate={({ rating }) => {
+            console.log(rating);
+          }}
+        />
+        <br />
+        <span>Puntualidad: </span>
+        <Rater
+          total={5}
+          rating={0}
+          onRate={({ rating }) => {
+            console.log(rating);
+          }}
+        />
+        <br />
+        <span>Comunicación: </span>
+        <Rater
+          total={5}
+          rating={0}
+          onRate={({ rating }) => {
+            console.log(rating);
+          }}
+        />
+        <br />
+        <span>Servicio Posventa: </span>
+        <Rater
+          total={5}
+          rating={0}
+          onRate={({ rating }) => {
+            console.log(rating);
+          }}
+        />
       </div>
     );
   }
