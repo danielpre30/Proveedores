@@ -5,18 +5,48 @@
 }
 
 .providersSection {
+  text-align: center;
   padding-bottom: 50px;
   padding: 20px;
 }
 
 .providers__title {
-  text-align: center;
   font-size: 2em;
   color: #38618c;
 }
-span {
+
+/* Calificación, nuevos comentarios */
+.providers__comment--span {
   font-size: 1.2em;
+  justify-items: center;
+  text-align: center;
 }
+.providers__comment {
+  margin: 10px;
+}
+.providers__comment--text {
+  margin-top: 20px;
+}
+.providers__comment--textArea {
+  width: 80%;
+  height: 150px;
+  font-size: 1.2em;
+  padding: 10px;
+  border-radius: 10px;
+}
+.providers__comment--button {
+  font-size: 1.2em;
+  background: #35a7f0;
+  padding: 0.3em 0.3em;
+  border-radius: 5px;
+  color: #fff;
+  letter-spacing: 0.2px;
+  font-size: 1em;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+/*Fin nuevo comentario*/
 @media only screen and (min-width: 992px) {
   .providers__title {
     font-size: 3em;

@@ -1,13 +1,10 @@
 .react-rater {
   display: inline-block;
-  margin-bottom: 5px;
-  padding-left: 10px;
-  display: flex;
+  line-height: normal;
 }
 .react-rater > * {
   display: inline-block;
 }
-
 .react-rater-star {
   cursor: pointer;
   color: #ccc;

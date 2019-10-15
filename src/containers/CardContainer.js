@@ -90,41 +90,63 @@ class CardContainer extends Component {
           ></input>
         </div>
         <div className="providers__card-container">{cards}</div>
-        <span>Calidad/Precio: </span>
-        <Rater
-          total={5}
-          rating={0}
-          onRate={({ rating }) => {
-            console.log(rating);
-          }}
-        />
-        <br />
-        <span>Puntualidad: </span>
-        <Rater
-          total={5}
-          rating={0}
-          onRate={({ rating }) => {
-            console.log(rating);
-          }}
-        />
-        <br />
-        <span>Comunicación: </span>
-        <Rater
-          total={5}
-          rating={0}
-          onRate={({ rating }) => {
-            console.log(rating);
-          }}
-        />
-        <br />
-        <span>Servicio Posventa: </span>
-        <Rater
-          total={5}
-          rating={0}
-          onRate={({ rating }) => {
-            console.log(rating);
-          }}
-        />
+        <div className="providers__comment">
+          <div className="providers__comment--stars">
+            <span id="calidad" className="providers__comment--span">
+              Calidad/Precio:
+              <Rater
+                total={5}
+                rating={0}
+                onRate={({ rating }) => {
+                  console.log(rating);
+                }}
+              />
+            </span>
+
+            <br />
+            <span id="puntualidad" className="providers__comment--span">
+              Puntualidad:
+              <Rater
+                total={5}
+                rating={0}
+                onRate={({ rating }) => {
+                  console.log(rating);
+                }}
+              />
+            </span>
+
+            <br />
+            <span id="comunicacion" className="providers__comment--span">
+              Comunicación:
+              <Rater
+                total={5}
+                rating={0}
+                onRate={({ rating }) => {
+                  console.log(rating);
+                }}
+              />
+            </span>
+
+            <br />
+            <span id="posventa" className="providers__comment--span">
+              Servicio Posventa:
+              <Rater
+                total={5}
+                rating={0}
+                onRate={({ rating }) => {
+                  console.log(rating);
+                }}
+              />
+            </span>
+          </div>
+          <div className="providers__comment--text">
+            <textarea className="providers__comment--textArea"></textarea>
+            <br />
+            <button className="providers__comment--button">
+              Enviar Comentario
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
