@@ -29,9 +29,9 @@ function App() {
                 component={ProfileSection}
               />
             </Switch>
-            <div className="footer">
-              Copyright © 2019 UpCluster. All Rights Reserved.
-            </div>
+          </div>
+          <div className="footer">
+            Copyright © 2019 UpCluster. All Rights Reserved.
           </div>
         </>
       )}

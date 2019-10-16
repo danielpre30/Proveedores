@@ -15,6 +15,7 @@ export const Auth0Provider = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [hasAProfile, setHasAProfile] = useState(false);
+  const [profile, setProfile] = useState({});
   const [user, setUser] = useState();
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
@@ -37,11 +38,16 @@ export const Auth0Provider = ({
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
         setUser(user);
-        const hasAProfile = await Axios.get(
+        const fetchedProfile = await Axios.get(
           `${BASE_LOCAL_ENDPOINT}/business?email=${user.email}`
         );
+        setProfile(
+          fetchedProfile && fetchedProfile.data !== 0 && fetchedProfile.data[0]
+        );
         setHasAProfile(
-          hasAProfile && hasAProfile.data && hasAProfile.data.length !== 0
+          fetchedProfile &&
+            fetchedProfile.data &&
+            fetchedProfile.data.length !== 0
         );
       }
 
@@ -78,12 +84,14 @@ export const Auth0Provider = ({
       value={{
         isAuthenticated,
         hasAProfile,
+        profile,
         user,
         loading,
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
         setHasAProfile,
+        setProfile,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

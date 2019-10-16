@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import Mongo, { ObjectID, MongoClient } from "mongodb";
 import assert from "assert";
 
-var port = process.env.PORT || 5001;
+var port = process.env.PORT || 5000;
 
 // Database Name
 const dbName = "upcluster";
@@ -50,9 +50,15 @@ app.get(
   /*jwtCheck, checkScopes,*/ (req, res) => {
     //Use connect method to connect to the Server
     let query = {};
-    query = req.query.email
-      ? { ...query, email: { $eq: req.query.email } }
-      : query;
+    if (req.query.every) {
+      query = req.query.email
+        ? { ...query, email: { $ne: req.query.email } }
+        : query;
+    } else {
+      query = req.query.email
+        ? { ...query, email: { $eq: req.query.email } }
+        : query;
+    }
     client
       .connect()
       .then(serv => serv.db(dbName))
@@ -80,6 +86,17 @@ app.get(`/business/:id`, (req, res) => {
         .find({ _id: ObjectID(req.params.id) })
         .toArray()
     )
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
+
+app.post(`/business/`, (req, res) => {
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db => db.collection("business").insertOne(req.body))
     .then(collection => {
       client.close();
       res.json(collection);
