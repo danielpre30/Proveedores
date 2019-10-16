@@ -7,7 +7,7 @@
 .ProfileCanvas {
   position: relative;
   color: black;
-  justify-items: center;
+  justify-content: center;
   align-items: center;
   /* background-color: #D1DBBD; */
   background-color: white;
@@ -41,7 +41,9 @@
 .TitleText {
   position: absolute;
   margin-top: 100px;
-  margin-left: 467px;
+  width: 100%;
+  padding-left: 200px;
+  text-align: center;
   font-size: 1.5em;
   color: #38618c;
 }
@@ -50,7 +52,11 @@
   position: absolute;
   color: #88e8f2;
   margin-top: 150px;
-  margin-left: 550px;
+
+  width: 100%;
+  padding-left: 200px;
+  text-align: center;
+
   font-size: 1.1em;
   font-weight: 100;
 }
@@ -82,25 +88,33 @@ li {
   width: 30px;
 }
 .QualityStar {
-  position: absolute;
+  /* position: absolute;
   margin-top: -98px;
   margin-top: 360px;
-  margin-left: 840px;
+  margin-left: 840px; */
+  display: flex;
+  align-content: center;
 }
 .ServiceStar {
-  position: absolute;
+  /* position: absolute;
   margin-top: 360px;
-  margin-left: 630px;
+  margin-left: 630px; */
+  display: flex;
+  align-content: center;
 }
 .ComunicationStar {
-  position: absolute;
+  /* position: absolute;
   margin-top: 360px;
-  margin-left: 440px;
+  margin-left: 440px; */
+  display: flex;
+  align-content: center;
 }
 .PuntualityStar {
-  position: absolute;
+  /* position: absolute;
   margin-top: 360px;
-  margin-left: 260px;
+  margin-left: 260px; */
+  display: flex;
+  align-content: center;
 }
 .RateBox {
   font-size: 1.2em;
@@ -109,6 +123,7 @@ li {
   background-color: #38618c;
   height: 100px;
   width: 200px;
+  border-radius: 10px;
   margin-top: 200px;
   margin-left: 990px;
 }
@@ -124,4 +139,15 @@ li {
   margin-top: 27px;
   margin-left: 25px;
   font-weight: 600;
+}
+
+.StarBox {
+  position: absolute;
+  width: 100%;
+
+  margin-top: 28%;
+  margin-left: 75px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
