@@ -15,18 +15,66 @@ class RegisterSection extends Component {
       typeOfService: "",
       foundationYear: "",
       webPageURL: "",
-      logoURL: ""
+      logoURL: "",
+      providers: [],
+      businessList: [],
+      selectedBusinessId: "",
+      addedBusiness: []
     };
   }
 
   static contextType = Auth0Context;
 
+  componentDidMount() {
+    Axios.get(`${BASE_LOCAL_ENDPOINT}/business?every=true`)
+      .then(response => {
+        const sortedData = response.data.sort((a, b) => b.name - a.name);
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            businessList: sortedData,
+            selectedBusinessId: sortedData ? sortedData[0]._id : ""
+          };
+        });
+      })
+      .catch(error => {
+        // handle error
+        console.error(error);
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            error: error.message
+          };
+        });
+      });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.addedBusiness !== this.state.addedBusiness) {
+      this.setState(state => {
+        return {
+          ...state,
+          businessList: [
+            ...state.businessList.filter(
+              business =>
+                business._id !==
+                state.addedBusiness[state.addedBusiness.length - 1]
+            )
+          ]
+        };
+      });
+    }
+  }
+
   handleChange = (e, field) => {
     var value =
       field === "filterText" ? e.target.value.toLowerCase() : e.target.value;
 
-    this.setState({
-      [field]: value //Los corchetes son para hacer referencia a la clave a partir de un string
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        [field]: value //Los corchetes son para hacer referencia a la clave a partir de un string
+      };
     });
   };
 
@@ -42,7 +90,7 @@ class RegisterSection extends Component {
     } = this.state;
     const { user, setHasAProfile, setProfile } = this.context;
 
-    Axios.post(`${BASE_LOCAL_ENDPOINT}/business`, {
+    Axios.post(`${BASE_LOCAL_ENDPOINT}/business&email=${user.email}`, {
       NIT: nit,
       email: user.email,
       name: name,
@@ -53,6 +101,29 @@ class RegisterSection extends Component {
     }).then(response => {
       setHasAProfile(true);
       setProfile(response);
+    });
+  };
+
+  handleSelectChange = e => {
+    const value = e.target.value;
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        selectedBusinessId: value
+      };
+    });
+  };
+
+  addProvider = e => {
+    e.preventDefault();
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        addedBusiness: prevState.selectedBusinessId
+          ? [...prevState.addedBusiness, prevState.selectedBusinessId]
+          : prevState.addedBusiness,
+        selectedBusinessId: ""
+      };
     });
   };
 
@@ -144,6 +215,35 @@ class RegisterSection extends Component {
                 placeholder="URL a la página web"
                 onChange={e => this.handleChange(e, "logoURL")}
               />
+            </div>
+
+            <div className="form_group">
+              <label htmlFor="logoURL" className="form_group_label">
+                Agregar proveedores
+              </label>
+              <select
+                className="form_group_input"
+                id="selectedBusinessId"
+                onChange={e => this.handleSelectChange(e)}
+                onBlur={e => this.handleSelectChange(e)}
+                value={this.state.selectedBusinessId}
+              >
+                <option disabled selected value="">
+                  Seleccione una opcion
+                </option>
+                {this.state.businessList.map(bussines => (
+                  <option key={bussines._id} value={bussines._id}>
+                    {bussines.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="submit_button"
+                id="add_provider_button"
+                onClick={e => this.addProvider(e)}
+              >
+                Agregar
+              </button>
             </div>
 
             <input

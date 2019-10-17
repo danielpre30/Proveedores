@@ -26,6 +26,8 @@
 
     &_body {
       padding: 0em 15%;
+      display: flex;
+      flex-direction: column;
     }
 
     &_group {
@@ -49,20 +51,20 @@
     }
 
     .submit_button {
-      height: 40px;
-      font-size: 1.2em;
-      font-weight: 600;
+      font-size: 1em;
+      font-weight: bold;
       color: #38618c;
       background-color: #ffe740;
       border-radius: 10px;
       padding: 10px;
       border: none;
       box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
-      margin-top: 20px;
+      margin: 1em 0 0;
     }
 
-    #submit_button {
-      float: right;
+    #add_provider_button {
+      width: fit-content;
+      align-self: flex-end;
     }
   }
 }
