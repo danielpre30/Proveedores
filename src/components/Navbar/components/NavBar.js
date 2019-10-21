@@ -12,8 +12,10 @@ const NavBar = props => {
     isAuthenticated,
     loginWithRedirect,
     logout,
-    hasAProfile
+    hasAProfile,
+    profile
   } = useAuth0();
+  console.log(profile);
 
   let links = [];
   let logOption = {};
@@ -43,7 +45,6 @@ const NavBar = props => {
         <div className="brand">
           <img src={Logo} alt="Logo" className="brand_image"></img>
         </div>
-        <ul className="nav_list" id="nav"></ul>
       </nav>
       <nav className="nav">
         <div className="brand">

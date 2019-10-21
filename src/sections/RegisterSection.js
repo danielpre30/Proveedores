@@ -5,6 +5,9 @@ import LogoBA from "../resources/LogoBA-xs.png";
 import Axios from "axios";
 import { BASE_LOCAL_ENDPOINT } from "../constants";
 import { Auth0Context } from "../Auth/react-auth0-wrapper";
+import EditProviderList from "../components/SignupForm/components/EditProviderList";
+import FormGroup from "../components/SignupForm/components/FormGroup";
+import FormInput from "../components/SignupForm/components/FormInput";
 
 class RegisterSection extends Component {
   constructor(props) {
@@ -18,8 +21,7 @@ class RegisterSection extends Component {
       logoURL: "",
       providers: [],
       businessList: [],
-      selectedBusinessId: "",
-      addedBusiness: []
+      selectedBusiness: {}
     };
   }
 
@@ -32,8 +34,14 @@ class RegisterSection extends Component {
         this.setState(prevState => {
           return {
             ...prevState,
-            businessList: sortedData,
-            selectedBusinessId: sortedData ? sortedData[0]._id : ""
+            businessList: sortedData.map(business => {
+              return {
+                ...business,
+                deleteProvider: this.deleteProvider,
+                handleChange: this.handleChange
+              };
+            }),
+            selectedBusiness: sortedData.find(business => !business.added)
           };
         });
       })
@@ -49,33 +57,29 @@ class RegisterSection extends Component {
       });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.addedBusiness !== this.state.addedBusiness) {
-      this.setState(state => {
+  handleChange = (e, field, businessId) => {
+    var value = e.target.value;
+    if (businessId) {
+      this.setState(prevState => {
         return {
-          ...state,
+          ...prevState,
           businessList: [
-            ...state.businessList.filter(
-              business =>
-                business._id !==
-                state.addedBusiness[state.addedBusiness.length - 1]
-            )
+            ...prevState.businessList.map(business => {
+              return business._id === businessId
+                ? { ...business, [field]: value }
+                : business;
+            })
           ]
         };
       });
+    } else {
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          [field]: value
+        };
+      });
     }
-  }
-
-  handleChange = (e, field) => {
-    var value =
-      field === "filterText" ? e.target.value.toLowerCase() : e.target.value;
-
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        [field]: value //Los corchetes son para hacer referencia a la clave a partir de un string
-      };
-    });
   };
 
   signUp = e => {
@@ -86,19 +90,36 @@ class RegisterSection extends Component {
       foundationYear,
       webPageURL,
       logoURL,
-      nit
+      nit,
+      businessList
     } = this.state;
     const { user, setHasAProfile, setProfile } = this.context;
 
-    Axios.post(`${BASE_LOCAL_ENDPOINT}/business&email=${user.email}`, {
+    const newProfile = {
       NIT: nit,
       email: user.email,
       name: name,
       typeOfService: typeOfService,
       yearOfCreation: foundationYear,
       webPage: webPageURL,
-      logo: logoURL
-    }).then(response => {
+      logo: logoURL,
+      services: businessList
+        .filter(
+          business =>
+            business.added &&
+            business.contract &&
+            business.receivedTypeOfService
+        )
+        .map(business => {
+          return {
+            businessId: business._id,
+            contract: business.contract,
+            typeOfService: business.receivedTypeOfService
+          };
+        })
+    };
+
+    Axios.post(`${BASE_LOCAL_ENDPOINT}/business`, newProfile).then(response => {
       setHasAProfile(true);
       setProfile(response);
     });
@@ -107,27 +128,64 @@ class RegisterSection extends Component {
   handleSelectChange = e => {
     const value = e.target.value;
     this.setState(prevState => {
-      return {
-        ...prevState,
-        selectedBusinessId: value
-      };
+      if (value)
+        return {
+          ...prevState,
+          selectedBusiness: {
+            ...prevState.businessList.find(business => business._id === value)
+          }
+        };
+      else return prevState;
     });
   };
 
+  changeAdded(id, value) {
+    const { businessList } = this.state;
+    return businessList.map(business => {
+      return business._id === id
+        ? { ...business, added: value ? value : !business.added, contract: "" }
+        : business;
+    });
+  }
   addProvider = e => {
     e.preventDefault();
+
     this.setState(prevState => {
+      if (
+        Object.keys(prevState.selectedBusiness).length !== 0 &&
+        prevState.selectedBusiness._id !== -1
+      ) {
+        const newBusinessList = this.changeAdded(
+          prevState.selectedBusiness._id,
+          true
+        );
+
+        return {
+          ...prevState,
+          businessList: [...newBusinessList],
+          selectedBusiness: {
+            ...newBusinessList.find(business => !business.added)
+          }
+        };
+      } else return prevState;
+    });
+  };
+
+  deleteProvider = id => {
+    this.setState(prevState => {
+      const newBusinessList = this.changeAdded(id, false);
       return {
         ...prevState,
-        addedBusiness: prevState.selectedBusinessId
-          ? [...prevState.addedBusiness, prevState.selectedBusinessId]
-          : prevState.addedBusiness,
-        selectedBusinessId: ""
+        businessList: [...newBusinessList],
+        selectedBusiness: {
+          ...newBusinessList.find(business => !business.added)
+        }
       };
     });
   };
 
   render() {
+    const { businessList } = this.state;
     return (
       <div className="signup">
         <form className="form" onSubmit={this.signUp}>
@@ -135,107 +193,89 @@ class RegisterSection extends Component {
             <h1 className="form_header_title">¡Registrate Ahora!</h1>
             <img className="form_header_logo" src={LogoBA} alt="Profile" />
           </div>
+
           <div className="form_body">
-            <div className="form_group">
-              <label htmlFor="nit" className="form_group_label">
-                NIT
-              </label>
-              <input
+            <FormGroup inputId="nit" label="NIT">
+              <FormInput
                 type="number"
-                className="form_group_input"
                 placeholder="NIT"
-                id="nit"
-                onChange={e => this.handleChange(e, "nit")}
+                inputId="nit"
+                onInputChange={this.handleChange}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="name" className="form_group_label">
-                Nombre de la empresa
-              </label>
-              <input
+            <FormGroup inputId="name" label="Nombre de la empresa">
+              <FormInput
                 type="text"
-                className="form_group_input"
                 placeholder="Nombre"
-                id="name"
-                onChange={e => this.handleChange(e, "name")}
+                inputId="name"
+                onInputChange={this.handleChange}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="typeOfService" className="form_group_label">
-                Tipo de servicio que ofrece la empresa
-              </label>
-              <input
+            <FormGroup
+              inputId="typeOfService"
+              label="Tipo de servicio que ofrece la empresa"
+            >
+              <FormInput
                 type="text"
-                className="form_group_input"
                 placeholder="Tipo de servicio"
-                id="typeOfService"
-                onChange={e => this.handleChange(e, "typeOfService")}
+                inputId="typeOfService"
+                onInputChange={this.handleChange}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="foundationYear" className="form_group_label">
-                Año de fundación
-              </label>
-              <input
+            <FormGroup inputId="foundationYear" label="Año de fundación">
+              <FormInput
                 type="number"
+                placeholder="Año"
+                inputId="foundationYear"
+                onInputChange={this.handleChange}
                 min="1900"
                 max="2099"
                 step="1"
-                className="form_group_input"
-                id="foundationYear"
-                placeholder="Año"
-                onChange={e => this.handleChange(e, "foundationYear")}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="webPageURL" className="form_group_label">
-                Sitio web de la empresa
-              </label>
-              <input
+            <FormGroup inputId="webPageURL" label="Sitio web de la empresa">
+              <FormInput
                 type="url"
-                className="form_group_input"
-                id="webPageURL"
-                placeholder="www.example.com"
-                onChange={e => this.handleChange(e, "webPageURL")}
+                placeholder="http://www.example.com"
+                inputId="webPageURL"
+                onInputChange={this.handleChange}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="logoURL" className="form_group_label">
-                Dirección URL de la imagen de el logo de la empresa
-              </label>
-              <input
+            <FormGroup
+              inputId="logoURL"
+              label="Dirección URL de la imagen de el logo de la empresa"
+            >
+              <FormInput
                 type="url"
-                className="form_group_input"
-                id="logoURL"
                 placeholder="URL a la página web"
-                onChange={e => this.handleChange(e, "logoURL")}
+                inputId="logoURL"
+                onInputChange={this.handleChange}
               />
-            </div>
+            </FormGroup>
 
-            <div className="form_group">
-              <label htmlFor="logoURL" className="form_group_label">
-                Agregar proveedores
-              </label>
+            <FormGroup inputId="selectedBusiness" label="Agregar proveedores">
               <select
                 className="form_group_input"
-                id="selectedBusinessId"
+                id="selectedBusiness"
                 onChange={e => this.handleSelectChange(e)}
                 onBlur={e => this.handleSelectChange(e)}
-                value={this.state.selectedBusinessId}
+                value={this.state.selectedBusiness._id}
               >
-                <option disabled selected value="">
+                <option disabled value="-1">
                   Seleccione una opcion
                 </option>
-                {this.state.businessList.map(bussines => (
-                  <option key={bussines._id} value={bussines._id}>
-                    {bussines.name}
-                  </option>
-                ))}
+                {this.state.businessList
+                  .filter(business => !business.added)
+                  .map(bussines => (
+                    <option key={bussines._id} value={bussines._id}>
+                      {bussines.name}
+                    </option>
+                  ))}
               </select>
               <button
                 className="submit_button"
@@ -244,7 +284,10 @@ class RegisterSection extends Component {
               >
                 Agregar
               </button>
-            </div>
+              <EditProviderList
+                providers={businessList.filter(business => business.added)}
+              />
+            </FormGroup>
 
             <input
               className="submit_button"
