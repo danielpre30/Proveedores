@@ -41,6 +41,7 @@ class CardContainer extends Component {
   getObjects(url) {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
+
       .then(response => {
         this.setState({
           list: response.data.sort(this.sortList)

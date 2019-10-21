@@ -9,7 +9,9 @@ import Comment from "../components/Comment";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Auth0Context } from "../Auth/react-auth0-wrapper";
+
 class ProfileSection extends Component {
+  static contextType = Auth0Context;
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +51,6 @@ class ProfileSection extends Component {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/business/${id}`)
       .then(response => {
-        console.log(response.data[0]);
-
         if (response.data[0].typeOfService === "Contratante") {
           this.setState({
             isContractor: true
@@ -112,7 +112,6 @@ class ProfileSection extends Component {
     services
   ) => {
     e.preventDefault();
-    console.log(services);
 
     var general;
     if (
@@ -136,36 +135,12 @@ class ProfileSection extends Component {
           ratingCommunication +
           ratingService) /
         generalScore;
-      axios
-        .post(`${BASE_LOCAL_ENDPOINT}/Comments/`, {
-          idTo: id.toString(),
-          description: this.state.textComment.toString,
-          businessName: "Nathalia",
-          business: "12233344",
-          givenScore: {
-            general: (this.state.score.general + general) / tmpCount,
-            puntuality:
-              (this.state.score.puntuality + ratingPuntuality) / tmpCount,
-            communication:
-              (this.state.score.communication + ratingCommunication) / tmpCount,
-            afterSalesService:
-              (this.state.score.afterSalesService + ratingService) / tmpCount,
-            priceQuality:
-              (this.state.score.priceQuality + ratingQuality) / tmpCount,
-            count: tmpCount
-          }
-        })
-        .then(function(response) {
-          window.location.reload();
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
     }
   };
   static contextType = Auth0Context;
 
   render() {
+    const { profile } = this.context;
     const {
       companyProfileDetail: { name, typeOfService, score, logo, services },
       isContractor,
@@ -173,8 +148,6 @@ class ProfileSection extends Component {
       commentsList,
       id
     } = this.state;
-
-    const { profile } = this.context;
 
     var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
@@ -188,15 +161,6 @@ class ProfileSection extends Component {
         ))}
       </>
     );
-
-    // for (var i = 0; i < services.length(); i++) {
-    //   servicesArray.push(
-    //     <li>
-    //       <b>{services && services[i].typeOfService}s</b> de{" "}
-    //       <b>{services && services[i].name}</b>
-    //     </li>
-    //   );
-    // }
 
     if (isContractor) {
       comments = (
@@ -342,21 +306,6 @@ class ProfileSection extends Component {
         </div>
 
         <div className="OpinionsChart">
-          <div className="profile__nav">
-            <ul className="profile__list">
-              <li>
-                <a className="profile__list--link" href="">
-                  Opiniones
-                </a>
-              </li>
-              <li>
-                <a className="profile__list--link" href="">
-                  Servicios
-                </a>
-              </li>
-            </ul>
-          </div>
-
           <div className="providers__servicios">
             <h2>Servicios</h2>
             <ul>{servicesArray}</ul>

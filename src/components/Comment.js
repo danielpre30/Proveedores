@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/Comment.css";
 import star from "../resources/star.png";
+
 const Comment = ({ name, description, score }) => {
   return (
     <div className="providers__commentCard">
