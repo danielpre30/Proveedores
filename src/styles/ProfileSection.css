@@ -11,7 +11,6 @@
   align-items: center;
   /* background-color: #D1DBBD; */
   background-color: white;
-  height: 998px;
   width: 1206px;
 }
 
@@ -60,58 +59,54 @@
   font-size: 1.1em;
   font-weight: 100;
 }
-.NavBarOptions {
+.profile__nav {
   color: white;
   background-color: #38618c;
-  height: 30px;
-  width: 700px;
+  height: 60px;
+  width: 100%;
+  display: flex;
+}
+.profile__list {
+  list-style-type: none;
+  display: flex;
+}
+.profile__list li {
+  margin-left: 15px;
+  font-size: 1.2em;
+  padding-left: 20px;
+  border-left: 1px solid white;
+}
+.profile__list--link:visited,
+.profile__list--link:hover,
+.profile__list--link:active,
+.profile__list--link:link {
+  color: white;
+  text-decoration: none;
 }
 
-.button-GoOpinions {
-  position: absolute;
-  height: 16px;
-  font-size: 0.6em;
-  font-weight: 500;
-  color: white;
-  background-color: #38618c;
-  border-radius: 10px;
-  padding: 10px;
-  border: none;
-  box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
-  margin-top: 4px;
-}
-.star {
-  height: 30px;
-  width: 30px;
-}
 .QualityStar {
-  /* position: absolute;
-  margin-top: -98px;
-  margin-top: 360px;
-  margin-left: 840px; */
+  margin: 10px;
   display: flex;
   align-content: center;
+  font-size: 1.3em;
 }
 .ServiceStar {
-  /* position: absolute;
-  margin-top: 360px;
-  margin-left: 630px; */
+  margin: 10px;
   display: flex;
   align-content: center;
+  font-size: 1.3em;
 }
 .ComunicationStar {
-  /* position: absolute;
-  margin-top: 360px;
-  margin-left: 440px; */
+  margin: 10px;
   display: flex;
   align-content: center;
+  font-size: 1.3em;
 }
 .PuntualityStar {
-  /* position: absolute;
-  margin-top: 360px;
-  margin-left: 260px; */
+  margin: 10px;
   display: flex;
   align-content: center;
+  font-size: 1.3em;
 }
 .RateBox {
   font-size: 1.2em;
@@ -133,9 +128,10 @@
 }
 .RateText {
   position: absolute;
-  margin-top: 27px;
+  margin-top: -5px;
   margin-left: 25px;
   font-weight: 600;
+  font-size: 4.5em;
 }
 
 .StarBox {
@@ -148,3 +144,38 @@
   align-content: center;
   justify-content: center;
 }
+/* Calificación, nuevos comentarios */
+.providers__comment--span {
+  font-size: 1.2em;
+  justify-items: center;
+  text-align: center;
+}
+.providers__comment {
+  margin: 10px;
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  padding: 20px;
+  border-radius: 10px;
+}
+.providers__comment--text {
+  margin-top: 20px;
+}
+.providers__comment--textArea {
+  width: 80%;
+  height: 150px;
+  font-size: 1.2em;
+  padding: 10px;
+  border-radius: 10px;
+}
+.providers__comment--button {
+  font-size: 1.2em;
+  background: #35a7f0;
+  padding: 0.3em 0.3em;
+  border-radius: 5px;
+  color: #fff;
+  letter-spacing: 0.2px;
+  font-size: 1em;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+/*Fin nuevo comentario*/

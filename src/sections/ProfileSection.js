@@ -3,12 +3,16 @@ import axios from "axios";
 import { BASE_LOCAL_ENDPOINT } from "../constants";
 import "../styles/ProfileSection.css";
 import star from "../resources/star.png";
-
+import Rater from "react-rater";
+import "../styles/react-rater.css";
+import Comment from "../components/Comment";
 class ProfileSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      companyProfileDetail: {}
+      companyProfileDetail: {},
+      isProvider: false,
+      commentsList: []
     };
   }
 
@@ -25,6 +29,7 @@ class ProfileSection extends Component {
   };
   componentDidMount() {
     this.getObjects();
+    this.getComments();
   }
 
   getObjects() {
@@ -34,9 +39,17 @@ class ProfileSection extends Component {
       }
     } = this.props;
     axios
-
       .get(`${BASE_LOCAL_ENDPOINT}/business/${id}`)
       .then(response => {
+        if (response.data[0].typeOfService === "Contratante") {
+          this.setState({
+            isProvider: true
+          });
+        } else {
+          this.setState({
+            isProvider: false
+          });
+        }
         //debugger;
         this.setState({
           companyProfileDetail: response.data[0],
@@ -49,12 +62,50 @@ class ProfileSection extends Component {
         });
       });
   }
-
+  getComments() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    axios
+      .get(`${BASE_LOCAL_ENDPOINT}/Comments/${id}`)
+      .then(response => {
+        //debugger;
+        this.setState({
+          commentsList: response.data,
+          error: ""
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error: error.message
+        });
+      });
+  }
   render() {
     const {
-      companyProfileDetail: { id, name, typeOfService, score, logo, services }
+      companyProfileDetail: { id, name, typeOfService, score, logo, services },
+      isProvider,
+      commentsList
     } = this.state;
 
+    let comments;
+    if (isProvider) {
+      comments = (
+        <>
+          <p>No existen comentarios para esta empresa</p>
+        </>
+      );
+    } else {
+      comments = (
+        <>
+          {commentsList.map(({ _id, businessName, description }) => (
+            <Comment name={businessName} description={description} key={_id} />
+          ))}
+        </>
+      );
+    }
     return (
       <div className="ProfileCanvas">
         <div className="TitleText">
@@ -74,108 +125,42 @@ class ProfileSection extends Component {
 
         <div className="StarBox">
           <div className="PuntualityStar">
-            <ul>
-              <h3>Puntualidad: {score && score.puntuality}</h3>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-            </ul>
+            <p>
+              Puntualidad: <b>{score && score.puntuality}</b>
+            </p>
           </div>
 
           <div className="ComunicationStar">
-            <ul>
-              <h3>Comunicación: {score && score.communication}</h3>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-            </ul>
+            <p>
+              Comunicación:<b>{score && score.communication}</b>{" "}
+            </p>
           </div>
 
           <div className="ServiceStar">
-            <ul>
-              <h3>Servicio Posventa: {score && score.afterSalesService}</h3>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-            </ul>
+            <p>
+              Servicio Posventa: <b>{score && score.afterSalesService}</b>
+            </p>
           </div>
 
           <div className="QualityStar">
-            <ul>
-              <h3>Calidad/Precio: {score && score.priceQuality}</h3>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-              <li>
-                <img className="star" src={star} alt="starPuntuality" />
-              </li>
-            </ul>
+            <p>
+              Calidad/Precio: <b>{score && score.priceQuality}</b>
+            </p>
           </div>
         </div>
 
         <div className="OpinionsChart">
-          <div className="NavBarOptions">
-            <ul>
+          <div className="profile__nav">
+            <ul className="profile__list">
               <li>
-                <input
-                  className="button-GoOpinions"
-                  name="Submit"
-                  type="submit"
-                  value="opiniones"
-                />
+                <a className="profile__list--link" href="">
+                  Opiniones
+                </a>
               </li>
               <li>
-                <input
-                  className="button-GoOpinions"
-                  name="Submit"
-                  type="submit"
-                  value="Proveedores"
-                />
+                <a className="profile__list--link" href="">
+                  Servicios
+                </a>
               </li>
             </ul>
           </div>
@@ -184,6 +169,65 @@ class ProfileSection extends Component {
             Mi lista de proveedores: <br />
             {services && services[0].name}
           </p>
+          {comments}
+          <div className="providers__comment">
+            <h2>Agregar un nuevo comentario</h2>
+            <div className="providers__comment--stars">
+              <span id="calidad" className="providers__comment--span">
+                Calidad/Precio:
+                <Rater
+                  total={5}
+                  rating={0}
+                  onRate={({ rating }) => {
+                    console.log(rating);
+                  }}
+                />
+              </span>
+
+              <br />
+              <span id="puntualidad" className="providers__comment--span">
+                Puntualidad:
+                <Rater
+                  total={5}
+                  rating={0}
+                  onRate={({ rating }) => {
+                    console.log(rating);
+                  }}
+                />
+              </span>
+
+              <br />
+              <span id="comunicacion" className="providers__comment--span">
+                Comunicación:
+                <Rater
+                  total={5}
+                  rating={0}
+                  onRate={({ rating }) => {
+                    console.log(rating);
+                  }}
+                />
+              </span>
+
+              <br />
+              <span id="posventa" className="providers__comment--span">
+                Servicio Posventa:
+                <Rater
+                  total={5}
+                  rating={0}
+                  onRate={({ rating }) => {
+                    console.log(rating);
+                  }}
+                />
+              </span>
+            </div>
+            <div className="providers__comment--text">
+              <textarea className="providers__comment--textArea"></textarea>
+              <br />
+              <button className="providers__comment--button">
+                Enviar Comentario
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

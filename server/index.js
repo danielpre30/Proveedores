@@ -91,6 +91,22 @@ app.get(`/business/:id`, (req, res) => {
       res.json(collection);
     });
 });
+app.get(`/Comments/:idTo`, (req, res) => {
+  //Use connect method to connect to the Server
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db =>
+      db
+        .collection("Comments")
+        .find({ idTo: req.params.idTo })
+        .toArray()
+    )
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
 
 app.post(`/business/`, (req, res) => {
   client
