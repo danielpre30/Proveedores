@@ -4,6 +4,7 @@ import ProviderCard from "../components/Card";
 import { BASE_LOCAL_ENDPOINT } from "../constants";
 import "../styles/ProvidersSection.css";
 import axios from "axios";
+import { Auth0Context } from "../Auth/react-auth0-wrapper";
 
 class CardContainer extends Component {
   constructor(props) {
@@ -17,8 +18,11 @@ class CardContainer extends Component {
       filterText: ""
     };
   }
+
+  static contextType = Auth0Context;
+
   sortList = (a, b) => {
-    return b.score.general - a.score.general;
+    return b.score && a.score ? b.score.general - a.score.general : a;
   };
   handleChange = (e, field) => {
     var value =
@@ -29,13 +33,13 @@ class CardContainer extends Component {
     });
   };
   componentDidMount() {
-    this.getObjects("business");
+    const { user } = this.context;
+    this.getObjects(`business?every=true&email=${user.email}`);
   }
   getObjects(url) {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
       .then(response => {
-        console.log(response.data.sort(this.sortList));
         this.setState({
           list: response.data.sort(this.sortList)
         });
@@ -65,7 +69,7 @@ class CardContainer extends Component {
             name={name}
             logo={logo}
             typeOfService={typeOfService}
-            score={score.general}
+            score={score ? score.general : "N/A"}
             key={_id}
             id={_id}
           />

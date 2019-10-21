@@ -1,63 +1,302 @@
 import React, { Component } from "react";
 import "../styles/LandingSection.css";
-import "../styles/RegisterSection.css";
+import "../styles/RegisterSection.scss";
 import LogoBA from "../resources/LogoBA-xs.png";
+import Axios from "axios";
+import { BASE_LOCAL_ENDPOINT } from "../constants";
+import { Auth0Context } from "../Auth/react-auth0-wrapper";
+import EditProviderList from "../components/SignupForm/components/EditProviderList";
+import FormGroup from "../components/SignupForm/components/FormGroup";
+import FormInput from "../components/SignupForm/components/FormInput";
 
 class RegisterSection extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      nit: "",
+      name: "",
+      typeOfService: "",
+      foundationYear: "",
+      webPageURL: "",
+      logoURL: "",
+      providers: [],
+      businessList: [],
+      selectedBusiness: {}
+    };
   }
+
+  static contextType = Auth0Context;
+
+  componentDidMount() {
+    Axios.get(`${BASE_LOCAL_ENDPOINT}/business?every=true`)
+      .then(response => {
+        const sortedData = response.data.sort((a, b) => b.name - a.name);
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            businessList: sortedData.map(business => {
+              return {
+                ...business,
+                deleteProvider: this.deleteProvider,
+                handleChange: this.handleChange
+              };
+            }),
+            selectedBusiness: sortedData.find(business => !business.added)
+          };
+        });
+      })
+      .catch(error => {
+        // handle error
+        console.error(error);
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            error: error.message
+          };
+        });
+      });
+  }
+
+  handleChange = (e, field, businessId) => {
+    var value = e.target.value;
+    if (businessId) {
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          businessList: [
+            ...prevState.businessList.map(business => {
+              return business._id === businessId
+                ? { ...business, [field]: value }
+                : business;
+            })
+          ]
+        };
+      });
+    } else {
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          [field]: value
+        };
+      });
+    }
+  };
+
+  signUp = e => {
+    e.preventDefault();
+    const {
+      name,
+      typeOfService,
+      foundationYear,
+      webPageURL,
+      logoURL,
+      nit,
+      businessList
+    } = this.state;
+    const { user, setHasAProfile, setProfile } = this.context;
+
+    const newProfile = {
+      NIT: nit,
+      email: user.email,
+      name: name,
+      typeOfService: typeOfService,
+      yearOfCreation: foundationYear,
+      webPage: webPageURL,
+      logo: logoURL,
+      services: businessList
+        .filter(
+          business =>
+            business.added &&
+            business.contract &&
+            business.receivedTypeOfService
+        )
+        .map(business => {
+          return {
+            businessId: business._id,
+            contract: business.contract,
+            typeOfService: business.receivedTypeOfService
+          };
+        })
+    };
+
+    Axios.post(`${BASE_LOCAL_ENDPOINT}/business`, newProfile).then(response => {
+      setHasAProfile(true);
+      setProfile(response);
+    });
+  };
+
+  handleSelectChange = e => {
+    const value = e.target.value;
+    this.setState(prevState => {
+      if (value)
+        return {
+          ...prevState,
+          selectedBusiness: {
+            ...prevState.businessList.find(business => business._id === value)
+          }
+        };
+      else return prevState;
+    });
+  };
+
+  changeAdded(id, value) {
+    const { businessList } = this.state;
+    return businessList.map(business => {
+      return business._id === id
+        ? { ...business, added: value ? value : !business.added, contract: "" }
+        : business;
+    });
+  }
+  addProvider = e => {
+    e.preventDefault();
+
+    this.setState(prevState => {
+      if (
+        Object.keys(prevState.selectedBusiness).length !== 0 &&
+        prevState.selectedBusiness._id !== -1
+      ) {
+        const newBusinessList = this.changeAdded(
+          prevState.selectedBusiness._id,
+          true
+        );
+
+        return {
+          ...prevState,
+          businessList: [...newBusinessList],
+          selectedBusiness: {
+            ...newBusinessList.find(business => !business.added)
+          }
+        };
+      } else return prevState;
+    });
+  };
+
+  deleteProvider = id => {
+    this.setState(prevState => {
+      const newBusinessList = this.changeAdded(id, false);
+      return {
+        ...prevState,
+        businessList: [...newBusinessList],
+        selectedBusiness: {
+          ...newBusinessList.find(business => !business.added)
+        }
+      };
+    });
+  };
+
   render() {
+    const { businessList } = this.state;
     return (
-      <div className="landing-section">
-        <div className="landing__register-info">
-          <h1>¡Registrate Ahora!</h1>
-          <img className="logoReg" src={LogoBA} alt="Profile" />
-          <form className="">
-            <p className="regInfo__text">Nombre de la empresa:</p>
+      <div className="signup">
+        <form className="form" onSubmit={this.signUp}>
+          <div className="form_header">
+            <h1 className="form_header_title">¡Registrate Ahora!</h1>
+            <img className="form_header_logo" src={LogoBA} alt="Profile" />
+          </div>
+
+          <div className="form_body">
+            <FormGroup inputId="nit" label="NIT">
+              <FormInput
+                type="number"
+                placeholder="NIT"
+                inputId="nit"
+                onInputChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup inputId="name" label="Nombre de la empresa">
+              <FormInput
+                type="text"
+                placeholder="Nombre"
+                inputId="name"
+                onInputChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup
+              inputId="typeOfService"
+              label="Tipo de servicio que ofrece la empresa"
+            >
+              <FormInput
+                type="text"
+                placeholder="Tipo de servicio"
+                inputId="typeOfService"
+                onInputChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup inputId="foundationYear" label="Año de fundación">
+              <FormInput
+                type="number"
+                placeholder="Año"
+                inputId="foundationYear"
+                onInputChange={this.handleChange}
+                min="1900"
+                max="2099"
+                step="1"
+              />
+            </FormGroup>
+
+            <FormGroup inputId="webPageURL" label="Sitio web de la empresa">
+              <FormInput
+                type="url"
+                placeholder="http://www.example.com"
+                inputId="webPageURL"
+                onInputChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup
+              inputId="logoURL"
+              label="Dirección URL de la imagen de el logo de la empresa"
+            >
+              <FormInput
+                type="url"
+                placeholder="URL a la página web"
+                inputId="logoURL"
+                onInputChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup inputId="selectedBusiness" label="Agregar proveedores">
+              <select
+                className="form_group_input"
+                id="selectedBusiness"
+                onChange={e => this.handleSelectChange(e)}
+                onBlur={e => this.handleSelectChange(e)}
+                value={this.state.selectedBusiness._id}
+              >
+                <option disabled value="-1">
+                  Seleccione una opcion
+                </option>
+                {this.state.businessList
+                  .filter(business => !business.added)
+                  .map(bussines => (
+                    <option key={bussines._id} value={bussines._id}>
+                      {bussines.name}
+                    </option>
+                  ))}
+              </select>
+              <button
+                className="submit_button"
+                id="add_provider_button"
+                onClick={e => this.addProvider(e)}
+              >
+                Agregar
+              </button>
+              <EditProviderList
+                providers={businessList.filter(business => business.added)}
+              />
+            </FormGroup>
+
             <input
-              className="reg__input"
-              name="companyName"
-              placeholder="Nombre de la empresa"
-            />
-            <p className="regInfo__text">Tipo de servicio que ofrecen:</p>
-            <input
-              className="reg__input"
-              name="typeOfService"
-              placeholder="Tipo de servicio"
-            />
-            <p className="regInfo__text">Año de fundación:</p>
-            <input
-              className="reg__input"
-              name="creationYear"
-              placeholder="Año fundación"
-            />
-            <p className="regInfo__text">
-              Dirección URL a la página web de la empresa:
-            </p>
-            <input
-              className="reg__input"
-              name="webPageURL"
-              placeholder="URL a la página web"
-            />
-            <p className="regInfo__text">
-              Dirección URL a el logo de la empresa:
-            </p>
-            <input
-              className="reg__input"
-              name="logoURL"
-              placeholder="URL a la página web"
-            />
-            <br />
-            <input
-              className="button-register"
-              name="Submit"
+              className="submit_button"
+              id="submit_button"
               type="submit"
               value="Registrarse"
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }

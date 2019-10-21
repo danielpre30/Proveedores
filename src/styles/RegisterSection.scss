@@ -1,0 +1,72 @@
+*,
+*:before,
+*:after {
+}
+
+.signup {
+  display: flex;
+  justify-content: center;
+  background-color: #8d18ff;
+  color: white;
+  padding: 1em 0 5em 0;
+
+  .form {
+    width: 70%;
+    &_header {
+      text-align: center;
+      &_title {
+        margin: 0;
+        padding: 1em;
+      }
+      &_logo {
+        width: 230px;
+        height: auto;
+      }
+    }
+
+    &_body {
+      padding: 0em 15%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &_group {
+      display: flex;
+      flex-direction: column;
+      margin: 2em 0;
+
+      &_label {
+        border-radius: 10px;
+        padding: 5px;
+        color: white;
+        font-weight: 600;
+        font-size: 1.2em;
+      }
+
+      &_input {
+        border: none;
+        border-radius: 15px;
+        padding: 1em 2em;
+        background-color: #ffffff;
+        font-size: 1em;
+      }
+    }
+
+    .submit_button {
+      font-size: 1em;
+      font-weight: bold;
+      color: #38618c;
+      background-color: #ffe740;
+      border-radius: 10px;
+      padding: 10px;
+      border: none;
+      box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.5);
+      margin: 1em 0 0;
+    }
+
+    #add_provider_button {
+      width: fit-content;
+      align-self: flex-end;
+    }
+  }
+}

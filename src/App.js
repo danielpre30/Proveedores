@@ -17,21 +17,23 @@ function App() {
       {loading ? (
         <div>Cargando</div>
       ) : (
-        <div className="main">
+        <>
           <NavBar />
-          <Switch>
-            <Route exact path="/" render={() => <Redirect to="/home" />} />
-            <Route exact path="/home" component={HomePage} />
-            <PrivateRoute
-              exact
-              path="/business/:id"
-              component={ProfileSection}
-            />
-          </Switch>
+          <div className="main">
+            <Switch>
+              <Route exact path="/" render={() => <Redirect to="/home" />} />
+              <Route exact path="/home" component={HomePage} />
+              <PrivateRoute
+                exact
+                path="/business/:id"
+                component={ProfileSection}
+              />
+            </Switch>
+          </div>
           <div className="footer">
             Copyright © 2019 UpCluster. All Rights Reserved.
           </div>
-        </div>
+        </>
       )}
     </HashRouter>
   );

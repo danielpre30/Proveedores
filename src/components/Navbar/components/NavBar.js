@@ -12,8 +12,10 @@ const NavBar = props => {
     isAuthenticated,
     loginWithRedirect,
     logout,
-    hasAProfile
+    hasAProfile,
+    profile
   } = useAuth0();
+  console.log(profile);
 
   let links = [];
   let logOption = {};
@@ -35,35 +37,45 @@ const NavBar = props => {
     }
   }
   return (
-    <nav className="nav">
-      <div className="brand">
-        <img src={Logo} alt="Logo" className="brand_image"></img>
-        <i
-          className="fas fa-bars fa-2x"
-          id="menu-icon"
-          onClick={e => toggleMenu(e)}
-          role="button"
-          tabIndex="-1"
-          onKeyDown={e => toggleMenu(e)}
-        ></i>
-      </div>
+    <div className="nav_container">
+      <nav
+        className="nav"
+        style={{ position: "relative", visibility: "hidden" }}
+      >
+        <div className="brand">
+          <img src={Logo} alt="Logo" className="brand_image"></img>
+        </div>
+      </nav>
+      <nav className="nav">
+        <div className="brand">
+          <img src={Logo} alt="Logo" className="brand_image"></img>
+          <i
+            className="fas fa-bars fa-2x"
+            id="menu-icon"
+            onClick={e => toggleMenu(e)}
+            role="button"
+            tabIndex="-1"
+            onKeyDown={e => toggleMenu(e)}
+          ></i>
+        </div>
 
-      <ul className="nav_list" id="nav">
-        {links &&
-          links.map(({ label, to }) => (
-            <MenuLink key={label} to={to} label={label} />
-          ))}
-        {sectionOptions &&
-          sectionOptions.map(option => (
-            <SectionLink
-              key={option.label}
-              label={option.label}
-              to={option.to}
-            ></SectionLink>
-          ))}
-        <LogOption label={logOption.label} onClick={logOption.onClick} />
-      </ul>
-    </nav>
+        <ul className="nav_list" id="nav">
+          {links &&
+            links.map(({ label, to }) => (
+              <MenuLink key={label} to={to} label={label} />
+            ))}
+          {sectionOptions &&
+            sectionOptions.map(option => (
+              <SectionLink
+                key={option.label}
+                label={option.label}
+                to={option.to}
+              ></SectionLink>
+            ))}
+          <LogOption label={logOption.label} onClick={logOption.onClick} />
+        </ul>
+      </nav>
+    </div>
   );
 };
 
