@@ -13,6 +13,9 @@
   background-color: white;
   width: 1206px;
 }
+.ProfileCanvas h2 {
+  color: #38618c;
+}
 
 .OpinionsChart {
   position: absolute;
@@ -132,6 +135,12 @@
   margin-left: 25px;
   font-weight: 600;
   font-size: 4.5em;
+}
+.providers__servicios li {
+  font-size: 1.2em;
+}
+.providers__servicios h2 {
+  color: #38618c;
 }
 
 .StarBox {

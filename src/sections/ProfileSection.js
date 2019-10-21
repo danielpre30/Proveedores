@@ -6,13 +6,21 @@ import star from "../resources/star.png";
 import Rater from "react-rater";
 import "../styles/react-rater.css";
 import Comment from "../components/Comment";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { Auth0Context } from "../Auth/react-auth0-wrapper";
 class ProfileSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
       companyProfileDetail: {},
-      isProvider: false,
-      commentsList: []
+      isContractor: false,
+      commentsList: [],
+      textComment: "",
+      count: 1,
+      score: {},
+      id: "",
+      servicesState: []
     };
   }
 
@@ -41,18 +49,24 @@ class ProfileSection extends Component {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/business/${id}`)
       .then(response => {
+        console.log(response.data[0]);
+
         if (response.data[0].typeOfService === "Contratante") {
           this.setState({
-            isProvider: true
+            isContractor: true
           });
         } else {
           this.setState({
-            isProvider: false
+            isContractor: false,
+            count: response.data[0].score.count,
+            score: response.data[0].score,
+            id: id
           });
         }
         //debugger;
         this.setState({
           companyProfileDetail: response.data[0],
+          servicesState: response.data[0].services,
           error: ""
         });
       })
@@ -83,15 +97,108 @@ class ProfileSection extends Component {
         });
       });
   }
+  handleChange = e => {
+    this.setState({ textComment: e.target.value });
+  };
+  sendComment = (
+    e,
+    ratingQuality,
+    ratingPuntuality,
+    ratingCommunication,
+    ratingService,
+    generalScore,
+    id,
+    profile,
+    services
+  ) => {
+    e.preventDefault();
+    console.log(services);
+
+    var general;
+    if (
+      ratingQuality == undefined ||
+      ratingPuntuality === undefined ||
+      ratingCommunication === undefined ||
+      ratingService === undefined ||
+      this.state.textComment === ""
+    ) {
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        type: "error",
+        title: "Error",
+        text: "Califica todas las categorías y asegurate de dejar un comentario"
+      });
+    } else {
+      var tmpCount = this.state.count + 1;
+      general =
+        (ratingQuality +
+          ratingPuntuality +
+          ratingCommunication +
+          ratingService) /
+        generalScore;
+      axios
+        .post(`${BASE_LOCAL_ENDPOINT}/Comments/`, {
+          idTo: id.toString(),
+          description: this.state.textComment.toString,
+          businessName: "Nathalia",
+          business: "12233344",
+          givenScore: {
+            general: (this.state.score.general + general) / tmpCount,
+            puntuality:
+              (this.state.score.puntuality + ratingPuntuality) / tmpCount,
+            communication:
+              (this.state.score.communication + ratingCommunication) / tmpCount,
+            afterSalesService:
+              (this.state.score.afterSalesService + ratingService) / tmpCount,
+            priceQuality:
+              (this.state.score.priceQuality + ratingQuality) / tmpCount,
+            count: tmpCount
+          }
+        })
+        .then(function(response) {
+          window.location.reload();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  };
+  static contextType = Auth0Context;
+
   render() {
     const {
-      companyProfileDetail: { id, name, typeOfService, score, logo, services },
-      isProvider,
-      commentsList
+      companyProfileDetail: { name, typeOfService, score, logo, services },
+      isContractor,
+      servicesState,
+      commentsList,
+      id
     } = this.state;
 
+    const { profile } = this.context;
+
+    var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
-    if (isProvider) {
+    let servicesArray;
+    servicesArray = (
+      <>
+        {servicesState.map(({ typeOfService, name, contrato }) => (
+          <li key={contrato}>
+            <b>{typeOfService}s</b> de <b>{name}</b>
+          </li>
+        ))}
+      </>
+    );
+
+    // for (var i = 0; i < services.length(); i++) {
+    //   servicesArray.push(
+    //     <li>
+    //       <b>{services && services[i].typeOfService}s</b> de{" "}
+    //       <b>{services && services[i].name}</b>
+    //     </li>
+    //   );
+    // }
+
+    if (isContractor) {
       comments = (
         <>
           <p>No existen comentarios para esta empresa</p>
@@ -100,9 +207,94 @@ class ProfileSection extends Component {
     } else {
       comments = (
         <>
-          {commentsList.map(({ _id, businessName, description }) => (
-            <Comment name={businessName} description={description} key={_id} />
-          ))}
+          <h2>Comentarios</h2>
+          {commentsList.map(
+            ({ _id, businessName, description, givenScore }) => (
+              <Comment
+                name={businessName}
+                description={description}
+                score={givenScore.general}
+                key={_id}
+              />
+            )
+          )}
+          <div className="providers__comment">
+            <h3>Agregar un nuevo comentario</h3>
+
+            <div className="providers__comment--text">
+              <textarea
+                onChange={this.handleChange}
+                className="providers__comment--textArea"
+              ></textarea>
+              <div className="providers__comment--stars">
+                <span id="calidad" className="providers__comment--span">
+                  Calidad/Precio:
+                  <Rater
+                    total={5}
+                    rating={0}
+                    onRate={({ rating }) => {
+                      ratingQuality = rating;
+                    }}
+                  />
+                </span>
+
+                <br />
+                <span id="puntualidad" className="providers__comment--span">
+                  Puntualidad:
+                  <Rater
+                    total={5}
+                    rating={0}
+                    onRate={({ rating }) => {
+                      ratingPuntuality = rating;
+                    }}
+                  />
+                </span>
+
+                <br />
+                <span id="comunicacion" className="providers__comment--span">
+                  Comunicación:
+                  <Rater
+                    total={5}
+                    rating={0}
+                    onRate={({ rating }) => {
+                      ratingCommunication = rating;
+                    }}
+                  />
+                </span>
+
+                <br />
+                <span id="posventa" className="providers__comment--span">
+                  Servicio Posventa:
+                  <Rater
+                    total={5}
+                    rating={0}
+                    onRate={({ rating }) => {
+                      ratingService = rating;
+                    }}
+                  />
+                </span>
+              </div>
+              <br />
+              <button
+                className="providers__comment--button"
+                onClick={e => {
+                  this.sendComment(
+                    e,
+                    ratingQuality,
+                    ratingPuntuality,
+                    ratingCommunication,
+                    ratingService,
+                    score && score.general,
+                    id,
+                    profile,
+                    services
+                  );
+                }}
+              >
+                Enviar Comentario
+              </button>
+            </div>
+          </div>
         </>
       );
     }
@@ -165,69 +357,11 @@ class ProfileSection extends Component {
             </ul>
           </div>
 
-          <p>
-            Mi lista de proveedores: <br />
-            {services && services[0].name}
-          </p>
-          {comments}
-          <div className="providers__comment">
-            <h2>Agregar un nuevo comentario</h2>
-            <div className="providers__comment--stars">
-              <span id="calidad" className="providers__comment--span">
-                Calidad/Precio:
-                <Rater
-                  total={5}
-                  rating={0}
-                  onRate={({ rating }) => {
-                    console.log(rating);
-                  }}
-                />
-              </span>
-
-              <br />
-              <span id="puntualidad" className="providers__comment--span">
-                Puntualidad:
-                <Rater
-                  total={5}
-                  rating={0}
-                  onRate={({ rating }) => {
-                    console.log(rating);
-                  }}
-                />
-              </span>
-
-              <br />
-              <span id="comunicacion" className="providers__comment--span">
-                Comunicación:
-                <Rater
-                  total={5}
-                  rating={0}
-                  onRate={({ rating }) => {
-                    console.log(rating);
-                  }}
-                />
-              </span>
-
-              <br />
-              <span id="posventa" className="providers__comment--span">
-                Servicio Posventa:
-                <Rater
-                  total={5}
-                  rating={0}
-                  onRate={({ rating }) => {
-                    console.log(rating);
-                  }}
-                />
-              </span>
-            </div>
-            <div className="providers__comment--text">
-              <textarea className="providers__comment--textArea"></textarea>
-              <br />
-              <button className="providers__comment--button">
-                Enviar Comentario
-              </button>
-            </div>
+          <div className="providers__servicios">
+            <h2>Servicios</h2>
+            <ul>{servicesArray}</ul>
           </div>
+          {comments}
         </div>
       </div>
     );
