@@ -128,7 +128,7 @@ class RegisterSection extends Component {
         communication: initialScore,
         afterSalesService: initialScore,
         priceQuality: initialScore,
-        count: initialScore
+        count: 1
       }
     };
 
