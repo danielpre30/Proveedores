@@ -263,55 +263,42 @@ class ProfileSection extends Component {
       );
     }
     return (
-      <div className="ProfileCanvas">
-        <div className="TitleText">
-          <h1>{name}</h1>
+      <div className="profile">
+        <div className="profile_header">
+          <h1 className="profile_title">{name}</h1>
+          <h2 className="profile_subtitle">{typeOfService}</h2>
         </div>
+        <div className="profile_body">
+          <img src={logo} alt="" className="profile_picture" />
 
-        <div className="SubtitleText">
-          <h1>{typeOfService}</h1>
-        </div>
-
-        <img src={logo} alt="" className="ProfilePic" />
-
-        <div className="RateBox">
-          <h1 className="RateText">{score && score.general}</h1>
-          <img className="Ratestar" src={star} alt="RateStar" />
-        </div>
-
-        <div className="StarBox">
-          <div className="PuntualityStar">
-            <p>
-              Puntualidad: <b>{score && score.puntuality}</b>
-            </p>
-          </div>
-
-          <div className="ComunicationStar">
-            <p>
-              Comunicación:<b>{score && score.communication}</b>{" "}
-            </p>
-          </div>
-
-          <div className="ServiceStar">
-            <p>
-              Servicio Posventa: <b>{score && score.afterSalesService}</b>
-            </p>
-          </div>
-
-          <div className="QualityStar">
-            <p>
-              Calidad/Precio: <b>{score && score.priceQuality}</b>
-            </p>
+          <div className="rateBox">
+            <span className="rateBox_text">{score && score.general}</span>
+            <img className="rateBox_star" src={star} alt="Star" />
           </div>
         </div>
 
-        <div className="OpinionsChart">
-          <div className="providers__servicios">
-            <h2>Servicios</h2>
-            <ul>{servicesArray}</ul>
+        <div className="score">
+          <div className="score_item">
+            Puntualidad: <b>{score && score.puntuality}</b>
           </div>
-          {comments}
+
+          <div className="score_item">
+            Comunicación:<b>{score && score.communication}</b>{" "}
+          </div>
+
+          <div className="score_item">
+            Servicio Posventa: <b>{score && score.afterSalesService}</b>
+          </div>
+
+          <div className="score_item">
+            Calidad/Precio: <b>{score && score.priceQuality}</b>
+          </div>
         </div>
+        <div className="services">
+          <h2>Servicios</h2>
+          <ul>{servicesArray}</ul>
+        </div>
+        {comments}
       </div>
     );
   }

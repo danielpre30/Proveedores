@@ -4,155 +4,76 @@
   box-sizing: border-box;
 }
 
-.ProfileCanvas {
-  position: relative;
-  color: black;
-  justify-content: center;
-  align-items: center;
-  /* background-color: #D1DBBD; */
-  background-color: white;
-  width: 1206px;
-}
-.ProfileCanvas h2 {
-  color: #38618c;
+.profile {
+  padding: 0 15% 5em;
 }
 
-.OpinionsChart {
-  position: absolute;
-  color: black;
-  background-color: white;
-  margin-top: 470px;
-  margin-left: 340px;
-  height: 200px;
-  width: 700px;
+.profile_header {
+  display: flex;
+  flex-direction: column;
 }
-
-.ProfilePic {
-  position: absolute;
-  justify-items: center;
-  align-items: center;
-  margin-top: 150px;
-  margin-left: 199px;
-  color: whitesmoke;
-  font-size: 1.2em;
-  background-color: #ffe740;
-  border-radius: 600px;
-  height: 200px;
-  width: 200px;
-}
-.TitleText {
-  position: absolute;
-  margin-top: 100px;
-  width: 100%;
-  padding-left: 200px;
+.profile_title {
   text-align: center;
-  font-size: 1.5em;
   color: #38618c;
 }
-
-.SubtitleText {
-  position: absolute;
+.profile_subtitle {
   color: #88e8f2;
-  margin-top: 150px;
-
-  width: 100%;
-  padding-left: 200px;
   text-align: center;
-
-  font-size: 1.1em;
-  font-weight: 100;
-}
-.profile__nav {
-  color: white;
-  background-color: #38618c;
-  height: 60px;
-  width: 100%;
-  display: flex;
-}
-.profile__list {
-  list-style-type: none;
-  display: flex;
-}
-.profile__list li {
-  margin-left: 15px;
-  font-size: 1.2em;
-  padding-left: 20px;
-  border-left: 1px solid white;
-}
-.profile__list--link:visited,
-.profile__list--link:hover,
-.profile__list--link:active,
-.profile__list--link:link {
-  color: white;
-  text-decoration: none;
 }
 
-.QualityStar {
-  margin: 10px;
+.profile_body {
   display: flex;
-  align-content: center;
-  font-size: 1.3em;
+  justify-content: space-around;
 }
-.ServiceStar {
-  margin: 10px;
-  display: flex;
-  align-content: center;
-  font-size: 1.3em;
-}
-.ComunicationStar {
-  margin: 10px;
-  display: flex;
-  align-content: center;
-  font-size: 1.3em;
-}
-.PuntualityStar {
-  margin: 10px;
-  display: flex;
-  align-content: center;
-  font-size: 1.3em;
-}
-.RateBox {
-  font-size: 1.2em;
-  position: absolute;
-  color: white;
-  background-color: #38618c;
-  height: 100px;
+
+.profile_picture {
+  border-radius: 100%;
+  object-fit: cover;
+  height: 200px;
   width: 200px;
-  border-radius: 10px;
-  margin-top: 200px;
-  margin-left: 990px;
 }
-.Ratestar {
-  position: absolute;
+
+.rateBox {
+  display: flex;
+  padding: 0.5em 1em;
+  color: #ffffff;
+  background-color: #38618c;
+  border-radius: 10px;
+  height: fit-content;
+  align-self: center;
+}
+
+.rateBox_text {
+  font-weight: 600;
+  font-size: 4em;
+}
+
+.rateBox_star {
   height: 70px;
   width: 70px;
-  margin-top: 17px;
-  margin-left: 100px;
+  align-self: center;
 }
-.RateText {
-  position: absolute;
-  margin-top: -5px;
-  margin-left: 25px;
-  font-weight: 600;
-  font-size: 4.5em;
+
+.score {
+  display: flex;
+  justify-content: space-around;
 }
-.providers__servicios li {
+
+.score_item {
+  align-content: center;
+  font-size: 1.3em;
+  padding: 2em 0;
+}
+
+/* Hasta este punto corregidos los estilos */
+
+.services li {
   font-size: 1.2em;
 }
-.providers__servicios h2 {
+.services h2 {
   color: #38618c;
 }
 
-.StarBox {
-  position: absolute;
-  width: 100%;
-
-  margin-top: 28%;
-  margin-left: 75px;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-}
 /* Calificación, nuevos comentarios */
 .providers__comment--span {
   font-size: 1.2em;
@@ -160,7 +81,6 @@
   text-align: center;
 }
 .providers__comment {
-  margin: 10px;
   border: 1px rgba(0, 0, 0, 0.2) solid;
   padding: 20px;
   border-radius: 10px;
@@ -184,7 +104,6 @@
   letter-spacing: 0.2px;
   font-size: 1em;
   text-decoration: none;
-  margin-top: 20px;
 }
 
 /*Fin nuevo comentario*/
