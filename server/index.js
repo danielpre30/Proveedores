@@ -108,7 +108,7 @@ app.get(`/Comments/:idTo`, (req, res) => {
     });
 });
 
-app.post(`/business/`, (req, res) => {
+app.post(`/business`, (req, res) => {
   client
     .connect()
     .then(serv => serv.db(dbName))
@@ -140,6 +140,17 @@ app.post(`/business/:id`, (req, res) => {
           { $set: { score: req.body } }
         )
     )
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
+
+app.post(`/services`, (req, res) => {
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db => db.collection("services").insertMany(req.body))
     .then(collection => {
       client.close();
       res.json(collection);

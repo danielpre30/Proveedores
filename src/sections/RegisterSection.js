@@ -82,7 +82,7 @@ class RegisterSection extends Component {
     }
   };
 
-  signUp = e => {
+  signUp = async e => {
     e.preventDefault();
     var initialScore;
     const {
@@ -94,6 +94,7 @@ class RegisterSection extends Component {
       nit,
       businessList
     } = this.state;
+
     const { user, setHasAProfile, setProfile } = this.context;
     if (typeOfService === "Contratante") {
       initialScore = "N/A";
@@ -107,8 +108,22 @@ class RegisterSection extends Component {
       typeOfService: typeOfService,
       yearOfCreation: foundationYear,
       webPage: webPageURL,
-      logo: logoURL,
-      services: businessList
+      logo: logoURL
+    };
+
+    const responseBusiness = await Axios.post(
+      `${BASE_LOCAL_ENDPOINT}/business`,
+      newProfile
+    );
+
+    const profileData =
+      responseBusiness &&
+      responseBusiness.data &&
+      responseBusiness.data.ops.length !== 0 &&
+      responseBusiness.data.ops[0];
+
+    const services = [
+      ...businessList
         .filter(
           business =>
             business.added &&
@@ -117,25 +132,26 @@ class RegisterSection extends Component {
         )
         .map(business => {
           return {
-            businessId: business._id,
+            providerId: business._id,
+            contractorId: profileData._id,
             contract: business.contract,
             typeOfService: business.receivedTypeOfService
           };
-        }),
-      score: {
-        general: initialScore,
-        puntality: initialScore,
-        communication: initialScore,
-        afterSalesService: initialScore,
-        priceQuality: initialScore,
-        count: 1
-      }
-    };
+        })
+    ];
 
-    Axios.post(`${BASE_LOCAL_ENDPOINT}/business`, newProfile).then(response => {
-      setHasAProfile(true);
-      setProfile(response);
-    });
+    const responseServices = await Axios.post(
+      `${BASE_LOCAL_ENDPOINT}/services`,
+      services
+    );
+
+    const servicesData =
+      responseServices &&
+      responseServices.data &&
+      responseServices.data.ops.length !== 0 &&
+      responseServices.data.ops[0];
+    setProfile({ ...profileData, ...servicesData });
+    setHasAProfile(true);
   };
 
   handleSelectChange = e => {
