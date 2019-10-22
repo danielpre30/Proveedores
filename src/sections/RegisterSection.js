@@ -8,6 +8,7 @@ import { Auth0Context } from "../Auth/react-auth0-wrapper";
 import EditProviderList from "../components/SignupForm/components/EditProviderList";
 import FormGroup from "../components/SignupForm/components/FormGroup";
 import FormInput from "../components/SignupForm/components/FormInput";
+import PaymentSection from "./PaymentSection";
 
 class RegisterSection extends Component {
   constructor(props) {
@@ -135,7 +136,8 @@ class RegisterSection extends Component {
             providerId: business._id,
             contractorId: profileData._id,
             contract: business.contract,
-            typeOfService: business.receivedTypeOfService
+            typeOfService: business.receivedTypeOfService,
+            validContract: false
           };
         })
     ];
@@ -326,6 +328,7 @@ class RegisterSection extends Component {
             />
           </div>
         </form>
+        <PaymentSection />
       </div>
     );
   }

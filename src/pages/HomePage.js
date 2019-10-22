@@ -27,8 +27,6 @@ function HomePage() {
     homePage = (
       <>
         <LandingSection />
-        <PaymentSection />
-        <RegisterSection />
       </>
     );
   }
