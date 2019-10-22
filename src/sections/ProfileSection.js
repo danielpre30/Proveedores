@@ -20,7 +20,7 @@ class ProfileSection extends Component {
       commentsList: [],
       textComment: "",
       count: 1,
-      score: {},
+      scoreObj: {},
       id: "",
       servicesState: []
     };
@@ -59,7 +59,7 @@ class ProfileSection extends Component {
           this.setState({
             isContractor: false,
             count: response.data[0].score.count,
-            score: response.data[0].score,
+            scoreObj: response.data[0].score,
             id: id
           });
         }
@@ -109,10 +109,10 @@ class ProfileSection extends Component {
     generalScore,
     id,
     profile,
-    services
+    scoreObj
   ) => {
     e.preventDefault();
-
+    const MySwal = withReactContent(Swal);
     var general;
     if (
       ratingQuality == undefined ||
@@ -121,7 +121,6 @@ class ProfileSection extends Component {
       ratingService === undefined ||
       this.state.textComment === ""
     ) {
-      const MySwal = withReactContent(Swal);
       MySwal.fire({
         type: "error",
         title: "Error",
@@ -129,15 +128,64 @@ class ProfileSection extends Component {
       });
     } else {
       var tmpCount = this.state.count + 1;
-      general =
+      general = Math.floor(
         (ratingQuality +
           ratingPuntuality +
           ratingCommunication +
           ratingService) /
-        generalScore;
+          4
+      );
+
+      const newComment = {
+        idTo: id,
+        description: this.state.textComment,
+        businessName: profile.name,
+        business: profile._id,
+        givenScore: {
+          general: general,
+          puntuality: ratingPuntuality,
+          communication: ratingCommunication,
+          afterSalesService: ratingService,
+          priceQuality: ratingQuality
+        }
+      };
+      const newScore = {
+        general: Math.floor((generalScore + general) / tmpCount),
+        puntuality: Math.floor(
+          (scoreObj.puntuality + ratingPuntuality) / tmpCount
+        ),
+        communication: Math.floor(
+          (scoreObj.communication + ratingCommunication) / tmpCount
+        ),
+        afterSalesService: Math.floor(
+          (scoreObj.afterSalesService + ratingService) / tmpCount
+        ),
+        priceQuality: Math.floor(
+          (scoreObj.priceQuality + ratingQuality) / tmpCount
+        ),
+        count: tmpCount
+      };
+      axios
+        .post(`${BASE_LOCAL_ENDPOINT}/business/${id}`, newScore)
+        .then(response => {
+          console.log("Success");
+          this.setState({
+            count: tmpCount
+          });
+        });
+      axios
+        .post(`${BASE_LOCAL_ENDPOINT}/Comments`, newComment)
+        .then(response => {
+          MySwal.fire({
+            type: "success",
+            title: "Comentario añadido",
+            text: "Comentario añadido correctamente"
+          });
+          console.log(response);
+          window.location.reload();
+        });
     }
   };
-  static contextType = Auth0Context;
 
   render() {
     const { profile } = this.context;
@@ -146,9 +194,9 @@ class ProfileSection extends Component {
       isContractor,
       servicesState,
       commentsList,
+      scoreObj,
       id
     } = this.state;
-
     var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
     let servicesArray;
@@ -156,7 +204,7 @@ class ProfileSection extends Component {
       <>
         {servicesState.map(({ typeOfService, name, contrato }) => (
           <li key={contrato}>
-            <b>{typeOfService}s</b> de <b>{name}</b>
+            <b>{typeOfService}</b> de <b>{name}</b>
           </li>
         ))}
       </>
@@ -251,7 +299,7 @@ class ProfileSection extends Component {
                     score && score.general,
                     id,
                     profile,
-                    services
+                    scoreObj
                   );
                 }}
               >
@@ -283,7 +331,7 @@ class ProfileSection extends Component {
           </div>
 
           <div className="score_item">
-            Comunicación:<b>{score && score.communication}</b>{" "}
+            Comunicación: <b>{score && score.communication}</b>{" "}
           </div>
 
           <div className="score_item">

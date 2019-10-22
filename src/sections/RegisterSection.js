@@ -84,6 +84,7 @@ class RegisterSection extends Component {
 
   signUp = e => {
     e.preventDefault();
+    var initialScore;
     const {
       name,
       typeOfService,
@@ -94,7 +95,11 @@ class RegisterSection extends Component {
       businessList
     } = this.state;
     const { user, setHasAProfile, setProfile } = this.context;
-
+    if (typeOfService === "Contratante") {
+      initialScore = "N/A";
+    } else {
+      initialScore = 0;
+    }
     const newProfile = {
       NIT: nit,
       email: user.email,
@@ -116,7 +121,15 @@ class RegisterSection extends Component {
             contract: business.contract,
             typeOfService: business.receivedTypeOfService
           };
-        })
+        }),
+      score: {
+        general: initialScore,
+        puntality: initialScore,
+        communication: initialScore,
+        afterSalesService: initialScore,
+        priceQuality: initialScore,
+        count: initialScore
+      }
     };
 
     Axios.post(`${BASE_LOCAL_ENDPOINT}/business`, newProfile).then(response => {

@@ -118,6 +118,33 @@ app.post(`/business/`, (req, res) => {
       res.json(collection);
     });
 });
+app.post(`/Comments/`, (req, res) => {
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db => db.collection("Comments").insertOne(req.body))
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
+app.post(`/business/:id`, (req, res) => {
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db =>
+      db
+        .collection("business")
+        .updateOne(
+          { _id: ObjectID(req.params.id) },
+          { $set: { score: req.body } }
+        )
+    )
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Servidor funcionando
