@@ -6,6 +6,8 @@ import "../styles/ProvidersSection.css";
 import axios from "axios";
 import { Auth0Context } from "../Auth/react-auth0-wrapper";
 
+import Rater from "react-rater";
+import "../styles/react-rater.css";
 class CardContainer extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +41,9 @@ class CardContainer extends Component {
   getObjects(url) {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
+
       .then(response => {
+        console.log(response);
         this.setState({
           list: response.data.sort(this.sortList)
         });
