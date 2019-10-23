@@ -62,7 +62,6 @@ class ProfileSection extends Component {
         } else {
           this.setState({
             isContractor: false,
-            count: response.data[0].score.count,
             id: id
           });
         }
@@ -80,6 +79,11 @@ class ProfileSection extends Component {
       });
   }
   getComments() {
+    var tmpPuntu = 0,
+      tmpCommu = 0,
+      tmpGeneral = 0,
+      tmpServ = 0,
+      tmpQua = 0;
     const {
       match: {
         params: { id }
@@ -91,7 +95,28 @@ class ProfileSection extends Component {
         //debugger;
         this.setState({
           commentsList: response.data,
-          error: ""
+          error: "",
+          count: response.data.length
+        });
+        var scoreArray = [];
+        this.state.commentsList.map(
+          ({ _id, businessName, description, givenScore }) =>
+            scoreArray.push(givenScore)
+        );
+
+        for (var i = 0; i < scoreArray.length; i++) {
+          tmpPuntu += scoreArray[i].puntuality;
+          tmpCommu += scoreArray[i].communication;
+          tmpGeneral += scoreArray[i].general;
+          tmpServ += scoreArray[i].afterSalesService;
+          tmpQua += scoreArray[i].priceQuality;
+        }
+        this.setState({
+          qualityRating: Math.floor(tmpQua / this.state.count),
+          puntualityRating: Math.floor(tmpPuntu / this.state.count),
+          communicationRating: Math.floor(tmpCommu / this.state.count),
+          serviceRating: Math.floor(tmpServ / this.state.count),
+          generalRating: Math.floor(tmpGeneral / this.state.count)
         });
       })
       .catch(error => {
@@ -100,6 +125,7 @@ class ProfileSection extends Component {
         });
       });
   }
+
   handleChange = e => {
     this.setState({ textComment: e.target.value });
   };
@@ -111,14 +137,13 @@ class ProfileSection extends Component {
     ratingService,
     generalScore,
     id,
-    profile,
-    scoreObj
+    profile
   ) => {
     e.preventDefault();
     const MySwal = withReactContent(Swal);
     var general;
     if (
-      ratingQuality == undefined ||
+      ratingQuality === undefined ||
       ratingPuntuality === undefined ||
       ratingCommunication === undefined ||
       ratingService === undefined ||
@@ -130,26 +155,6 @@ class ProfileSection extends Component {
         text: "Califica todas las categorías y asegurate de dejar un comentario"
       });
     } else {
-      var countComments = scoreObj.length + 1;
-      var tmpPuntu = 0,
-        tmpCommu = 0,
-        tmpGeneral = 0,
-        tmpServ = 0,
-        tmpQua = 0;
-      for (var i = 0; i < scoreObj.length; i++) {
-        tmpPuntu += scoreObj[i].puntuality;
-        tmpCommu += scoreObj[i].communication;
-        tmpGeneral += scoreObj[i].general;
-        tmpServ += scoreObj[i].afterSalesService;
-        tmpQua += scoreObj[i].priceQuality;
-      }
-      this.setState({
-        qualityRating: tmpQua / countComments,
-        puntualityRating: tmpPuntu / countComments,
-        communicationRating: tmpCommu / countComments,
-        serviceRating: tmpServ / countComments,
-        generalRating: tmpGeneral / countComments
-      });
       general = Math.floor(
         (ratingQuality +
           ratingPuntuality +
@@ -170,30 +175,6 @@ class ProfileSection extends Component {
           priceQuality: ratingQuality
         }
       };
-      // const newScore = {
-      //   general: Math.floor((generalScore + general) / tmpCount),
-      //   puntuality: Math.floor(
-      //     (scoreObj.puntuality + ratingPuntuality) / tmpCount
-      //   ),
-      //   communication: Math.floor(
-      //     (scoreObj.communication + ratingCommunication) / tmpCount
-      //   ),
-      //   afterSalesService: Math.floor(
-      //     (scoreObj.afterSalesService + ratingService) / tmpCount
-      //   ),
-      //   priceQuality: Math.floor(
-      //     (scoreObj.priceQuality + ratingQuality) / tmpCount
-      //   ),
-      //   count: tmpCount
-      // };
-      // axios
-      //   .post(`${BASE_LOCAL_ENDPOINT}/business/${id}`, newScore)
-      //   .then(response => {
-      //     console.log("Success");
-      //     this.setState({
-      //       count: tmpCount
-      //     });
-      //   });
       axios
         .post(`${BASE_LOCAL_ENDPOINT}/Comments`, newComment)
         .then(response => {
@@ -211,7 +192,7 @@ class ProfileSection extends Component {
   render() {
     const { profile } = this.context;
     const {
-      companyProfileDetail: { name, typeOfService, score, logo, services },
+      companyProfileDetail: { name, typeOfService, logo },
       isContractor,
       servicesState,
       commentsList,
@@ -225,7 +206,6 @@ class ProfileSection extends Component {
     var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
     let servicesArray;
-    var scoreObj = [];
     servicesArray = (
       <>
         {servicesState.map(({ typeOfService, name, contrato }) => (
@@ -248,15 +228,12 @@ class ProfileSection extends Component {
           <h2>Comentarios</h2>
           {commentsList.map(
             ({ _id, businessName, description, givenScore }) => (
-              (
-                <Comment
-                  name={businessName}
-                  description={description}
-                  score={givenScore.general}
-                  key={_id}
-                />
-              ),
-              scoreObj.push(givenScore)
+              <Comment
+                name={businessName}
+                description={description}
+                score={givenScore.general}
+                key={_id}
+              />
             )
           )}
           <div className="providers__comment">
@@ -327,8 +304,7 @@ class ProfileSection extends Component {
                     ratingService,
                     generalRating,
                     id,
-                    profile,
-                    scoreObj
+                    profile
                   );
                 }}
               >
