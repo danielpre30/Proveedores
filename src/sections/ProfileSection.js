@@ -135,7 +135,7 @@ class ProfileSection extends Component {
     } = this.props;
     const { profile } = this.context;
     axios
-      .get(`${BASE_LOCAL_ENDPOINT}/services/${id}&${profile._id}`)
+      .get(`${BASE_LOCAL_ENDPOINT}/services/${id}/${profile._id}`)
       .then(response => {
         if (response.data.length !== 0) {
           this.setState({
