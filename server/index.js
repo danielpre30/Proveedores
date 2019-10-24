@@ -99,7 +99,7 @@ app.get(`/Comments/:idTo`, (req, res) => {
     .then(db =>
       db
         .collection("Comments")
-        .find({ idTo: req.params.idTo })
+        .find({ target: req.params.idTo })
         .toArray()
     )
     .then(collection => {
