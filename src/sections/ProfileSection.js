@@ -26,8 +26,7 @@ class ProfileSection extends Component {
       puntualityRating: 1,
       communicationRating: 1,
       serviceRating: 1,
-      generalRating: 1,
-      validate: false
+      generalRating: 1
     };
   }
 
@@ -45,7 +44,6 @@ class ProfileSection extends Component {
   componentDidMount() {
     this.getObjects();
     this.getComments();
-    this.getServices();
   }
 
   getObjects() {
@@ -127,33 +125,6 @@ class ProfileSection extends Component {
         });
       });
   }
-  getServices() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    const { profile } = this.context;
-    axios
-      .get(`${BASE_LOCAL_ENDPOINT}/services/${id}/${profile._id}`)
-      .then(response => {
-        if (response.data.length !== 0) {
-          this.setState({
-            validate: true
-          });
-        } else {
-          this.setState({
-            validate: false
-          });
-        }
-        console.log("Hola");
-      })
-      .catch(error => {
-        this.setState({
-          error: error.message
-        });
-      });
-  }
 
   handleChange = e => {
     this.setState({ textComment: e.target.value });
@@ -192,7 +163,7 @@ class ProfileSection extends Component {
           4
       );
       const newComment = {
-        target: id,
+        idTo: id,
         description: this.state.textComment,
         businessName: profile.name,
         business: profile._id,
@@ -230,8 +201,7 @@ class ProfileSection extends Component {
       puntualityRating,
       communicationRating,
       serviceRating,
-      generalRating,
-      validate
+      generalRating
     } = this.state;
     var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
@@ -246,7 +216,7 @@ class ProfileSection extends Component {
       </>
     );
 
-    if (isContractor && !validate) {
+    if (isContractor) {
       comments = (
         <>
           <p>No existen comentarios para esta empresa</p>
