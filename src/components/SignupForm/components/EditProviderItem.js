@@ -1,6 +1,7 @@
 import React from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "../EditProviderItem.scss";
+
+import "../styles/EditProviderItem.scss";
 
 const EditProviderItem = ({ name, deleteProvider, _id, handleChange }) => (
   <li className="providerList_item">

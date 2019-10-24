@@ -1,8 +1,10 @@
 import React from "react";
-import "../styles/Card.css";
 import { Link } from "react-router-dom";
-import star from "../resources/star.png";
-const ProviderCard = ({ id, name, logo, typeOfService, score }) => {
+
+import "../styles/Card.css";
+import star from "../../../resources/star.png";
+
+const Card = ({ id, name, logo, typeOfService, score }) => {
   return (
     <div className="providerCard">
       <div className="providerCard__thumb">
@@ -34,4 +36,4 @@ const ProviderCard = ({ id, name, logo, typeOfService, score }) => {
   );
 };
 
-export default ProviderCard;
+export default Card;

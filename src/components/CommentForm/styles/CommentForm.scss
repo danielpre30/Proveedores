@@ -1,0 +1,36 @@
+.commentForm {
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  padding: 20px;
+  border-radius: 10px;
+
+  &_body {
+    margin-top: 20px;
+  }
+
+  &_description {
+    width: 80%;
+    height: 150px;
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  &_rate {
+    &_item {
+      font-size: 1.2em;
+      justify-items: center;
+      text-align: center;
+    }
+  }
+
+  &_button {
+    font-size: 1.2em;
+    background: #35a7f0;
+    padding: 0.3em 0.3em;
+    border-radius: 5px;
+    color: #fff;
+    letter-spacing: 0.2px;
+    font-size: 1em;
+    text-decoration: none;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../styles/LandingSection.css";
+
 import "../styles/PaymentSection.css";
 import paymentMethods from "../resources/paymentMethods.png";
 

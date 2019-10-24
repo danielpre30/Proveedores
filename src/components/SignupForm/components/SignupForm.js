@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import "../styles/LandingSection.css";
-import "../styles/RegisterSection.scss";
-import LogoBA from "../resources/LogoBA-xs.png";
 import Axios from "axios";
-import { BASE_LOCAL_ENDPOINT } from "../constants";
-import { Auth0Context } from "../Auth/react-auth0-wrapper";
-import EditProviderList from "../components/SignupForm/components/EditProviderList";
-import FormGroup from "../components/SignupForm/components/FormGroup";
-import FormInput from "../components/SignupForm/components/FormInput";
-import PaymentSection from "./PaymentSection";
 
-class RegisterSection extends Component {
+import { BASE_LOCAL_ENDPOINT } from "../../../constants";
+
+import "../styles/SignupForm.scss";
+import LogoBA from "../../../resources/LogoBA-xs.png";
+
+import EditProviderList from "./EditProviderList";
+import FormGroup from "./FormGroup";
+import FormInput from "./FormInput";
+import PaymentSection from "../../PaymentSection";
+import { Auth0Context } from "../../Auth/react-auth0-wrapper";
+
+class SignupForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -334,4 +336,4 @@ class RegisterSection extends Component {
   }
 }
 
-export default RegisterSection;
+export default SignupForm;

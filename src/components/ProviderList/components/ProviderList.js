@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import "../styles/ProvidersSection.css";
-import CardContainer from "../containers/CardContainer";
-class ProviderSection extends Component {
+
+import "../styles/ProviderList.css";
+
+import CardContainer from "./CardContainer";
+
+class ProviderList extends Component {
   render() {
     return (
       <div id="providersSection" className="providersSection">
@@ -14,4 +17,4 @@ class ProviderSection extends Component {
   }
 }
 
-export default ProviderSection;
+export default ProviderList;

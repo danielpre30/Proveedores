@@ -1,14 +1,16 @@
 import React from "react";
-import "./App.css";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import history from "./history";
+
 import "./resources/fonts/stylesheet.css";
 import "./resources/animate.css";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import NavBar from "./components/Navbar";
-import history from "./history";
-import PrivateRoute from "./components/PrivateRoute";
-import { useAuth0 } from "./Auth/react-auth0-wrapper";
-import ProfileSection from "./sections/ProfileSection";
+
+import "./App.css";
+import Home from "./pages/Home/";
+import Profile from "./pages/Profile/";
+import NavBar from "./components/Navbar/";
+import PrivateRoute from "./components/Auth/PrivateRoute";
+import { useAuth0 } from "./components/Auth/react-auth0-wrapper";
 
 function App() {
   const { loading } = useAuth0();
@@ -22,12 +24,8 @@ function App() {
           <div className="main">
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/home" />} />
-              <Route exact path="/home" component={HomePage} />
-              <PrivateRoute
-                exact
-                path="/business/:id"
-                component={ProfileSection}
-              />
+              <Route exact path="/home" component={Home} />
+              <PrivateRoute exact path="/business/:id" component={Profile} />
             </Switch>
           </div>
           <div className="footer">

@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { Auth0Provider } from "./Auth/react-auth0-wrapper";
-import config from "./Auth/auth_config.json";
+import { Auth0Provider } from "./components/Auth/react-auth0-wrapper";
+import config from "./components/Auth/auth_config.json";
 import history from "./history";
 
 // A function that routes the user to the right place

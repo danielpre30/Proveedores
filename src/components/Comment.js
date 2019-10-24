@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../styles/Comment.css";
 import star from "../resources/star.png";
 

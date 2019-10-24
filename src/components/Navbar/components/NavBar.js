@@ -1,11 +1,13 @@
 import React from "react";
-import "../NavBar.scss";
-import Logo from "../../../resources/LogoBA-xs.png";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useAuth0 } from "../../../Auth/react-auth0-wrapper";
-import MenuLink from "./MenuLink";
+
+import "../styles/NavBar.scss";
+import Logo from "../../../resources/LogoBA-xs.png";
+
 import LogOption from "./LogOption";
+import MenuLink from "./MenuLink";
 import SectionLink from "./SectionLink";
+import { useAuth0 } from "../../Auth/react-auth0-wrapper";
 
 const NavBar = props => {
   const {
@@ -15,7 +17,6 @@ const NavBar = props => {
     hasAProfile,
     profile
   } = useAuth0();
-  console.log(profile);
 
   let links = [];
   let logOption = {};

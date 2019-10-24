@@ -75,23 +75,85 @@ app.get(
   }
 );
 
-app.get(`/business/:id`, (req, res) => {
-  //Use connect method to connect to the Server
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db =>
-      db
-        .collection("business")
-        .find({ _id: ObjectID(req.params.id) })
-        .toArray()
+const getComments = async (db, id) => {
+  const comments = await db
+    .collection("Comments")
+    .find({ target: id })
+    .toArray();
+  return comments.map(comment => ({
+    ...comment,
+    general: Math.floor(
+      (comment.puntuality +
+        comment.communication +
+        comment.afterSalesService +
+        comment.priceQuality) /
+        4
     )
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+  }));
+};
+
+app.get(`/business/:id`, async (req, res) => {
+  //Use connect method to connect to the Server
+  const id = req.params.id;
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const business = await db
+    .collection("business")
+    .findOne({ _id: ObjectID(id) });
+
+  const providerServices = await db
+    .collection("services")
+    .find({ providerId: id })
+    .toArray();
+
+  const contractorServices = await db
+    .collection("services")
+    .find({ contractorId: id })
+    .toArray();
+
+  const comments = await getComments(db, id);
+
+  const puntuality = Math.floor(
+    comments.reduce((acc, { puntuality }) => acc + puntuality, 0) /
+      comments.length
+  );
+  const communication = Math.floor(
+    comments.reduce((acc, { communication }) => acc + communication, 0) /
+      comments.length
+  );
+  const afterSalesService = Math.floor(
+    comments.reduce(
+      (acc, { afterSalesService }) => acc + afterSalesService,
+      0
+    ) / comments.length
+  );
+  const priceQuality = Math.floor(
+    comments.reduce((acc, { priceQuality }) => acc + priceQuality, 0) /
+      comments.length
+  );
+
+  const general = Math.floor(
+    (puntuality + communication + afterSalesService + priceQuality) / 4
+  );
+  client.close();
+
+  res.json({
+    ...business,
+    score: {
+      general,
+      puntuality,
+      communication,
+      afterSalesService,
+      priceQuality
+    },
+    comments: [...comments],
+    providerServices,
+    contractorServices
+  });
 });
-app.get(`/Comments/:idTo`, (req, res) => {
+
+app.get(`/Comments/:idTo`, async (req, res) => {
   //Use connect method to connect to the Server
   client
     .connect()
@@ -118,7 +180,7 @@ app.post(`/business`, (req, res) => {
       res.json(collection);
     });
 });
-app.post(`/Comments/`, (req, res) => {
+app.post(`/comments/`, (req, res) => {
   client
     .connect()
     .then(serv => serv.db(dbName))

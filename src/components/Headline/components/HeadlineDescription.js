@@ -1,7 +1,8 @@
 import React from "react";
+
 import "../styles/DescriptionContainer.css";
 
-const DescriptionContainer = ({ srcImage, title, description }) => {
+const HeadlineDescription = ({ srcImage, title, description }) => {
   return (
     <div className="card">
       <div className="card__thumb">
@@ -19,4 +20,4 @@ const DescriptionContainer = ({ srcImage, title, description }) => {
   );
 };
 
-export default DescriptionContainer;
+export default HeadlineDescription;

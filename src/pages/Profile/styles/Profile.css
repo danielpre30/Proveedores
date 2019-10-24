@@ -79,27 +79,27 @@
 }
 
 /* Calificación, nuevos comentarios */
-.providers__comment--span {
+/* .providers__comment--span {
   font-size: 1.2em;
   justify-items: center;
   text-align: center;
-}
-.providers__comment {
+} */
+/* .providers__comment {
   border: 1px rgba(0, 0, 0, 0.2) solid;
   padding: 20px;
   border-radius: 10px;
-}
-.providers__comment--text {
+} */
+/* .providers__comment--text {
   margin-top: 20px;
-}
-.providers__comment--textArea {
+} */
+/* .providers__comment--textArea {
   width: 80%;
   height: 150px;
   font-size: 1.2em;
   padding: 10px;
   border-radius: 10px;
-}
-.providers__comment--button {
+} */
+/* .providers__comment--button {
   font-size: 1.2em;
   background: #35a7f0;
   padding: 0.3em 0.3em;
@@ -108,6 +108,6 @@
   letter-spacing: 0.2px;
   font-size: 1em;
   text-decoration: none;
-}
+} */
 
 /*Fin nuevo comentario*/

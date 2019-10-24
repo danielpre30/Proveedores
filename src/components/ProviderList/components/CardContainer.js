@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import "../styles/Card.css";
-import ProviderCard from "../components/Card";
-import { BASE_LOCAL_ENDPOINT } from "../constants";
-import "../styles/ProvidersSection.css";
+import ProviderCard from "./Card";
+import { BASE_LOCAL_ENDPOINT } from "../../../constants";
+import "../styles/ProviderList.css";
 import axios from "axios";
-import { Auth0Context } from "../Auth/react-auth0-wrapper";
+import { Auth0Context } from "../../Auth/react-auth0-wrapper";
 
-import Rater from "react-rater";
-import "../styles/react-rater.css";
 class CardContainer extends Component {
   constructor(props) {
     super(props);

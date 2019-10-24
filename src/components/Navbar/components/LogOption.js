@@ -1,4 +1,5 @@
 import React from "react";
+
 import NavItem from "./NavItem";
 
 const LogOption = ({ label, onClick }) => {

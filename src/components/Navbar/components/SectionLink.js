@@ -1,6 +1,7 @@
 import React from "react";
-import NavItem from "./NavItem";
 import { Link as LinkSection } from "react-scroll";
+
+import NavItem from "./NavItem";
 
 const SectionLink = ({ label, to }) => {
   return (

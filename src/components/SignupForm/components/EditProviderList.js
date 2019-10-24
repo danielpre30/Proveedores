@@ -1,5 +1,6 @@
 import React from "react";
 import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+
 import EditProviderItem from "./EditProviderItem";
 
 const EditProviderList = ({ providers }) => {
