@@ -128,22 +128,22 @@ app.post(`/Comments/`, (req, res) => {
       res.json(collection);
     });
 });
-// app.get(`/services/:id/:idCont`, (req, res) => {
-//   //Use connect method to connect to the Server
-//   client
-//     .connect()
-//     .then(serv => serv.db(dbName))
-//     .then(db =>
-//       db
-//         .collection("services")
-//         .find({ providerId: req.params.id, contractorId: req.params.idCont })
-//         .toArray()
-//     )
-//     .then(collection => {
-//       client.close();
-//       res.json(collection);
-//     });
-// });
+app.get(`/services/:id`, (req, res) => {
+  //Use connect method to connect to the Server
+  client
+    .connect()
+    .then(serv => serv.db(dbName))
+    .then(db =>
+      db
+        .collection("services")
+        .find({ contractorId: req.params.id })
+        .toArray()
+    )
+    .then(collection => {
+      client.close();
+      res.json(collection);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Servidor funcionando

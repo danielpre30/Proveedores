@@ -44,6 +44,7 @@ class ProfileSection extends Component {
   componentDidMount() {
     this.getObjects();
     this.getComments();
+    this.getServices();
   }
 
   getObjects() {
@@ -68,7 +69,7 @@ class ProfileSection extends Component {
         //debugger;
         this.setState({
           companyProfileDetail: response.data[0],
-          servicesState: response.data[0].services,
+
           error: ""
         });
       })
@@ -77,6 +78,36 @@ class ProfileSection extends Component {
           error: error.message
         });
       });
+  }
+  getServices() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    axios
+      .get(`${BASE_LOCAL_ENDPOINT}/services/${id}`)
+      .then(response => {
+        let services;
+        if (response.data.length !== 0) {
+          response.data.map(({ providerId }) => {
+            axios
+              .get(`${BASE_LOCAL_ENDPOINT}/business/${providerId}`)
+              .then(response => {
+                response.data.map(({ name }) => {
+                  services.push(name);
+                });
+                console.log(services);
+
+                this.setState({
+                  servicesState: services
+                });
+              })
+              .catch(error => {});
+          });
+        }
+      })
+      .catch(error => {});
   }
   getComments() {
     var tmpPuntu = 0,
@@ -98,6 +129,7 @@ class ProfileSection extends Component {
           error: "",
           count: response.data.length
         });
+
         var scoreArray = [];
         this.state.commentsList.map(
           ({ _id, businessName, description, givenScore }) =>
@@ -163,7 +195,7 @@ class ProfileSection extends Component {
           4
       );
       const newComment = {
-        idTo: id,
+        target: id,
         description: this.state.textComment,
         businessName: profile.name,
         business: profile._id,
@@ -206,15 +238,12 @@ class ProfileSection extends Component {
     var ratingQuality, ratingPuntuality, ratingCommunication, ratingService;
     let comments;
     let servicesArray;
-    servicesArray = (
-      <>
-        {servicesState.map(({ typeOfService, name, contrato }) => (
-          <li key={contrato}>
-            <b>{typeOfService}</b> de <b>{name}</b>
-          </li>
-        ))}
-      </>
-    );
+    console.log(servicesState);
+
+    for (var i = 0; i < servicesState.length; i++) {
+      console.log(servicesState[i]);
+      servicesArray = <p>{servicesState[i]}</p>;
+    }
 
     if (isContractor) {
       comments = (
