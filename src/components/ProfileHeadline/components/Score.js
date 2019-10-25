@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../styles/Score.scss";
+
 import ScoreItem from "./ScoreItem";
 
 const Score = ({ score, children }) => (

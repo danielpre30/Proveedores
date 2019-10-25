@@ -2,6 +2,7 @@ import React from "react";
 
 import { NA } from "../../../constants";
 
+import "../styles/Body.scss";
 import Star from "../../../resources/star.png";
 
 const Body = ({ logo, score }) => (

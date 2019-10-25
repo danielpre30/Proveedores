@@ -6,11 +6,11 @@ import { BASE_LOCAL_ENDPOINT, PROVIDER, CONTRACTOR } from "../../../constants";
 import "../styles/Profile.scss";
 import "../styles/react-rater.css";
 
-import Comment from "../../../components/Comment";
 import { Auth0Context } from "../../../components/Auth/react-auth0-wrapper";
 import CommentForm from "../../../components/CommentForm/components/CommentForm";
 import ServiceList from "../../../components/ServiceList";
 import ProfileHeadline from "../../../components/ProfileHeadline/components/ProfileHeadline";
+import CommentList from "../../../components/CommentList";
 
 class Profile extends Component {
   static contextType = Auth0Context;
@@ -30,7 +30,9 @@ class Profile extends Component {
       }
     } = this.props;
 
-    Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${id}`)
+    const { profile } = this.context;
+
+    Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${id}?idRequest=${profile._id}`)
       .then(response => {
         this.setState(prevState => ({
           ...prevState,
@@ -43,32 +45,21 @@ class Profile extends Component {
   }
 
   render() {
-    const { name, typeOfService, score, logo, services } = this.state;
+    const {
+      name,
+      typeOfService,
+      score,
+      logo,
+      services,
+      isProvider,
+      comments
+    } = this.state;
     const rates = [
       { id: "priceQuality", title: "Calidad/Precio" },
       { id: "puntuality", title: "Puntualidad" },
       { id: "communication", title: "Comunicación" },
       { id: "afterSalesService", title: "Servicio Posventa" }
     ];
-
-    // comments = isContractor ? (
-    //   <>
-    //     <p>No existen comentarios para esta empresa</p>
-    //   </>
-    // ) : (
-    //   <>
-    //     <h2>Comentarios</h2>
-    //     {commentsList.map(({ _id, businessName, description, givenScore }) => (
-    //       <Comment
-    //         name={businessName}
-    //         description={description}
-    //         score={givenScore.general}
-    //         key={_id}
-    //       />
-    //     ))}
-    //     <CommentForm rates={rates} />
-    //   </>
-    // );
 
     return (
       <div className="profile">
@@ -108,8 +99,20 @@ class Profile extends Component {
           services={services && services.servicesAsProvider}
           type={PROVIDER}
         />
-
-        {/* {comments} */}
+        {
+          <CommentList>
+            {comments &&
+              comments.map(({ _id, name, description, general }) => (
+                <CommentList.Comment
+                  key={_id}
+                  name={name}
+                  description={description}
+                  score={general}
+                />
+              ))}
+          </CommentList>
+        }
+        {/* isProvider?<CommentForm rates={rates} />:null */}
       </div>
     );
   }

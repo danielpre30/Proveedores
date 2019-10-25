@@ -44,7 +44,12 @@ export const getComments = async (db, id) => {
     .collection("Comments")
     .find({ target: id })
     .toArray();
-  return comments.map(comment => ({
+
+  const businessName = await Promise.all(
+    comments.map(comments => getBusinessName(db, comments.business))
+  );
+
+  return comments.map((comment, index) => ({
     ...comment,
     general: Math.floor(
       (comment.puntuality +
@@ -52,7 +57,8 @@ export const getComments = async (db, id) => {
         comment.afterSalesService +
         comment.priceQuality) /
         4
-    )
+    ),
+    name: businessName[index]
   }));
 };
 

@@ -77,6 +77,7 @@ app.get(
 app.get(`/business/:id`, async (req, res) => {
   //Use connect method to connect to the Server
   const id = req.params.id;
+  const idRequest = req.query.idRequest;
   const serv = await client.connect();
   const db = serv.db(dbName);
 
@@ -92,11 +93,18 @@ app.get(`/business/:id`, async (req, res) => {
 
   const score = getScore(comments);
 
+  const isProvider = services.servicesAsProvider.some(
+    service => service.contractorId === idRequest
+  );
+
+  console.log(score);
+
   res.json({
     ...business,
     score,
     comments: [...comments],
-    services
+    services,
+    isProvider
   });
 });
 
