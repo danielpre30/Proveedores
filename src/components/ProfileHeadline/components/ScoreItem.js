@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../styles/ScoreItem.scss";
+
 import { NA } from "../../../constants";
 
 const ScoreItem = ({ label, points }) => (

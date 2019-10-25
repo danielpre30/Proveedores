@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../styles/Home.css";
+import "../styles/Home.scss";
 import Scroll from "../../../resources/scroll.gif";
 
 import Headline from "../../../components/Headline/components/Headline";

@@ -1,0 +1,22 @@
+.profile {
+  &_header {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #c2e8ce;
+    padding-bottom: 2em;
+  }
+
+  &_title {
+    text-align: center;
+    font-size: 2em;
+    margin: 0.5em;
+    margin: 0;
+  }
+
+  &_subtitle {
+    text-align: center;
+    margin: 0;
+    color: #be7575;
+    font-weight: 600;
+  }
+}

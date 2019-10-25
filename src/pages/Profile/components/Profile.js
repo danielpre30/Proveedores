@@ -4,12 +4,11 @@ import Axios from "axios";
 import { BASE_LOCAL_ENDPOINT, PROVIDER, CONTRACTOR } from "../../../constants";
 
 import "../styles/Profile.scss";
-import "../styles/react-rater.css";
 
 import { Auth0Context } from "../../../components/Auth/react-auth0-wrapper";
-import CommentForm from "../../../components/CommentForm/components/CommentForm";
+import CommentForm from "../../../components/CommentForm";
 import ServiceList from "../../../components/ServiceList";
-import ProfileHeadline from "../../../components/ProfileHeadline/components/ProfileHeadline";
+import ProfileHeadline from "../../../components/ProfileHeadline";
 import CommentList from "../../../components/CommentList";
 
 class Profile extends Component {
@@ -44,6 +43,14 @@ class Profile extends Component {
       });
   }
 
+  updateProfile = data => {
+    this.setState(prevState => ({
+      ...prevState,
+      score: data.score,
+      comments: data.comments
+    }));
+  };
+
   render() {
     const {
       name,
@@ -52,7 +59,8 @@ class Profile extends Component {
       logo,
       services,
       isProvider,
-      comments
+      comments,
+      _id
     } = this.state;
     const rates = [
       { id: "priceQuality", title: "Calidad/Precio" },
@@ -112,7 +120,15 @@ class Profile extends Component {
               ))}
           </CommentList>
         }
-        {/* isProvider?<CommentForm rates={rates} />:null */}
+        {isProvider ? (
+          <CommentForm
+            rates={rates}
+            id={_id}
+            updateProfile={this.updateProfile}
+          />
+        ) : (
+          "No puedes agregar comentarios a este perfil"
+        )}
       </div>
     );
   }

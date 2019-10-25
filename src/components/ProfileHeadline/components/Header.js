@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../styles/Header.scss";
+
 const Header = ({ name, typeOfService }) => (
   <div className="profile_header">
     <h1 className="profile_title">{name}</h1>

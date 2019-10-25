@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../styles/ProfileHeadline.scss";
+
 import Header from "./Header";
 import Body from "./Body";
 import Score from "./Score";

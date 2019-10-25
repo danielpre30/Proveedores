@@ -97,8 +97,6 @@ app.get(`/business/:id`, async (req, res) => {
     service => service.contractorId === idRequest
   );
 
-  console.log(score);
-
   res.json({
     ...business,
     score,
@@ -108,7 +106,8 @@ app.get(`/business/:id`, async (req, res) => {
   });
 });
 
-app.get(`/Comments/:idTo`, async (req, res) => {
+// unused
+app.get(`/comments/:target`, async (req, res) => {
   //Use connect method to connect to the Server
   client
     .connect()
@@ -116,7 +115,7 @@ app.get(`/Comments/:idTo`, async (req, res) => {
     .then(db =>
       db
         .collection("Comments")
-        .find({ idTo: req.params.idTo })
+        .find({ target: req.params.idTo })
         .toArray()
     )
     .then(collection => {
@@ -135,16 +134,19 @@ app.post(`/business`, (req, res) => {
       res.json(collection);
     });
 });
-app.post(`/comments/`, (req, res) => {
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db => db.collection("Comments").insertOne(req.body))
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+
+app.post(`/comments/`, async (req, res) => {
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const response = await db.collection("Comments").insertOne(req.body);
+  const comments = await getComments(db, req.body.target);
+  client.close();
+  const score = getScore(comments);
+  res.json({ comments, score });
 });
+
+//unused
 app.post(`/business/:id`, (req, res) => {
   client
     .connect()

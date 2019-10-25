@@ -6,7 +6,10 @@ import withReactContent from "sweetalert2-react-content";
 
 import { BASE_LOCAL_ENDPOINT } from "../../../constants";
 
+import "../styles/react-rater.scss";
+
 import { Auth0Context } from "../../../components/Auth/react-auth0-wrapper";
+import CommentRate from "./CommentRate";
 
 class CommentForm extends Component {
   static contextType = Auth0Context;
@@ -15,7 +18,6 @@ class CommentForm extends Component {
     super(props);
     this.state = {
       commentDescription: "",
-      general: 0,
       priceQuality: 0,
       puntuality: 0,
       communication: 0,
@@ -39,7 +41,7 @@ class CommentForm extends Component {
       afterSalesService
     } = this.state;
     const { profile } = this.context;
-    const { id } = this.props;
+    const { id, updateProfile } = this.props;
 
     const MySwal = withReactContent(Swal);
 
@@ -62,6 +64,7 @@ class CommentForm extends Component {
 
       Axios.post(`${BASE_LOCAL_ENDPOINT}/comments`, newComment).then(
         response => {
+          updateProfile(response.data);
           MySwal.fire({
             type: "success",
             title: "¡Gracias!",
@@ -73,7 +76,7 @@ class CommentForm extends Component {
       MySwal.fire({
         type: "error",
         title: "Error",
-        text: "Califica todas las categorías y asegurate de dejar un comentario"
+        text: "Califica todas las categorías y asegúrate de dejar un comentario"
       });
     }
   };
@@ -101,14 +104,13 @@ class CommentForm extends Component {
 
           <div className="commentForm_rate">
             {rates.map(({ id, title }) => (
-              <div key={id} className="commentForm_rate_item">
-                {title}
-                <Rater
-                  onRate={({ rating }) => {
-                    this.handleChange(rating, id);
-                  }}
-                />
-              </div>
+              <CommentRate
+                id={id}
+                key={id}
+                title={title}
+                handleChange={this.handleChange}
+                value={this.state[id]}
+              />
             ))}
           </div>
 

@@ -7,34 +7,6 @@
 .profile {
   padding: 3em 15% 5em;
   background-color: #ebebeb;
-
-  &_headline {
-    padding: 2em 3em;
-    color: #00818a;
-    background-color: #f0f0f0;
-    box-shadow: 2px 2px 10px #be7575;
-  }
-
-  &_header {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #c2e8ce;
-    padding-bottom: 2em;
-  }
-
-  &_title {
-    text-align: center;
-    font-size: 2em;
-    margin: 0.5em;
-    margin: 0;
-  }
-
-  &_subtitle {
-    text-align: center;
-    margin: 0;
-    color: #be7575;
-    font-weight: 600;
-  }
 }
 
 /* Hasta este punto corregidos los estilos */

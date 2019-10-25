@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "../styles/PaymentSection.css";
+import "./PaymentSection.css";
 import paymentMethods from "../resources/paymentMethods.png";
 
 class PaymentSection extends Component {
