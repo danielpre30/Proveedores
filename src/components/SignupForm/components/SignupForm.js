@@ -87,7 +87,6 @@ class SignupForm extends Component {
 
   signUp = async e => {
     e.preventDefault();
-    var initialScore;
     const {
       name,
       typeOfService,
@@ -97,13 +96,8 @@ class SignupForm extends Component {
       nit,
       businessList
     } = this.state;
-
     const { user, setHasAProfile, setProfile } = this.context;
-    if (typeOfService === "Contratante") {
-      initialScore = "N/A";
-    } else {
-      initialScore = 0;
-    }
+
     const newProfile = {
       NIT: nit,
       email: user.email,

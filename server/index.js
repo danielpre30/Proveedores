@@ -4,9 +4,8 @@ import cors from "cors";
 import jwks from "jwks-rsa";
 import jwtAuthz from "express-jwt-authz";
 import bodyParser from "body-parser";
-import Mongo, { ObjectID, MongoClient } from "mongodb";
-import assert from "assert";
-
+import { ObjectID, MongoClient } from "mongodb";
+import { getComments, getServices, getScore } from "./utils";
 var port = process.env.PORT || 5000;
 
 // Database Name
@@ -75,23 +74,6 @@ app.get(
   }
 );
 
-const getComments = async (db, id) => {
-  const comments = await db
-    .collection("Comments")
-    .find({ target: id })
-    .toArray();
-  return comments.map(comment => ({
-    ...comment,
-    general: Math.floor(
-      (comment.puntuality +
-        comment.communication +
-        comment.afterSalesService +
-        comment.priceQuality) /
-        4
-    )
-  }));
-};
-
 app.get(`/business/:id`, async (req, res) => {
   //Use connect method to connect to the Server
   const id = req.params.id;
@@ -102,54 +84,19 @@ app.get(`/business/:id`, async (req, res) => {
     .collection("business")
     .findOne({ _id: ObjectID(id) });
 
-  const providerServices = await db
-    .collection("services")
-    .find({ providerId: id })
-    .toArray();
-
-  const contractorServices = await db
-    .collection("services")
-    .find({ contractorId: id })
-    .toArray();
+  const services = await getServices(db, id);
 
   const comments = await getComments(db, id);
 
-  const puntuality = Math.floor(
-    comments.reduce((acc, { puntuality }) => acc + puntuality, 0) /
-      comments.length
-  );
-  const communication = Math.floor(
-    comments.reduce((acc, { communication }) => acc + communication, 0) /
-      comments.length
-  );
-  const afterSalesService = Math.floor(
-    comments.reduce(
-      (acc, { afterSalesService }) => acc + afterSalesService,
-      0
-    ) / comments.length
-  );
-  const priceQuality = Math.floor(
-    comments.reduce((acc, { priceQuality }) => acc + priceQuality, 0) /
-      comments.length
-  );
-
-  const general = Math.floor(
-    (puntuality + communication + afterSalesService + priceQuality) / 4
-  );
   client.close();
+
+  const score = getScore(comments);
 
   res.json({
     ...business,
-    score: {
-      general,
-      puntuality,
-      communication,
-      afterSalesService,
-      priceQuality
-    },
+    score,
     comments: [...comments],
-    providerServices,
-    contractorServices
+    services
   });
 });
 

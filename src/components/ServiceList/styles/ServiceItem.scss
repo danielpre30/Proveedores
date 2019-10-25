@@ -1,0 +1,25 @@
+.services_item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin: 12px 0;
+  background-color: #f0f0f0;
+  box-shadow: 2px 2px 10px #be7575;
+  font-size: 1.2em;
+  list-style-type: none;
+
+  &_body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    div {
+      padding: 10px;
+    }
+  }
+  &_pic {
+    width: 60px;
+    height: 60px;
+  }
+}
