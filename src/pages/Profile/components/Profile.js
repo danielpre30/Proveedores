@@ -6,7 +6,7 @@ import { BASE_LOCAL_ENDPOINT, PROVIDER, CONTRACTOR } from "../../../constants";
 import "../styles/Profile.scss";
 
 import { Auth0Context } from "../../../components/Auth/react-auth0-wrapper";
-import CommentForm from "../../../components/CommentForm";
+import AddComment from "../../../components/AddComment";
 import ServiceList from "../../../components/ServiceList";
 import ProfileHeadline from "../../../components/ProfileHeadline";
 import CommentList from "../../../components/CommentList";
@@ -121,7 +121,7 @@ class Profile extends Component {
           </CommentList>
         }
         {isProvider ? (
-          <CommentForm
+          <AddComment
             rates={rates}
             id={_id}
             updateProfile={this.updateProfile}

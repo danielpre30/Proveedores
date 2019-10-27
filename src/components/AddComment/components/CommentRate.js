@@ -1,9 +1,11 @@
 import React from "react";
 import Rater from "react-rater";
 
+import "../styles/CommentRate.scss";
+
 const CommentRate = ({ title, id, handleChange, value }) => (
-  <div className="commentForm_rate_item">
-    {title}
+  <div className="rate_item">
+    <h4>{title}</h4>
     <Rater
       onRate={({ rating }) => {
         handleChange(rating, id);

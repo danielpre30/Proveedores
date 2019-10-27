@@ -7,11 +7,12 @@ import withReactContent from "sweetalert2-react-content";
 import { BASE_LOCAL_ENDPOINT } from "../../../constants";
 
 import "../styles/react-rater.scss";
+import "../styles/AddComment.scss";
 
-import { Auth0Context } from "../../../components/Auth/react-auth0-wrapper";
+import { Auth0Context } from "../../Auth/react-auth0-wrapper";
 import CommentRate from "./CommentRate";
 
-class CommentForm extends Component {
+class AddComment extends Component {
   static contextType = Auth0Context;
 
   constructor(props) {
@@ -65,6 +66,14 @@ class CommentForm extends Component {
       Axios.post(`${BASE_LOCAL_ENDPOINT}/comments`, newComment).then(
         response => {
           updateProfile(response.data);
+          this.setState(prevState => ({
+            ...prevState,
+            commentDescription: "",
+            priceQuality: 0,
+            puntuality: 0,
+            communication: 0,
+            afterSalesService: 0
+          }));
           MySwal.fire({
             type: "success",
             title: "¡Gracias!",
@@ -83,42 +92,46 @@ class CommentForm extends Component {
 
   render() {
     const { rates } = this.props;
-
+    const { commentDescription } = this.state;
     return (
-      <div className="commentForm">
-        <h1 className="commentForm_header">Agregar un nuevo comentario</h1>
+      <div className="addComment">
+        <h2 className="addComment_title">Agregar un nuevo comentario</h2>
+        <div className="addComment_body">
+          <form
+            className="addComment_form"
+            onSubmit={e => {
+              e.preventDefault();
+              this.sendComment();
+            }}
+          >
+            <textarea
+              value={commentDescription}
+              className="addComment_description"
+              onChange={e =>
+                this.handleChange(e.target.value, "commentDescription")
+              }
+              placeholder="Escribe un comentario sobre la empresa"
+              maxLength="300"
+            />
 
-        <form
-          className="commentForm_body"
-          onSubmit={e => {
-            e.preventDefault();
-            this.sendComment();
-          }}
-        >
-          <input
-            className="commentForm_description"
-            onChange={e =>
-              this.handleChange(e.target.value, "commentDescription")
-            }
-          />
+            <div className="addComment_rate">
+              {rates.map(({ id, title }) => (
+                <CommentRate
+                  id={id}
+                  key={id}
+                  title={title}
+                  handleChange={this.handleChange}
+                  value={this.state[id]}
+                />
+              ))}
+            </div>
 
-          <div className="commentForm_rate">
-            {rates.map(({ id, title }) => (
-              <CommentRate
-                id={id}
-                key={id}
-                title={title}
-                handleChange={this.handleChange}
-                value={this.state[id]}
-              />
-            ))}
-          </div>
-
-          <button className="commentForm_button">Enviar Comentario</button>
-        </form>
+            <button className="addComment_button">Enviar Comentario</button>
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default CommentForm;
+export default AddComment;
