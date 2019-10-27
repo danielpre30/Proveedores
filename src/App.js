@@ -14,6 +14,7 @@ import { useAuth0 } from "./components/Auth/react-auth0-wrapper";
 
 function App() {
   const { loading } = useAuth0();
+
   return (
     <HashRouter history={history}>
       {loading ? (
@@ -21,6 +22,7 @@ function App() {
       ) : (
         <>
           <NavBar />
+
           <div className="main">
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/home" />} />

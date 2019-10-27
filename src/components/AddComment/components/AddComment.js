@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Rater from "react-rater";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";

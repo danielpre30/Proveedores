@@ -1,5 +1,6 @@
 import React from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { withRouter } from "react-router-dom";
 
 import "../styles/NavBar.scss";
 import Logo from "../../../resources/LogoBA-xs.png";
@@ -14,13 +15,14 @@ const NavBar = props => {
     isAuthenticated,
     loginWithRedirect,
     logout,
-    hasAProfile,
-    profile
+    hasAProfile
   } = useAuth0();
+
+  const { pathname } = props.location;
 
   let links = [];
   let logOption = {};
-  let sectionOptions: [];
+  let sectionOptions = [];
 
   if (!isAuthenticated) {
     logOption = {
@@ -33,7 +35,8 @@ const NavBar = props => {
       onClick: () => logout()
     };
     if (hasAProfile) {
-      sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
+      if (pathname === "/home")
+        sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
       links = [{ label: "INICIO", to: "/home" }];
     }
   }
@@ -90,4 +93,4 @@ const toggleMenu = e => {
   }
 };
 
-export default NavBar;
+export default withRouter(NavBar);
