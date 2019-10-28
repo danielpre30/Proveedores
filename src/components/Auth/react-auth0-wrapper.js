@@ -45,7 +45,7 @@ export const Auth0Provider = ({
           `${BASE_LOCAL_ENDPOINT}/business?email=${user.email}`
         );
         setProfile(
-          fetchedProfile && fetchedProfile.data !== 0 && fetchedProfile.data[0]
+          fetchedProfile && fetchedProfile.data !== 0 && fetchedProfile.data
         );
         setHasAProfile(
           fetchedProfile &&

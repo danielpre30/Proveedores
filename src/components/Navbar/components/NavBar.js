@@ -2,6 +2,8 @@ import React from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { withRouter } from "react-router-dom";
 
+import { PROFILE, HOME } from "../../../constants";
+
 import "../styles/NavBar.scss";
 import Logo from "../../../resources/LogoBA-xs.png";
 
@@ -15,7 +17,8 @@ const NavBar = props => {
     isAuthenticated,
     loginWithRedirect,
     logout,
-    hasAProfile
+    hasAProfile,
+    profile
   } = useAuth0();
 
   const { pathname } = props.location;
@@ -35,9 +38,12 @@ const NavBar = props => {
       onClick: () => logout()
     };
     if (hasAProfile) {
-      if (pathname === "/home")
+      if (pathname === HOME)
         sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
-      links = [{ label: "INICIO", to: "/home" }];
+      links = [
+        { label: "INICIO", to: HOME },
+        { label: "MI PERFIL", to: PROFILE }
+      ];
     }
   }
   return (

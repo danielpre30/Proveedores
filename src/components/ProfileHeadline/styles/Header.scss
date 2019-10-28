@@ -4,6 +4,15 @@
     flex-direction: column;
     border-bottom: 1px solid #c2e8ce;
     padding-bottom: 2em;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &_edit {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &_title {

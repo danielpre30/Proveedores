@@ -7,7 +7,8 @@ const FormInput = ({
   onInputChange,
   min,
   max,
-  step
+  step,
+  value
 }) => {
   return (
     <input
@@ -20,6 +21,7 @@ const FormInput = ({
       min={min}
       max={max}
       step={step}
+      value={value}
     />
   );
 };

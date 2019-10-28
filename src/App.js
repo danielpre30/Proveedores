@@ -11,6 +11,7 @@ import Profile from "./pages/Profile/";
 import NavBar from "./components/Navbar/";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import { useAuth0 } from "./components/Auth/react-auth0-wrapper";
+import SignupForm from "./components/SignupForm";
 
 function App() {
   const { loading } = useAuth0();
@@ -28,6 +29,14 @@ function App() {
               <Route exact path="/" render={() => <Redirect to="/home" />} />
               <Route exact path="/home" component={Home} />
               <PrivateRoute exact path="/business/:id" component={Profile} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/profile/" component={Profile} />
+              <PrivateRoute
+                exact
+                path="/profile/edit/"
+                component={SignupForm}
+              />
             </Switch>
           </div>
           <div className="footer">

@@ -33,16 +33,15 @@ class CardContainer extends Component {
     });
   };
   componentDidMount() {
-    const { user } = this.context;
-    this.getObjects(`business?every=true&email=${user.email}`);
+    const { user, profile } = this.context;
+    this.getObjects(`business/${profile._id}?other=true`);
   }
   getObjects(url) {
     axios
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
-
       .then(response => {
         this.setState({
-          list: response.data.sort(this.sortList)
+          list: response.data.business.sort(this.sortList)
         });
       })
       .catch(error => {

@@ -19,7 +19,7 @@ class SignupForm extends Component {
       nit: "",
       name: "",
       typeOfService: "",
-      foundationYear: "",
+      yearOfCreation: "",
       webPageURL: "",
       logoURL: "",
       providers: [],
@@ -31,7 +31,21 @@ class SignupForm extends Component {
   static contextType = Auth0Context;
 
   componentDidMount() {
-    Axios.get(`${BASE_LOCAL_ENDPOINT}/business?every=true`)
+    const { profile, hasAProfile } = this.context;
+    if (hasAProfile && profile) {
+      this.setState(prevState => ({
+        ...prevState,
+        nit: profile.NIT,
+        name: profile.name,
+        typeOfService: profile.typeOfService,
+        yearOfCreation: profile.yearOfCreation,
+        webPageURL: profile.webPage,
+        logoURL: profile.logo,
+        allServices: profile.services
+      }));
+    }
+
+    Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${profile._id}?other=true`)
       .then(response => {
         const sortedData = response.data.sort((a, b) => b.name - a.name);
         this.setState(prevState => {
@@ -90,7 +104,7 @@ class SignupForm extends Component {
     const {
       name,
       typeOfService,
-      foundationYear,
+      yearOfCreation,
       webPageURL,
       logoURL,
       nit,
@@ -103,7 +117,7 @@ class SignupForm extends Component {
       email: user.email,
       name: name,
       typeOfService: typeOfService,
-      yearOfCreation: foundationYear,
+      yearOfCreation: yearOfCreation,
       webPage: webPageURL,
       logo: logoURL
     };
@@ -212,7 +226,15 @@ class SignupForm extends Component {
   };
 
   render() {
-    const { businessList } = this.state;
+    const {
+      businessList,
+      nit,
+      name,
+      typeOfService,
+      yearOfCreation,
+      webPageURL,
+      logoURL
+    } = this.state;
     return (
       <div className="signup">
         <form className="form" onSubmit={this.signUp}>
@@ -228,6 +250,7 @@ class SignupForm extends Component {
                 placeholder="NIT"
                 inputId="nit"
                 onInputChange={this.handleChange}
+                value={nit}
               />
             </FormGroup>
 
@@ -237,6 +260,7 @@ class SignupForm extends Component {
                 placeholder="Nombre"
                 inputId="name"
                 onInputChange={this.handleChange}
+                value={name}
               />
             </FormGroup>
 
@@ -249,18 +273,20 @@ class SignupForm extends Component {
                 placeholder="Tipo de servicio"
                 inputId="typeOfService"
                 onInputChange={this.handleChange}
+                value={typeOfService}
               />
             </FormGroup>
 
-            <FormGroup inputId="foundationYear" label="Año de fundación">
+            <FormGroup inputId="yearOfCreation" label="Año de fundación">
               <FormInput
                 type="number"
                 placeholder="Año"
-                inputId="foundationYear"
+                inputId="yearOfCreation"
                 onInputChange={this.handleChange}
                 min="1900"
                 max="2099"
                 step="1"
+                value={yearOfCreation}
               />
             </FormGroup>
 
@@ -270,6 +296,7 @@ class SignupForm extends Component {
                 placeholder="http://www.example.com"
                 inputId="webPageURL"
                 onInputChange={this.handleChange}
+                value={webPageURL}
               />
             </FormGroup>
 
@@ -282,6 +309,7 @@ class SignupForm extends Component {
                 placeholder="URL a la página web"
                 inputId="logoURL"
                 onInputChange={this.handleChange}
+                value={logoURL}
               />
             </FormGroup>
 

@@ -46,31 +46,19 @@ const checkScopes = jwtAuthz(["read:business"]);
 
 app.get(
   `/business`,
-  /*jwtCheck, checkScopes,*/ (req, res) => {
+  /*jwtCheck, checkScopes,*/ async (req, res) => {
     //Use connect method to connect to the Server
-    let query = {};
-    if (req.query.every) {
-      query = req.query.email
-        ? { ...query, email: { $ne: req.query.email } }
-        : query;
-    } else {
-      query = req.query.email
-        ? { ...query, email: { $eq: req.query.email } }
-        : query;
-    }
-    client
-      .connect()
-      .then(serv => serv.db(dbName))
-      .then(db =>
-        db
-          .collection("business")
-          .find(query)
-          .toArray()
-      )
-      .then(collection => {
-        client.close();
-        res.json(collection);
-      });
+
+    const serv = await client.connect();
+    const db = serv.db(dbName);
+
+    const query = { ...query, email: { $eq: req.query.email } };
+    const business = await db.collection("business").findOne(query);
+
+    const services = await getServices(db, "" + business._id);
+    client.close();
+
+    res.json({ ...business, services });
   }
 );
 
@@ -81,29 +69,40 @@ app.get(`/business/:id`, async (req, res) => {
   const serv = await client.connect();
   const db = serv.db(dbName);
 
-  const business = await db
-    .collection("business")
-    .findOne({ _id: ObjectID(id) });
+  let business, response;
 
-  const services = await getServices(db, id);
+  if (req.query.other) {
+    const query = { _id: { $ne: ObjectID(id) } };
+    business = await db
+      .collection("business")
+      .find(query)
+      .toArray();
 
-  const comments = await getComments(db, id);
+    response = business;
+  } else {
+    const query = { _id: { $eq: ObjectID(id) } };
+    business = await db.collection("business").findOne(query);
+
+    const services = await getServices(db, id);
+    const comments = await getComments(db, id);
+    const score = getScore(comments);
+
+    const isProvider = services.servicesAsProvider.some(
+      service => service.contractorId === idRequest
+    );
+
+    response = {
+      business,
+      score,
+      comments: [...comments],
+      services,
+      isProvider
+    };
+  }
 
   client.close();
 
-  const score = getScore(comments);
-
-  const isProvider = services.servicesAsProvider.some(
-    service => service.contractorId === idRequest
-  );
-
-  res.json({
-    ...business,
-    score,
-    comments: [...comments],
-    services,
-    isProvider
-  });
+  res.json(response);
 });
 
 // unused

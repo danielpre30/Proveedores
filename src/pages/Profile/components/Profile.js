@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Axios from "axios";
 
-import { BASE_LOCAL_ENDPOINT, PROVIDER, CONTRACTOR } from "../../../constants";
+import {
+  BASE_LOCAL_ENDPOINT,
+  PROVIDER,
+  CONTRACTOR,
+  PROFILE
+} from "../../../constants";
 
 import "../styles/Profile.scss";
 
@@ -23,14 +28,11 @@ class Profile extends Component {
   }
 
   getProfile() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-
     const { profile } = this.context;
-
+    const id =
+      this.props.match.path === PROFILE
+        ? profile._id
+        : this.props.match.params.id;
     Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${id}?idRequest=${profile._id}`)
       .then(response => {
         this.setState(prevState => ({
@@ -52,16 +54,7 @@ class Profile extends Component {
   };
 
   render() {
-    const {
-      name,
-      typeOfService,
-      score,
-      logo,
-      services,
-      isProvider,
-      comments,
-      _id
-    } = this.state;
+    const { business, score, services, isProvider, comments } = this.state;
     const rates = [
       { id: "priceQuality", title: "Calidad/Precio" },
       { id: "puntuality", title: "Puntualidad" },
@@ -69,13 +62,16 @@ class Profile extends Component {
       { id: "afterSalesService", title: "Servicio Posventa" }
     ];
 
+    const isMyProfilePage = this.props.match.path === PROFILE;
+
     return (
       <div className="profile">
         <ProfileHeadline
-          logo={logo}
-          name={name}
-          typeOfService={typeOfService}
+          logo={business && business.logo}
+          name={business && business.name}
+          typeOfService={business && business.typeOfService}
           score={score}
+          isMyProfilePage={isMyProfilePage}
         >
           <ProfileHeadline.Header />
           <ProfileHeadline.Body />
@@ -120,10 +116,10 @@ class Profile extends Component {
               ))}
           </CommentList>
         }
-        {isProvider ? (
+        {!isMyProfilePage && isProvider ? (
           <AddComment
             rates={rates}
-            id={_id}
+            id={business && business._id}
             updateProfile={this.updateProfile}
           />
         ) : (
