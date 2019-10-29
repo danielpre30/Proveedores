@@ -41,7 +41,7 @@ class CardContainer extends Component {
       .get(`${BASE_LOCAL_ENDPOINT}/${url}`)
       .then(response => {
         this.setState({
-          list: response.data.business.sort(this.sortList)
+          list: response.data.sort(this.sortList)
         });
       })
       .catch(error => {

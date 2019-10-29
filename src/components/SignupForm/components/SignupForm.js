@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 
-import { BASE_LOCAL_ENDPOINT } from "../../../constants";
+import { BASE_LOCAL_ENDPOINT, EDIT } from "../../../constants";
 
 import "../styles/SignupForm.scss";
 import LogoBA from "../../../resources/LogoBA-xs.png";
@@ -24,7 +24,8 @@ class SignupForm extends Component {
       logoURL: "",
       providers: [],
       businessList: [],
-      selectedBusiness: {}
+      selectedBusiness: {},
+      isEditPage: true
     };
   }
 
@@ -45,19 +46,48 @@ class SignupForm extends Component {
       }));
     }
 
+    const isEditPage = this.props.match.path === EDIT;
+
     Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${profile._id}?other=true`)
       .then(response => {
         const sortedData = response.data.sort((a, b) => b.name - a.name);
+        const services = profile.services.servicesAsContractor;
+
+        let businessList = sortedData.map(business => {
+          return {
+            ...business,
+            deleteProvider: this.deleteProvider,
+            handleChange: this.handleChange
+          };
+        });
+
+        if (isEditPage) {
+          businessList = this.changeAdded(
+            services.map(service => service.providerId),
+            true,
+            businessList
+          ).map(business => {
+            const service = services.find(
+              service => business._id === service.providerId
+            );
+            return {
+              ...business,
+              contract: service ? service.contract : undefined,
+              contractorId: service ? service.contractorId : undefined,
+              providerId: service ? service.providerId : undefined,
+              receivedTypeOfService: service
+                ? service.typeOfService
+                : undefined,
+              serviceId: service ? service._id : undefined
+            };
+          });
+        }
+
         this.setState(prevState => {
           return {
             ...prevState,
-            businessList: sortedData.map(business => {
-              return {
-                ...business,
-                deleteProvider: this.deleteProvider,
-                handleChange: this.handleChange
-              };
-            }),
+            isEditPage,
+            businessList,
             selectedBusiness: sortedData.find(business => !business.added)
           };
         });
@@ -166,6 +196,72 @@ class SignupForm extends Component {
     setHasAProfile(true);
   };
 
+  editProfile = async e => {
+    e.preventDefault();
+    const {
+      name,
+      typeOfService,
+      yearOfCreation,
+      webPageURL,
+      logoURL,
+      nit,
+      businessList
+    } = this.state;
+    const { user, setHasAProfile, setProfile, profile } = this.context;
+
+    const newProfile = {
+      NIT: nit,
+      email: user.email,
+      name: name,
+      typeOfService: typeOfService,
+      yearOfCreation: yearOfCreation,
+      webPage: webPageURL,
+      logo: logoURL
+    };
+
+    const responseBusiness = await Axios.patch(
+      `${BASE_LOCAL_ENDPOINT}/business/${profile._id}`,
+      newProfile
+    );
+
+    const profileData =
+      responseBusiness && responseBusiness.data && responseBusiness.data.value;
+
+    const services = [
+      ...businessList
+        .filter(
+          business =>
+            business.added &&
+            business.contract &&
+            business.receivedTypeOfService
+        )
+        .map(business => {
+          return {
+            providerId: business._id,
+            contractorId: profile._id,
+            contract: business.contract,
+            typeOfService: business.receivedTypeOfService,
+            validContract: false,
+            _id: business.serviceId
+          };
+        })
+    ];
+
+    const responseServices = await Promise.all(
+      services.map(service =>
+        Axios.patch(`${BASE_LOCAL_ENDPOINT}/services/${service._id}`, {
+          contract: service.contract,
+          contractorId: service.contractorId,
+          providerId: service.providerId,
+          typeOfService: service.typeOfService
+        })
+      )
+    );
+
+    setProfile(profileData);
+    setHasAProfile(true);
+  };
+
   handleSelectChange = e => {
     const value = e.target.value;
     this.setState(prevState => {
@@ -180,11 +276,13 @@ class SignupForm extends Component {
     });
   };
 
-  changeAdded(id, value) {
-    const { businessList } = this.state;
+  changeAdded(ids, value, list) {
+    const businessList = list ? list : this.state.businessList;
+
     return businessList.map(business => {
-      return business._id === id
-        ? { ...business, added: value ? value : !business.added, contract: "" }
+      const isIdInList = ids.find(id => id === business._id);
+      return business._id === isIdInList
+        ? { ...business, added: value ? value : !business.added }
         : business;
     });
   }
@@ -197,7 +295,7 @@ class SignupForm extends Component {
         prevState.selectedBusiness._id !== -1
       ) {
         const newBusinessList = this.changeAdded(
-          prevState.selectedBusiness._id,
+          [prevState.selectedBusiness._id],
           true
         );
 
@@ -214,7 +312,7 @@ class SignupForm extends Component {
 
   deleteProvider = id => {
     this.setState(prevState => {
-      const newBusinessList = this.changeAdded(id, false);
+      const newBusinessList = this.changeAdded([id], false);
       return {
         ...prevState,
         businessList: [...newBusinessList],
@@ -233,13 +331,19 @@ class SignupForm extends Component {
       typeOfService,
       yearOfCreation,
       webPageURL,
-      logoURL
+      logoURL,
+      isEditPage
     } = this.state;
     return (
       <div className="signup">
-        <form className="form" onSubmit={this.signUp}>
+        <form
+          className="form"
+          onSubmit={isEditPage ? this.editProfile : this.signUp}
+        >
           <div className="form_header">
-            <h1 className="form_header_title">¡Registrate Ahora!</h1>
+            <h1 className="form_header_title">
+              {isEditPage ? "Editar Perfil" : "¡Registrate Ahora!"}
+            </h1>
             <img className="form_header_logo" src={LogoBA} alt="Profile" />
           </div>
 
@@ -348,11 +452,11 @@ class SignupForm extends Component {
               className="submit_button"
               id="submit_button"
               type="submit"
-              value="Registrarse"
+              value={isEditPage ? "Editar" : "Registrarse"}
             />
           </div>
         </form>
-        <PaymentSection />
+        {!isEditPage && <PaymentSection />}
       </div>
     );
   }
