@@ -51,11 +51,14 @@ app.get(
 
     const serv = await client.connect();
     const db = serv.db(dbName);
+    const email = req.query.email;
 
-    const query = { ...query, email: { $eq: req.query.email } };
+    const query = email ? { ...query, email: { $eq: email } } : {};
     const business = await db.collection("business").findOne(query);
-
-    const services = await getServices(db, "" + business._id);
+    const services =
+      business && business._id
+        ? await getServices(db, "" + business._id)
+        : undefined;
     client.close();
 
     res.json({ ...business, services });
@@ -70,34 +73,42 @@ app.get(`/business/:id`, async (req, res) => {
   const db = serv.db(dbName);
 
   let business, response;
+  if (id !== "undefined") {
+    if (req.query.other) {
+      const query = { _id: { $ne: ObjectID(id) } };
+      business = await db
+        .collection("business")
+        .find(query)
+        .toArray();
 
-  if (req.query.other) {
-    const query = { _id: { $ne: ObjectID(id) } };
+      response = business;
+    } else {
+      const query = { _id: { $eq: ObjectID("" + id) } };
+      business = await db.collection("business").findOne(query);
+
+      const services = await getServices(db, id);
+      const comments = await getComments(db, id);
+      const score = getScore(comments);
+
+      const isProvider = services.servicesAsProvider.some(
+        service => service.contractorId === idRequest
+      );
+
+      response = {
+        business,
+        score,
+        comments: [...comments],
+        services,
+        isProvider
+      };
+    }
+  } else {
     business = await db
       .collection("business")
-      .find(query)
+      .find()
       .toArray();
 
     response = business;
-  } else {
-    const query = { _id: { $eq: ObjectID(id) } };
-    business = await db.collection("business").findOne(query);
-
-    const services = await getServices(db, id);
-    const comments = await getComments(db, id);
-    const score = getScore(comments);
-
-    const isProvider = services.servicesAsProvider.some(
-      service => service.contractorId === idRequest
-    );
-
-    response = {
-      business,
-      score,
-      comments: [...comments],
-      services,
-      isProvider
-    };
   }
 
   client.close();

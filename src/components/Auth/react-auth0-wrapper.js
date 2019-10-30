@@ -16,7 +16,7 @@ export const Auth0Provider = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasAProfile, setHasAProfile] = useState(false);
   const [profile, setProfile] = useState({});
   const [user, setUser] = useState();
@@ -44,13 +44,13 @@ export const Auth0Provider = ({
         const fetchedProfile = await Axios.get(
           `${BASE_LOCAL_ENDPOINT}/business?email=${user.email}`
         );
-        setProfile(
-          fetchedProfile && fetchedProfile.data !== 0 && fetchedProfile.data
-        );
+
+        setProfile(fetchedProfile && fetchedProfile.data);
+
         setHasAProfile(
           fetchedProfile &&
             fetchedProfile.data &&
-            fetchedProfile.data.length !== 0
+            Object.keys(fetchedProfile.data).length !== 0
         );
       }
 

@@ -9,7 +9,7 @@ import SignupForm from "../../../components/SignupForm";
 import { useAuth0 } from "../../../components/Auth/react-auth0-wrapper";
 
 function Home() {
-  const { isAuthenticated, hasAProfile } = useAuth0();
+  const { isAuthenticated, hasAProfile, profile } = useAuth0();
   let homePage;
   if (isAuthenticated) {
     if (hasAProfile) {

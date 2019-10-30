@@ -46,12 +46,18 @@ class SignupForm extends Component {
       }));
     }
 
-    const isEditPage = this.props.match.path === EDIT;
+    const isEditPage = this.props.match && this.props.match.path === EDIT;
+    const url = isEditPage
+      ? `${BASE_LOCAL_ENDPOINT}/business/${profile._id}?other=true`
+      : `${BASE_LOCAL_ENDPOINT}/business/`;
 
     Axios.get(`${BASE_LOCAL_ENDPOINT}/business/${profile._id}?other=true`)
       .then(response => {
         const sortedData = response.data.sort((a, b) => b.name - a.name);
-        const services = profile.services.servicesAsContractor;
+        const services =
+          isEditPage &&
+          profile.services &&
+          profile.services.servicesAsContractor;
 
         let businessList = sortedData.map(business => {
           return {
@@ -334,6 +340,8 @@ class SignupForm extends Component {
       logoURL,
       isEditPage
     } = this.state;
+    console.log(businessList);
+
     return (
       <div className="signup">
         <form

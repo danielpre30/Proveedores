@@ -3,7 +3,7 @@ import { ObjectID } from "mongodb";
 export const getBusinessName = async (db, id) => {
   const business = await db
     .collection("business")
-    .findOne({ _id: ObjectID(id) });
+    .findOne({ _id: { $eq: ObjectID(id) } });
 
   return business ? business.name : "No name";
 };
