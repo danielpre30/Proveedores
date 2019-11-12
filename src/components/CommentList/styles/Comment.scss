@@ -1,0 +1,40 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.comment {
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  border-radius: 10px;
+  display: flex;
+  margin: 15px;
+
+  &_score {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 13px;
+    font-size: 1.5em;
+    background-color: #be7575;
+    color: white;
+    width: 80px;
+    font-weight: 300;
+  }
+
+  &_star {
+    width: 25px;
+  }
+
+  &_body {
+    padding: 30px;
+  }
+
+  &_title {
+    padding: 0 0 20px;
+    margin: 0;
+  }
+
+  &_description {
+    font-size: 1.2em;
+  }
+}

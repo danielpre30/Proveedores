@@ -1,8 +1,16 @@
 import React from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "../EditProviderItem.scss";
 
-const EditProviderItem = ({ name, deleteProvider, _id, handleChange }) => (
+import "../styles/EditProviderItem.scss";
+
+const EditProviderItem = ({
+  name,
+  deleteProvider,
+  _id,
+  handleChange,
+  contract,
+  receivedTypeOfService
+}) => (
   <li className="providerList_item">
     <div className="providerList_item_header">
       <div className="item_title">{name}</div>
@@ -11,7 +19,7 @@ const EditProviderItem = ({ name, deleteProvider, _id, handleChange }) => (
         onClick={() => deleteProvider(_id)}
         role="button"
         tabIndex="-1"
-        onKeyPress
+        onKeyPress={() => {}}
       ></i>
     </div>
     <div className="providerList_item_body">
@@ -20,12 +28,14 @@ const EditProviderItem = ({ name, deleteProvider, _id, handleChange }) => (
         type="text"
         placeholder="Número de Contrato"
         onChange={e => handleChange(e, "contract", _id)}
+        value={contract}
       />
       <input
         className="providerList_item_input"
         type="text"
         placeholder="Tipo de Servicio"
         onChange={e => handleChange(e, "receivedTypeOfService", _id)}
+        value={receivedTypeOfService}
       />
     </div>
   </li>

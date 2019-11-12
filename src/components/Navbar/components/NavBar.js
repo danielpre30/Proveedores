@@ -1,11 +1,16 @@
 import React from "react";
-import "../NavBar.scss";
-import Logo from "../../../resources/LogoBA-xs.png";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useAuth0 } from "../../../Auth/react-auth0-wrapper";
-import MenuLink from "./MenuLink";
+import { withRouter } from "react-router-dom";
+
+import { PROFILE, HOME } from "../../../constants";
+
+import "../styles/NavBar.scss";
+import Logo from "../../../resources/LogoBA-xs.png";
+
 import LogOption from "./LogOption";
+import MenuLink from "./MenuLink";
 import SectionLink from "./SectionLink";
+import { useAuth0 } from "../../Auth/react-auth0-wrapper";
 
 const NavBar = props => {
   const {
@@ -15,11 +20,12 @@ const NavBar = props => {
     hasAProfile,
     profile
   } = useAuth0();
-  console.log(profile);
+
+  const { pathname } = props.location;
 
   let links = [];
   let logOption = {};
-  let sectionOptions: [];
+  let sectionOptions = [];
 
   if (!isAuthenticated) {
     logOption = {
@@ -32,8 +38,12 @@ const NavBar = props => {
       onClick: () => logout()
     };
     if (hasAProfile) {
-      sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
-      links = [{ label: "INICIO", to: "/home" }];
+      if (pathname === HOME)
+        sectionOptions = [{ label: "PROVEEDORES", to: "providersSection" }];
+      links = [
+        { label: "INICIO", to: HOME },
+        { label: "MI PERFIL", to: PROFILE }
+      ];
     }
   }
   return (
@@ -89,4 +99,4 @@ const toggleMenu = e => {
   }
 };
 
-export default NavBar;
+export default withRouter(NavBar);

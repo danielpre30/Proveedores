@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Route } from "react-router-dom";
+
 import NavItem from "./NavItem";
 
 const MenuLink = ({ label, to, onClick }) => {

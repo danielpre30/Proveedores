@@ -4,9 +4,8 @@ import cors from "cors";
 import jwks from "jwks-rsa";
 import jwtAuthz from "express-jwt-authz";
 import bodyParser from "body-parser";
-import Mongo, { ObjectID, MongoClient } from "mongodb";
-import assert from "assert";
-
+import { ObjectID, MongoClient } from "mongodb";
+import { getComments, getServices, getScore } from "./utils";
 var port = process.env.PORT || 5000;
 
 // Database Name
@@ -47,103 +46,160 @@ const checkScopes = jwtAuthz(["read:business"]);
 
 app.get(
   `/business`,
-  /*jwtCheck, checkScopes,*/ (req, res) => {
+  /*jwtCheck, checkScopes,*/ async (req, res) => {
     //Use connect method to connect to the Server
-    let query = {};
-    if (req.query.every) {
-      query = req.query.email
-        ? { ...query, email: { $ne: req.query.email } }
-        : query;
-    } else {
-      query = req.query.email
-        ? { ...query, email: { $eq: req.query.email } }
-        : query;
-    }
-    client
-      .connect()
-      .then(serv => serv.db(dbName))
-      .then(db =>
-        db
-          .collection("business")
-          .find(query)
-          .toArray()
-      )
-      .then(collection => {
-        client.close();
-        res.json(collection);
-      });
+
+    const serv = await client.connect();
+    const db = serv.db(dbName);
+    const email = req.query.email;
+
+    const query = email ? { ...query, email: { $eq: email } } : {};
+    const business = await db.collection("business").findOne(query);
+    const services =
+      business && business._id
+        ? await getServices(db, "" + business._id)
+        : undefined;
+    client.close();
+
+    res.json({ ...business, services });
   }
 );
 
-app.get(`/business/:id`, (req, res) => {
+app.get(`/business/:id`, async (req, res) => {
   //Use connect method to connect to the Server
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db =>
-      db
+  const id = req.params.id;
+  const idRequest = req.query.idRequest;
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  let business, response;
+  if (id !== "undefined") {
+    if (req.query.other) {
+      const query = { _id: { $ne: ObjectID(id) } };
+      business = await db
         .collection("business")
-        .find({ _id: ObjectID(req.params.id) })
-        .toArray()
-    )
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
-});
-app.get(`/Comments/:idTo`, (req, res) => {
-  //Use connect method to connect to the Server
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db =>
-      db
-        .collection("Comments")
-        .find({ idTo: req.params.idTo })
-        .toArray()
-    )
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+        .find(query)
+        .toArray();
+
+      response = business;
+    } else {
+      const query = { _id: { $eq: ObjectID("" + id) } };
+      business = await db.collection("business").findOne(query);
+
+      const services = await getServices(db, id);
+      const comments = await getComments(db, id);
+      const score = getScore(comments);
+
+      const isProvider = services.servicesAsProvider.some(
+        service => service.contractorId === idRequest
+      );
+
+      response = {
+        business,
+        score,
+        comments: [...comments],
+        services,
+        isProvider
+      };
+    }
+  } else {
+    business = await db
+      .collection("business")
+      .find()
+      .toArray();
+
+    response = business;
+  }
+
+  client.close();
+
+  res.json(response);
 });
 
-app.post(`/business/`, (req, res) => {
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db => db.collection("business").insertOne(req.body))
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+// unused
+app.get(`/comments/:target`, async (req, res) => {
+  //Use connect method to connect to the Server
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db
+    .collection("Comments")
+    .find({ target: req.params.idTo })
+    .toArray();
+
+  client.close();
+  res.json(collection);
 });
-app.post(`/Comments/`, (req, res) => {
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db => db.collection("Comments").insertOne(req.body))
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+
+app.post(`/business`, async (req, res) => {
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db.collection("business").insertOne(req.body);
+  client.close();
+  res.json(collection);
 });
-app.post(`/business/:id`, (req, res) => {
-  client
-    .connect()
-    .then(serv => serv.db(dbName))
-    .then(db =>
-      db
-        .collection("business")
-        .updateOne(
-          { _id: ObjectID(req.params.id) },
-          { $set: { score: req.body } }
-        )
-    )
-    .then(collection => {
-      client.close();
-      res.json(collection);
-    });
+
+app.post(`/comments/`, async (req, res) => {
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const response = await db.collection("Comments").insertOne(req.body);
+  const comments = await getComments(db, req.body.target);
+  client.close();
+  const score = getScore(comments);
+  res.json({ comments, score });
+});
+
+//unused
+app.post(`/business/:id`, async (req, res) => {
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db
+    .collection("business")
+    .updateOne({ _id: ObjectID(req.params.id) }, { $set: { score: req.body } });
+
+  client.close();
+  res.json(collection);
+});
+
+app.post(`/services`, async (req, res) => {
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db.collection("services").insertMany(req.body);
+
+  client.close();
+  res.json(collection);
+});
+
+app.patch(`/business/:id`, async (req, res) => {
+  const id = req.params.id;
+
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db
+    .collection("business")
+    .findOneAndUpdate({ _id: { $eq: ObjectID(id) } }, { $set: req.body });
+
+  client.close();
+  res.json(collection);
+});
+
+app.patch(`/services/:id`, async (req, res) => {
+  const id = req.params.id;
+
+  const serv = await client.connect();
+  const db = serv.db(dbName);
+
+  const collection = await db
+    .collection("services")
+    .findOneAndUpdate({ _id: { $eq: ObjectID(id) } }, { $set: req.body });
+
+  client.close();
+  res.json(collection);
 });
 
 app.listen(port, () => {
